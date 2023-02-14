@@ -1,0 +1,33 @@
+.card, .card-enemy {
+    border: 1px solid #000;
+    text-align: center;
+    min-width: 100px;
+    min-height: 50px;
+}
+
+.card.selected-card {
+    border: 2px solid #000;
+    background: #faa;
+}
+
+.card:hover {
+    transform: scale(1.05);
+    z-index: 9999;
+}
+
+.deck {
+    border: 2px solid #000;
+    text-align: center;
+    width: 20vw;
+    height: 20vh;
+}
+
+.garden {
+    list-style: none;
+    text-align: center;
+}
+
+.garden.garden-card {
+    width: 15%;
+    height: 10%;
+}

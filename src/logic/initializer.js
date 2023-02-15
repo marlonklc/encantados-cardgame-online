@@ -1,4 +1,4 @@
-import { AUTUMN_SONG, cards, DWARF, ELF, GROUPS, MIMIC, SPRING_SONG, TROLL, WINTER_SONG } from './cards';
+import { AUTUMN_SONG, cards, DWARF, ELF, FAIRY, GROUPS, MIMIC, SPRING_SONG, TROLL, WINTER_SONG } from './cards';
 
 export function initializeGarden(numberPlayers) {
     const gardens = Array(numberPlayers);
@@ -6,13 +6,10 @@ export function initializeGarden(numberPlayers) {
         gardens[i] = {
             [GROUPS.dwarves]: [DWARF],
             [GROUPS.elves]: i === 0 ? [ELF, ELF, ELF] : [],
+            [GROUPS.fairies]: i === 0 ? [FAIRY, FAIRY, FAIRY] : [],
             [GROUPS.trolls]: [],
             [GROUPS.songs]: [],
         };
-
-        // Object.values(GROUPS).map(i => {
-        //    return { [i]: [] }
-        // })
     }
     return gardens;
 }
@@ -32,7 +29,7 @@ export function initializeDeck({ random }) {
     deck.push(DWARF);
     deck.push(ELF);
     deck.push(MIMIC);
-    deck.push(ELF);
+    deck.push(FAIRY);
     return deck;
     //return random.Shuffle(deck);
 }

@@ -102,15 +102,17 @@ export function downCreatureCards({ G, playerID }, cards = []) {
 
 export function downSongCard({ G, playerID, events }, card) {
     G.playerAlreadyDownedSongCard = true;
-    G.showModal[playerID] = true;
 
     if (card.action === CARD_SPRING_SONG) {
         G.currentAction = CARD_SPRING_SONG;
+        G.showModal[playerID] = true;
         events.setStage('springSongCard');
     } else if (card.action === CARD_AUTUMN_SONG) {
+        G.showModal[playerID] = true;
         G.currentAction = CARD_AUTUMN_SONG;
         events.setStage('autumnSongCard');
     } else if (card.action === CARD_WINTER_SONG) {
+        G.showModal[playerID] = true;
         G.currentAction = CARD_WINTER_SONG;
         events.setStage('winterSongCard');
     }

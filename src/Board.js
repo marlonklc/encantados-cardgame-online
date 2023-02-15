@@ -64,13 +64,15 @@ export function Board({ ctx, G, moves, playerID, redo, sendChatMessage, matchDat
 
             <h4>INIMIGO</h4>
             <section style={{ backgroundColor: '#a81944', display: 'flex', width: '100vw', height: '15vh' }}>
-                {Object.values(G.garden[enemyPlayerID]).map((group) => (
-                    <ul class="garden">
+                {Object.values(G.garden[enemyPlayerID]).map((group) => group.length ? 
+                    (<ul class="garden">
                         {group.map((card) => (
                             <li class="garden-card">{card.name}</li>
                         ))}
-                    </ul>
-                ))}
+                    </ul>) 
+                    :
+                    <></>
+                )}
             </section>
 
             <section style={{ display: 'flex' }} disabled={isActive}>
@@ -97,13 +99,15 @@ export function Board({ ctx, G, moves, playerID, redo, sendChatMessage, matchDat
 
             <h4>TEU JARDIM</h4>
             <section style={{ backgroundColor: '#ccc', display: 'flex', width: '100vw', height: '15vh' }}>
-                {Object.values(G.garden[playerID]).map((group) => (
-                    <ul class="garden">
+                {Object.values(G.garden[playerID]).map((group) => group.length ? 
+                    (<ul class="garden">
                         {group.map((card) => (
                             <li class="garden-card">{card.name}</li>
                         ))}
-                    </ul>
-                ))}
+                    </ul>) 
+                    :
+                    <></>
+                )}
             </section>
 
             <h3>TUA MAO</h3>

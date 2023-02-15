@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import './Board.css';
 import Modal from './components/Modal';
 import { DISCARD_CARD, DOWN_CARDS, TAKE_CARDS } from './logic/actions';
+import { GROUPS } from './logic/cards';
 
 export function Board({ ctx, G, moves, playerID, redo, sendChatMessage, matchData, isActive, isConnected, log, ...ot }) {
     // console.log('redo>>>', redo)
@@ -63,21 +64,13 @@ export function Board({ ctx, G, moves, playerID, redo, sendChatMessage, matchDat
 
             <h4>INIMIGO</h4>
             <section style={{ backgroundColor: '#a81944', display: 'flex', width: '100vw', height: '15vh' }}>
-                {G.hand[enemyPlayerID].map((card, index) => (
-                    <div key={index} class="card-enemy">ENCANTADOS</div>
+                {Object.values(G.garden[enemyPlayerID]).map((group) => (
+                    <ul class="garden">
+                        {group.map((card) => (
+                            <li class="garden-card">{card.name}</li>
+                        ))}
+                    </ul>
                 ))}
-                <div style={{ width: '100vw', height: '15vh', display: 'flex' }}>
-                    <ul class="garden">
-                        {G.garden[enemyPlayerID].trolls.map((card, index) => (
-                            <li key={index} class="garden-card">{card.name}</li>
-                        ))}
-                    </ul>
-                    <ul class="garden">
-                        {G.garden[enemyPlayerID].songs.map((card, index) => (
-                            <li key={index} class="garden-card">{card.name}</li>
-                        ))}
-                    </ul>
-                </div>
             </section>
 
             <section style={{ display: 'flex' }} disabled={isActive}>
@@ -104,21 +97,13 @@ export function Board({ ctx, G, moves, playerID, redo, sendChatMessage, matchDat
 
             <h4>TEU JARDIM</h4>
             <section style={{ backgroundColor: '#ccc', display: 'flex', width: '100vw', height: '15vh' }}>
-                <ul class="garden">
-                    {G.garden[playerID].trolls.map((card, index) => (
-                        <li key={index} class="garden-card">{card.name}</li>
-                    ))}
-                </ul>
-                <ul class="garden">
-                    {G.garden[playerID].dwarves.map((card, index) => (
-                        <li key={index} class="garden-card">{card.name}</li>
-                    ))}
-                </ul>
-                <ul class="garden">
-                    {G.garden[playerID].songs.map((card, index) => (
-                        <li key={index} class="garden-card">{card.name}</li>
-                    ))}
-                </ul>
+                {Object.values(G.garden[playerID]).map((group) => (
+                    <ul class="garden">
+                        {group.map((card) => (
+                            <li class="garden-card">{card.name}</li>
+                        ))}
+                    </ul>
+                ))}
             </section>
 
             <h3>TUA MAO</h3>
@@ -162,10 +147,6 @@ export function Board({ ctx, G, moves, playerID, redo, sendChatMessage, matchDat
             {winner}
 
             <Modal G={G} moves={moves} playerID={playerID} enemyPlayerID={enemyPlayerID} />
-
-            {/* <Modal show={G.showModal[playerID]}>
-                {modalContent}
-            </Modal> */}
         </>
     );
 }

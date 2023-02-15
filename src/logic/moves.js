@@ -5,6 +5,11 @@ import { GROUPS } from './cards';
 export function takeCardsFromSearch({ G, playerID, events }, toPlayer = playerID) {
     if (!G.deck.length) return;
 
+    const hasElvesOnGarden = hasCreatureOnGarden(G.garden[playerID], GROUPS.elves);
+    if (hasElvesOnGarden) {
+        G.tempDeck.push(G.deck.pop());
+    }
+
     G.tempDeck.push(G.deck.pop());
     G.tempDeck.push(G.deck.pop());
 

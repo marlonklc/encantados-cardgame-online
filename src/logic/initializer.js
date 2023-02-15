@@ -12,6 +12,7 @@ export function initializeGarden(numberPlayers) {
             [GROUPS.wisps]: [],
             [GROUPS.gnomes]: [],
             [GROUPS.goblins]: [],
+            [GROUPS.kobolds]: [],
             [GROUPS.trolls]: [],
             [GROUPS.songs]: [],
         };

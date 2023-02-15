@@ -8,13 +8,14 @@ import {
     takeCardFromDiscard,
     selectCardFromDiscard,
     goblinCardExecute,
+    koboldCardExecute,
     springSongCardExecute,
     autumnSongCardSelectPlayer,
     autumnSongCardExecute,
     winterSongCardExecute,
 } from './logic/moves';
 import { initializeDeck, initializeGarden } from './logic/initializer';
-import { DWARF, GNOME, GOBLIN, MIMIC, TROLL, WINTER_SONG } from './logic/cards';
+import { DWARF, GNOME, GOBLIN, KOBOLD, MIMIC, TROLL, WINTER_SONG } from './logic/cards';
 
 export const Game = {
     name: 'encantados-cardgame-online',
@@ -26,9 +27,10 @@ export const Game = {
             deckDiscardEndTurn: [TROLL],
             tempDeck: [],
             garden: initializeGarden(ctx.numPlayers),
-            hand: Array(ctx.numPlayers).fill([]),
+            hand: Array(ctx.numPlayers).fill([TROLL, KOBOLD, KOBOLD, KOBOLD]),
             currentAction: TAKE_CARDS,
             goblinCardAlreadyPlayed: Array(ctx.numPlayers).fill(false),
+            koboldCardAlreadyPlayed: Array(ctx.numPlayers).fill(false),
             playerAlreadyDownedSongCard: false,
             playerAlreadyDownedCreatureCard: false,
             playerSourceAction: undefined,
@@ -62,6 +64,9 @@ export const Game = {
             },
             goblinCard: {
                 moves: { goblinCardExecute }
+            },
+            koboldCard: {
+                moves: { koboldCardExecute }
             },
             springSongCard: {
                 moves: { springSongCardExecute, takeCardsFromSearch }

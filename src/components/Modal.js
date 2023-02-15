@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
-import { CARD_AUTUMN_SONG, CARD_AUTUMN_SONG_EXECUTE, CARD_GOBLIN_CREATURE, CARD_SPRING_SONG, CARD_WINTER_SONG, DISCARD_CARD, 
-    SELECT_CARD_FROM_END_TURN_DISCARD, SELECT_CARD_FROM_SEARCH_DISCARD } from '../logic/actions';
-import { AUTUMN_SONG, GOBLIN, GROUPS, SPRING_SONG } from '../logic/cards';
+import {
+    CARD_AUTUMN_SONG, CARD_AUTUMN_SONG_EXECUTE, CARD_GOBLIN_CREATURE, CARD_KOBOLD_CREATURE, CARD_SPRING_SONG, CARD_WINTER_SONG, DISCARD_CARD,
+    SELECT_CARD_FROM_END_TURN_DISCARD, SELECT_CARD_FROM_SEARCH_DISCARD
+} from '../logic/actions';
+import { AUTUMN_SONG, GOBLIN, GROUPS, KOBOLD, SPRING_SONG } from '../logic/cards';
 import "./Modal.css";
 
 const Modal = ({ G, moves, playerID, enemyPlayerID }) => {
@@ -44,10 +46,10 @@ const Modal = ({ G, moves, playerID, enemyPlayerID }) => {
                     </div>
                     <div class="modal-body">
                         {G.tempDeck.map((card, index) => (
-                            <div key={index} class="card" onClick={ e => selectCard(card, e, index) }>{card.name}</div>
+                            <div key={index} class="card" onClick={e => selectCard(card, e, index)}>{card.name}</div>
                         ))}
 
-                        <button disabled={shouldDisableDiscardButton()} onClick={ () => {
+                        <button disabled={shouldDisableDiscardButton()} onClick={() => {
                             moves.discardToSearch(selectedCards);
                             clearSelectedCards();
                         }}>descartar</button>
@@ -101,6 +103,40 @@ const Modal = ({ G, moves, playerID, enemyPlayerID }) => {
                     <div class="modal-body">
                         <button onClick={() => moves.goblinCardExecute(playerID)}>Você</button>
                         <button onClick={() => moves.goblinCardExecute(enemyPlayerID)}>Inimigo</button>
+                    </div>
+                </>}
+
+                {G.currentAction === CARD_KOBOLD_CREATURE && <>
+                    <div class="modal-header">
+                        <h4 class="modal-title">{KOBOLD.name}: Selecione o jogador que irá comprar 2 cartas...</h4>
+                    </div>
+                    <div class="modal-body">
+                        <h4>INIMIGO</h4>
+                        <section style={{ backgroundColor: '#a81944', display: 'flex', width: '100vw', height: '15vh' }}>
+                            {Object.entries(G.garden[enemyPlayerID]).map((group, index1) => group[1].length ?
+                                (<ul class="garden" key={index1}>
+                                    {group[1].map((card, index2) => (
+                                        <li class="garden-card" key={index2} onClick={() => moves.koboldCardExecute(enemyPlayerID, group[0], index2)}>{card.name}</li>
+                                    ))}
+                                </ul>)
+                                :
+                                <></>
+                            )}
+                        </section>
+                        <h4>TEU JARDIM</h4>
+                        <section style={{ backgroundColor: '#ccc', display: 'flex', width: '100vw', height: '15vh' }}>
+                            {Object.entries(G.garden[playerID]).map((group, index1) => group[1].length ?
+                                (<ul class="garden" key={index1}>
+                                    {group[1].map((card, index2) => (
+                                        <li class="garden-card" key={index2} onClick={() => moves.koboldCardExecute(playerID, group[0], index2)}>{card.name}</li>
+                                    ))}
+                                </ul>)
+                                :
+                                <></>
+                            )}
+                        </section>
+                        {/* <button onClick={() => moves.goblinCardExecute(playerID)}>Você</button>
+                        <button onClick={() => moves.goblinCardExecute(enemyPlayerID)}>Inimigo</button> */}
                     </div>
                 </>}
 

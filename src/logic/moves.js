@@ -1,5 +1,5 @@
 import {
-    CARD_AUTUMN_SONG, CARD_AUTUMN_SONG_EXECUTE, CARD_GOBLIN_CREATURE, CARD_SPRING_SONG, CARD_WINTER_SONG, DISCARD_CARD, DOWN_CARDS,
+    CARD_AUTUMN_SONG, CARD_AUTUMN_SONG_EXECUTE, CARD_GOBLIN_CREATURE, CARD_KOBOLD_CREATURE, CARD_SPRING_SONG, CARD_WINTER_SONG, DISCARD_CARD, DOWN_CARDS,
     SELECT_CARD_FROM_END_TURN_DISCARD, SELECT_CARD_FROM_SEARCH_DISCARD, TAKE_CARDS
 } from './actions';
 import { GROUPS } from './cards';
@@ -37,6 +37,8 @@ export function discardToSearch({ G, playerID, events }, cards) {
     if (hasElvesOnGarden && cards.length > 2) return;
     if (!hasElvesOnGarden && cards.length > 1) return;
 
+    // I have no idea why filter() doesnt work with G variables, it always keep the same array length and same objects.
+    // Because of that I used this workaround
     cards.map(c => c.index).sort().forEach(index => {
         const newIndex = index !== 0 ? index - 1 : 0;
         G.tempDeck.splice(newIndex, 1);
@@ -120,10 +122,14 @@ export function downCreatureCards({ G, playerID, events }, cards = []) {
 
     G.playerAlreadyDownedCreatureCard = true;
 
-    cards.forEach(card => {
-        G.garden[playerID][groupOfCards].push(card);
-        const index = G.hand[playerID].indexOf(card);
-        G.hand[playerID].splice(index, 1);
+    // I have no idea why filter() doesnt work with G variables, it always keep the same array length and same objects.
+    // Because of that I used this workaround
+    let count = 0;
+    cards.map(c => c.index).sort().forEach(index => {
+        const newIndex = index !== 0 ? index - count : 0;
+        const removedCard = G.hand[playerID].splice(newIndex, 1)[0];
+        G.garden[playerID][groupOfCards].push(removedCard);
+        count++;
     });
 
     if (groupOfCards === GROUPS.goblins) {
@@ -132,6 +138,14 @@ export function downCreatureCards({ G, playerID, events }, cards = []) {
         G.currentAction = CARD_GOBLIN_CREATURE;
         G.showModal[playerID] = true;
         events.setStage('goblinCard');
+    }
+
+    if (groupOfCards === GROUPS.kobolds) {
+        if (G.koboldCardAlreadyPlayed[playerID]) return;
+
+        G.currentAction = CARD_KOBOLD_CREATURE;
+        G.showModal[playerID] = true;
+        events.setStage('koboldCard');
     }
 }
 
@@ -174,6 +188,16 @@ export function goblinCardExecute({ G, playerID, events }, toPlayer) {
     G.showModal[playerID] = false;
     G.goblinCardAlreadyPlayed[playerID] = true;
 
+    events.setStage('downCards');
+}
+
+export function koboldCardExecute({ G, playerID, events }, toPlayer, groupOfCard, index) {
+    const cardRemoved = G.garden[toPlayer][groupOfCard].splice(index, 1)[0];
+    
+    G.deck.unshift(cardRemoved);
+    G.currentAction = DOWN_CARDS;
+    G.showModal[playerID] = false;
+    G.koboldCardAlreadyPlayed[playerID] = true;
     events.setStage('downCards');
 }
 

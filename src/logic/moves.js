@@ -1,16 +1,22 @@
-import { CARD_AUTUMN_SONG, CARD_AUTUMN_SONG_EXECUTE, CARD_SPRING_SONG, CARD_WINTER_SONG, DISCARD_CARD, DOWN_CARDS, 
-    SELECT_CARD_FROM_END_TURN_DISCARD, SELECT_CARD_FROM_SEARCH_DISCARD, TAKE_CARDS } from './actions';
+import {
+    CARD_AUTUMN_SONG, CARD_AUTUMN_SONG_EXECUTE, CARD_SPRING_SONG, CARD_WINTER_SONG, DISCARD_CARD, DOWN_CARDS,
+    SELECT_CARD_FROM_END_TURN_DISCARD, SELECT_CARD_FROM_SEARCH_DISCARD, TAKE_CARDS
+} from './actions';
 import { GROUPS } from './cards';
 import _ from 'lodash';
 
 export function takeCardsFromSearch({ G, playerID, events }, toPlayer = playerID) {
     if (!G.deck.length) return;
 
+    const hasGnomesOnGarden = hasCreatureOnGarden(G.garden[playerID], GROUPS.gnomes);
+    if (hasGnomesOnGarden) {
+        G.hand[playerID].forEach(card => G.tempDeck.push(card));
+    }
+
     const hasElvesOnGarden = hasCreatureOnGarden(G.garden[playerID], GROUPS.elves);
     if (hasElvesOnGarden) {
         G.tempDeck.push(G.deck.pop());
     }
-
     G.tempDeck.push(G.deck.pop());
     G.tempDeck.push(G.deck.pop());
 
@@ -25,12 +31,26 @@ export function takeCardsFromSearch({ G, playerID, events }, toPlayer = playerID
     });
 }
 
-export function discardToSearch({ G, playerID, events }, selectedIndex) {
-    G.hand[playerID].push(G.tempDeck.splice(selectedIndex, 1)[0]);
-    G.hand[playerID].push(G.deck.pop());
-    G.hand[playerID].push(G.deck.pop());
-    G.hand[playerID].push(G.deck.pop());
-    G.deckDiscardSearch = G.deckDiscardSearch.concat(G.tempDeck);
+export function discardToSearch({ G, playerID, events }, cards) {
+    const hasElvesOnGarden = hasCreatureOnGarden(G.garden[playerID], GROUPS.elves);
+
+    if (hasElvesOnGarden && cards.length > 2) return;
+    if (!hasElvesOnGarden && cards.length > 1) return;
+
+    cards.map(c => c.index).sort().forEach(index => {
+        const newIndex = index !== 0 ? index - 1 : 0;
+        G.tempDeck.splice(newIndex, 1);
+    });
+
+    const hasGnomesOnGarden = hasCreatureOnGarden(G.garden[playerID], GROUPS.gnomes);
+
+    if (hasGnomesOnGarden) {
+        G.hand[playerID] = G.tempDeck;
+    } else {
+        G.hand[playerID].push(G.tempDeck[0]);
+    }
+
+    G.deckDiscardSearch = G.deckDiscardSearch.concat(cards);
     G.tempDeck = [];
     G.currentAction = DOWN_CARDS;
     G.showModal[playerID] = false;
@@ -83,7 +103,7 @@ export function selectCardFromDiscard({ G, playerID, events }, deckOfDiscard, in
     if (deckOfDiscard === 'endTurn') {
         G.hand[playerID].push(G.deckDiscardEndTurn.splice(index, 1)[0]);
     }
-    
+
     G.showModal[playerID] = false;
     G.currentAction = DOWN_CARDS;
     events.setStage('downCards');
@@ -189,7 +209,7 @@ export function autumnSongCardExecute({ G, playerID, events }, deckOfDiscard) {
 export function winterSongCardExecute({ G, playerID, events }, deckOfDiscard) {
     if (deckOfDiscard === 'search') {
         G.hand[playerID] = G.hand[playerID].concat(G.deckDiscardSearch.splice(-1, 1));
-    } 
+    }
 
     if (deckOfDiscard === 'endTurn') {
         G.hand[playerID] = G.hand[playerID].concat(G.deckDiscardEndTurn.splice(-1, 1));

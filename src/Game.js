@@ -13,7 +13,7 @@ import {
     winterSongCardExecute,
 } from './logic/moves';
 import { initializeDeck, initializeGarden } from './logic/initializer';
-import { DWARF, MIMIC, TROLL, WINTER_SONG } from './logic/cards';
+import { DWARF, GNOME, MIMIC, TROLL, WINTER_SONG } from './logic/cards';
 
 export const Game = {
     name: 'encantados-cardgame-online',
@@ -25,7 +25,7 @@ export const Game = {
             deckDiscardEndTurn: [TROLL, TROLL, TROLL, TROLL, TROLL, TROLL],
             tempDeck: [],
             garden: initializeGarden(ctx.numPlayers),
-            hand: Array(ctx.numPlayers).fill([]),
+            hand: Array(ctx.numPlayers).fill([MIMIC, TROLL, TROLL, GNOME]),
             currentAction: TAKE_CARDS,
             playerAlreadyDownedSongCard: false,
             playerAlreadyDownedCreatureCard: false,

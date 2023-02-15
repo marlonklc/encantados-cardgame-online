@@ -13,6 +13,7 @@ Launches the server (nodeJS) to test on development (running on 8000 port).\
 
 ### TODO LIST
 
+- [ ] adjust the first player to one which has less points
 - [ ] avoid bug if song cards show modal without action (when need choose cards from discard, but there isn't)
 - [ ] enable mimic card in available gardens
 - [ ] enable the cards expand on garden

@@ -5,15 +5,15 @@ import {
     downSongCard,
     discardToSearch,
     discardToEndTurn,
-    takeCardFromSearchDiscard,
-    takeCardFromEndTurnDiscard,
+    takeCardFromDiscard,
+    selectCardFromDiscard,
     springSongCardExecute,
     autumnSongCardSelectPlayer,
     autumnSongCardExecute,
     winterSongCardExecute,
 } from './logic/moves';
 import { initializeDeck, initializeGarden } from './logic/initializer';
-import { DWARF, MIMIC, TROLL } from './logic/cards';
+import { DWARF, MIMIC, TROLL, WINTER_SONG } from './logic/cards';
 
 export const Game = {
     name: 'encantados-cardgame-online',
@@ -21,7 +21,7 @@ export const Game = {
         return ({
             deck: initializeDeck({ random }),
             alert: '',
-            deckDiscardSearch: [MIMIC, MIMIC, MIMIC, MIMIC, MIMIC, DWARF],
+            deckDiscardSearch: [WINTER_SONG, MIMIC, DWARF],
             deckDiscardEndTurn: [TROLL, TROLL, TROLL, TROLL, TROLL, TROLL],
             tempDeck: [],
             garden: initializeGarden(ctx.numPlayers),
@@ -47,7 +47,7 @@ export const Game = {
         },
         stages: {
             takeCards: {
-                moves: { takeCardsFromSearch, takeCardFromSearchDiscard, takeCardFromEndTurnDiscard }
+                moves: { takeCardsFromSearch, takeCardFromDiscard, selectCardFromDiscard }
             },
             discardCards: {
                 moves: { discardToSearch }

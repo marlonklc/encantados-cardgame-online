@@ -1,5 +1,6 @@
-import { INVALID_MOVE } from 'boardgame.io/core';
-import { CARD_AUTUMN_SONG, CARD_AUTUMN_SONG_EXECUTE, CARD_SPRING_SONG, CARD_WINTER_SONG, DISCARD_CARD, DOWN_CARDS, TAKE_CARDS } from './actions';
+import { CARD_AUTUMN_SONG, CARD_AUTUMN_SONG_EXECUTE, CARD_SPRING_SONG, CARD_WINTER_SONG, DISCARD_CARD, DOWN_CARDS, 
+    SELECT_CARD_FROM_END_TURN_DISCARD, SELECT_CARD_FROM_SEARCH_DISCARD, TAKE_CARDS } from './actions';
+import { GROUPS } from './cards';
 
 export function takeCardsFromSearch({ G, playerID, events }, toPlayer = playerID) {
     if (!G.deck.length) return;
@@ -34,18 +35,47 @@ export function discardToSearch({ G, playerID, events }, selectedIndex) {
     G.playerSourceAction = undefined;
 }
 
-export function takeCardFromSearchDiscard({ G, playerID, events }, card) {
-    if (!G.deckDiscardSearch.length) return INVALID_MOVE;
+export function takeCardFromDiscard({ G, playerID, events }, deckOfDiscard) {
+    const hasDwarvesOnGarden = hasCreatureOnGarden(G.garden[playerID], GROUPS.dwarves);
 
-    G.hand[playerID].push(G.deckDiscardSearch.pop());
+    if (deckOfDiscard === 'search') {
+        if (!G.deckDiscardSearch.length) return;
+
+        if (hasDwarvesOnGarden) {
+            G.currentAction = SELECT_CARD_FROM_SEARCH_DISCARD;
+            G.showModal[playerID] = true;
+            return;
+        }
+
+        G.hand[playerID].push(G.deckDiscardSearch.pop());
+    }
+
+    if (deckOfDiscard === 'endTurn') {
+        if (!G.deckDiscardEndTurn.length) return;
+
+        if (hasDwarvesOnGarden) {
+            G.currentAction = SELECT_CARD_FROM_END_TURN_DISCARD;
+            G.showModal[playerID] = true;
+            return;
+        }
+
+        G.hand[playerID].push(G.deckDiscardEndTurn.pop());
+    }
+
     G.currentAction = DOWN_CARDS;
     events.setStage('downCards');
 }
 
-export function takeCardFromEndTurnDiscard({ G, playerID, events }, card) {
-    if (!G.deckDiscardEndTurn.length) return INVALID_MOVE;
+export function selectCardFromDiscard({ G, playerID, events }, deckOfDiscard, index) {
+    if (deckOfDiscard === 'search') {
+        G.hand[playerID].push(G.deckDiscardSearch.splice(index, 1)[0]);
+    }
 
-    G.hand[playerID].push(G.deckDiscardEndTurn.pop());
+    if (deckOfDiscard === 'endTurn') {
+        G.hand[playerID].push(G.deckDiscardEndTurn.splice(index, 1)[0]);
+    }
+    
+    G.showModal[playerID] = false;
     G.currentAction = DOWN_CARDS;
     events.setStage('downCards');
 }
@@ -152,4 +182,8 @@ export function winterSongCardExecute({ G, playerID, events }, deckOfDiscard) {
     }
 
     takeCardsFromSearch({ G, playerID, events });
+}
+
+function hasCreatureOnGarden(garden, creatureGroup) {
+    return garden[creatureGroup].filter(card => card.group === creatureGroup).length >= 2;
 }

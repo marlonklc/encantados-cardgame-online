@@ -16,8 +16,8 @@ export function Board({ ctx, G, moves, playerID, redo, sendChatMessage, matchDat
     const enemyPlayerID = matchData.filter(i => i.id !== parseInt(playerID))[0].id;
     const [selectedCards, setSelectedCards] = useState([]);
     const takeCardsFromSearch = () => moves.takeCardsFromSearch();
-    const takeCardFromSearchDiscard = () => moves.takeCardFromSearchDiscard();
-    const takeCardFromEndTurnDiscard = () => moves.takeCardFromEndTurnDiscard();
+    const takeCardFromSearchDiscard = () => moves.takeCardFromDiscard('search');
+    const takeCardFromEndTurnDiscard = () => moves.takeCardFromDiscard('endTurn');
     const discardToSearch = (card) => moves.discardToSearch(card.index);
     const downCreatureCards = (cards) => {
         if (moves.downCreatureCards(cards) !== INVALID_MOVE) {
@@ -110,6 +110,11 @@ export function Board({ ctx, G, moves, playerID, redo, sendChatMessage, matchDat
                     ))}
                 </ul>
                 <ul class="garden">
+                    {G.garden[playerID].dwarves.map((card, index) => (
+                        <li key={index} class="garden-card">{card.name}</li>
+                    ))}
+                </ul>
+                <ul class="garden">
                     {G.garden[playerID].songs.map((card, index) => (
                         <li key={index} class="garden-card">{card.name}</li>
                     ))}
@@ -156,7 +161,7 @@ export function Board({ ctx, G, moves, playerID, redo, sendChatMessage, matchDat
             </section>
             {winner}
 
-            <Modal G={G} moves={moves} playerID={playerID} enemyPlayerID={enemyPlayerID}/>
+            <Modal G={G} moves={moves} playerID={playerID} enemyPlayerID={enemyPlayerID} />
 
             {/* <Modal show={G.showModal[playerID]}>
                 {modalContent}

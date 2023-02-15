@@ -1,5 +1,7 @@
 export const TAKE_CARDS = 'take_cards';
 export const DISCARD_CARD = 'discard_card';
+export const SELECT_CARD_FROM_SEARCH_DISCARD = 'select_card_from_search_discard';
+export const SELECT_CARD_FROM_END_TURN_DISCARD = 'select_card_from_end_turn_discard';
 export const DOWN_CARDS = 'down_cards';
 export const END_TURN = 'end_turn';
 export const CARD_SPRING_SONG = 'card_spring_song';

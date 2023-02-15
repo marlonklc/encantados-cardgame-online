@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { CARD_AUTUMN_SONG, CARD_AUTUMN_SONG_EXECUTE, CARD_SPRING_SONG, CARD_WINTER_SONG, DISCARD_CARD } from '../logic/actions';
+import { CARD_AUTUMN_SONG, CARD_AUTUMN_SONG_EXECUTE, CARD_SPRING_SONG, CARD_WINTER_SONG, DISCARD_CARD, SELECT_CARD_FROM_END_TURN_DISCARD, SELECT_CARD_FROM_SEARCH_DISCARD } from '../logic/actions';
 import { AUTUMN_SONG, SPRING_SONG } from '../logic/cards';
 import "./Modal.css";
 
@@ -46,13 +46,13 @@ const Modal = ({ G, moves, playerID, enemyPlayerID }) => {
                     </div>
                     <div class="modal-body">
                         <div>
-                            <button onClick={() => moves.autumnSongCardExecute('search') }>descarte de compra</button>
+                            <button onClick={() => moves.autumnSongCardExecute('search')}>descarte de compra</button>
                             {G.deckDiscardSearch.slice(-4).map((card, index) => (
                                 <div key={index} class="card">{card.name}</div>
                             ))}
                         </div>
                         <div>
-                            <button onClick={() => moves.autumnSongCardExecute('endTurn') }>descarte de fim de turno</button>
+                            <button onClick={() => moves.autumnSongCardExecute('endTurn')}>descarte de fim de turno</button>
                             {G.deckDiscardEndTurn.slice(-4).map((card, index) => (
                                 <div key={index} class="card">{card.name}</div>
                             ))}
@@ -70,17 +70,39 @@ const Modal = ({ G, moves, playerID, enemyPlayerID }) => {
                     </div>
                     <div class="modal-body">
                         <div>
-                            <button onClick={() => moves.winterSongCardExecute('search') }>descarte de compra</button>
+                            <button onClick={() => moves.winterSongCardExecute('search')}>descarte de compra</button>
                             {G.deckDiscardSearch.slice(-1).map((card, index) => (
                                 <div key={index} class="card">{card.name}</div>
                             ))}
                         </div>
                         <div>
-                            <button onClick={() => moves.winterSongCardExecute('endTurn') }>descarte de fim de turno</button>
+                            <button onClick={() => moves.winterSongCardExecute('endTurn')}>descarte de fim de turno</button>
                             {G.deckDiscardEndTurn.slice(-1).map((card, index) => (
                                 <div key={index} class="card">{card.name}</div>
                             ))}
                         </div>
+                    </div>
+                </>}
+
+                {G.currentAction === SELECT_CARD_FROM_SEARCH_DISCARD && <>
+                    <div class="modal-header">
+                        <h4 class="modal-title">Escolha a carta do descarte de compras...</h4>
+                    </div>
+                    <div class="modal-body">
+                        {G.deckDiscardSearch.map((card, index) => (
+                            <div key={index} class="card" onClick={() => moves.selectCardFromDiscard('search', index)}>{card.name}</div>
+                        ))}
+                    </div>
+                </>}
+
+                {G.currentAction === SELECT_CARD_FROM_END_TURN_DISCARD && <>
+                    <div class="modal-header">
+                        <h4 class="modal-title">Escolha a carta do descarte de fim de turno...</h4>
+                    </div>
+                    <div class="modal-body">
+                        {G.deckDiscardEndTurn.map((card, index) => (
+                            <div key={index} class="card" onClick={() => moves.selectCardFromDiscard('endTurn', index)}>{card.name}</div>
+                        ))}
                     </div>
                 </>}
             </div>

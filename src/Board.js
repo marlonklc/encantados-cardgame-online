@@ -4,6 +4,7 @@ import './Board.css';
 import Modal from './components/Modal';
 import { DISCARD_CARD, DOWN_CARDS, TAKE_CARDS } from './logic/actions';
 import { GROUPS } from './logic/cards';
+import _ from 'lodash';
 
 export function Board({ ctx, G, moves, playerID, redo, sendChatMessage, matchData, isActive, isConnected, log, ...ot }) {
     // console.log('redo>>>', redo)
@@ -38,7 +39,7 @@ export function Board({ ctx, G, moves, playerID, redo, sendChatMessage, matchDat
             ;
     }
 
-    async function selectCard(card, event, index) {
+    function selectCard(card, event, index) {
         event.preventDefault();
         card.index = index;
 
@@ -53,9 +54,25 @@ export function Board({ ctx, G, moves, playerID, redo, sendChatMessage, matchDat
         event.target.classList.toggle('selected-card');
     }
 
-    async function clearSelectedCards() {
+    function clearSelectedCards() {
         setSelectedCards([]);
         Array.from(document.querySelectorAll('.selected-card')).forEach(element => element.classList.remove('selected-card'));
+    }
+
+    function shouldDisableDownCreatures() {
+        const hasWispsOnGarden = G.garden[playerID][GROUPS.wisps].filter(card => card.group === GROUPS.wisps).length >= 2;
+
+        const grouped = _.groupBy(selectedCards, c => c.group);
+
+        if (Object.keys(grouped).length > 2) return true;
+
+        const mimics = Object.keys(grouped).filter(k => k === 'undefined').flatMap(k => grouped[k]);
+        const leprechauns = Object.keys(grouped).filter(k => k === GROUPS.leprechauns).flatMap(k => grouped[k]);
+
+        if (!!leprechauns.length && !!mimics.length) return true;
+        if (mimics.length > 1) return true;
+
+        return hasWispsOnGarden ? selectedCards.length < 2 : selectedCards.length < 3;
     }
 
     return (
@@ -64,12 +81,12 @@ export function Board({ ctx, G, moves, playerID, redo, sendChatMessage, matchDat
 
             <h4>INIMIGO</h4>
             <section style={{ backgroundColor: '#a81944', display: 'flex', width: '100vw', height: '15vh' }}>
-                {Object.values(G.garden[enemyPlayerID]).map((group) => group.length ? 
+                {Object.values(G.garden[enemyPlayerID]).map((group) => group.length ?
                     (<ul class="garden">
                         {group.map((card) => (
                             <li class="garden-card">{card.name}</li>
                         ))}
-                    </ul>) 
+                    </ul>)
                     :
                     <></>
                 )}
@@ -99,12 +116,12 @@ export function Board({ ctx, G, moves, playerID, redo, sendChatMessage, matchDat
 
             <h4>TEU JARDIM</h4>
             <section style={{ backgroundColor: '#ccc', display: 'flex', width: '100vw', height: '15vh' }}>
-                {Object.values(G.garden[playerID]).map((group) => group.length ? 
+                {Object.values(G.garden[playerID]).map((group) => group.length ?
                     (<ul class="garden">
                         {group.map((card) => (
                             <li class="garden-card">{card.name}</li>
                         ))}
-                    </ul>) 
+                    </ul>)
                     :
                     <></>
                 )}
@@ -126,7 +143,7 @@ export function Board({ ctx, G, moves, playerID, redo, sendChatMessage, matchDat
                         }}
                     >descarta compra</button>
                     <button
-                        disabled={selectedCards.length !== 3}
+                        disabled={shouldDisableDownCreatures()}
                         hidden={G.currentAction !== DOWN_CARDS || selectedCards.some(c => c.isSong) || !!G.playerAlreadyDownedCreatureCard}
                         onClick={() => downCreatureCards(selectedCards)}
                     >baixar raça</button>

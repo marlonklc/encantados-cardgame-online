@@ -13,9 +13,10 @@ Launches the server (nodeJS) to test on development (running on 8000 port).\
 
 ### TODO LIST
 
-- [] avoid song cards show modal without action (when need choose cards from discard, but there isn't)
-- [] enable mimic card in available gardens
-- [] enable the cards expand on garden
-- [] create components to improve easy maintenance
-- [] avoid leprechaun card be down with mimics cards (on down moves)
-- [] able to play with more than two players (on future, because it changes a lot the game flow)
+- [ ] avoid bug if song cards show modal without action (when need choose cards from discard, but there isn't)
+- [ ] enable mimic card in available gardens
+- [ ] enable the cards expand on garden
+- [ ] create components to improve easy maintenance
+- [x] avoid leprechauns cards be down with mimics cards (on down moves)
+- [ ] able to play with more than two players (on future, because it changes a lot the game flow)
+- [ ] i18n - internationalization

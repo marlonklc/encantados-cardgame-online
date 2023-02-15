@@ -10,6 +10,7 @@ export const GROUPS = {
     fairies: 'fairies',
     fauns: 'fauns',
     leprechauns: 'leprechauns',
+    wisps: 'wisps',
     trolls: 'trolls',
     songs: 'songs',
 };
@@ -19,6 +20,7 @@ export const ELF = Card("Elfos", 3, "/images/", "Na fase de compra compre 3 cart
 export const FAIRY = Card("Fadas", 1, "/images/", "No final do jogo se ao menos 2 fadas estiveram no seu jardim, os mímicos valem zero (ao invés de -3)", GROUPS.fairies);
 export const FAUN = Card("Faunos", 0, "/images/", "No final do jogo se ao menos 2 faunos estiverem no seu jardim, ganhe 2 pontos para cada cada canção", GROUPS.fauns);
 export const LEPRECHAUN = Card("Leprechauns", -4, "/images/", "No final do jogo se ao menos 2 leprechauns estiverem no seu jardim, ele vale 4 pontos (ao invés de -4)", GROUPS.leprechauns);
+export const WISP = Card("Fogos-fátuos", 2, "/images/", "Se ao menos 2 fogos-fátuos estiverem no seu jardim, você só precisa ter 2 cartas da mesma raça para baixar (ao invés de 3)", GROUPS.wisps);
 
 export const TROLL = Card("Trolls", 0, "/images/duke.png", "Na primeira vez que um Troll entrar no seu jardim, escolha uma carta em jogo e coloque-a em qualquer jardim.", GROUPS.trolls);
 export const MIMIC = Card("Mímicos", -3, "/images/assassin.png");

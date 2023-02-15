@@ -1,4 +1,4 @@
-import { AUTUMN_SONG, cards, DWARF, ELF, FAIRY, FAUN, GROUPS, LEPRECHAUN, MIMIC, SPRING_SONG, TROLL, WINTER_SONG } from './cards';
+import { AUTUMN_SONG, cards, DWARF, ELF, FAIRY, FAUN, GROUPS, LEPRECHAUN, MIMIC, SPRING_SONG, TROLL, WINTER_SONG, WISP } from './cards';
 
 export function initializeGarden(numberPlayers) {
     const gardens = Array(numberPlayers);
@@ -9,6 +9,7 @@ export function initializeGarden(numberPlayers) {
             [GROUPS.fairies]: i === 0 ? [FAIRY, FAIRY, FAIRY] : [],
             [GROUPS.fauns]: i === 0 ? [FAUN, FAUN, FAUN] : [],
             [GROUPS.leprechauns]: i === 1 ? [LEPRECHAUN, LEPRECHAUN] : [],
+            [GROUPS.wisps]: i === 0 ? [WISP, WISP, WISP] : [],
             [GROUPS.trolls]: [],
             [GROUPS.songs]: [],
         };
@@ -29,10 +30,10 @@ export function initializeDeck({ random }) {
     deck.push(DWARF);
     deck.push(DWARF);
     deck.push(DWARF);
-    deck.push(ELF);
+    deck.push(DWARF);
     deck.push(MIMIC);
-    deck.push(FAIRY);
-    deck.push(FAUN);
+    deck.push(MIMIC);
+    deck.push(LEPRECHAUN);
     deck.push(LEPRECHAUN);
     return deck;
     //return random.Shuffle(deck);

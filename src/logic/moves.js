@@ -1,6 +1,7 @@
 import { CARD_AUTUMN_SONG, CARD_AUTUMN_SONG_EXECUTE, CARD_SPRING_SONG, CARD_WINTER_SONG, DISCARD_CARD, DOWN_CARDS, 
     SELECT_CARD_FROM_END_TURN_DISCARD, SELECT_CARD_FROM_SEARCH_DISCARD, TAKE_CARDS } from './actions';
 import { GROUPS } from './cards';
+import _ from 'lodash';
 
 export function takeCardsFromSearch({ G, playerID, events }, toPlayer = playerID) {
     if (!G.deck.length) return;
@@ -26,6 +27,9 @@ export function takeCardsFromSearch({ G, playerID, events }, toPlayer = playerID
 
 export function discardToSearch({ G, playerID, events }, selectedIndex) {
     G.hand[playerID].push(G.tempDeck.splice(selectedIndex, 1)[0]);
+    G.hand[playerID].push(G.deck.pop());
+    G.hand[playerID].push(G.deck.pop());
+    G.hand[playerID].push(G.deck.pop());
     G.deckDiscardSearch = G.deckDiscardSearch.concat(G.tempDeck);
     G.tempDeck = [];
     G.currentAction = DOWN_CARDS;
@@ -86,15 +90,18 @@ export function selectCardFromDiscard({ G, playerID, events }, deckOfDiscard, in
 }
 
 export function downCreatureCards({ G, playerID }, cards = []) {
-    if (cards.length < 3) {
-        G.alert = 'nao pode menos que tres cartas';
+    if (!isAbleDownCreatures(G.garden[playerID], cards)) {
+        G.alert = 'Não é possível baixar as criaturas';
         return;
     }
+
+    const grouped = _.groupBy(cards, c => c.group);
+    const groupOfCards = Object.keys(grouped).filter(k => k !== 'undefined');
 
     G.playerAlreadyDownedCreatureCard = true;
 
     cards.forEach(card => {
-        G.garden[playerID].trolls.push(card);
+        G.garden[playerID][groupOfCards].push(card);
         const index = G.hand[playerID].indexOf(card);
         G.hand[playerID].splice(index, 1);
     });
@@ -189,6 +196,22 @@ export function winterSongCardExecute({ G, playerID, events }, deckOfDiscard) {
     }
 
     takeCardsFromSearch({ G, playerID, events });
+}
+
+function isAbleDownCreatures(garden, cards) {
+    const hasWispsOnGarden = garden[GROUPS.wisps].filter(card => card.group === GROUPS.wisps).length >= 2;
+
+    const grouped = _.groupBy(cards, c => c.group);
+
+    if (Object.keys(grouped).length > 2) return false;
+
+    const mimics = Object.keys(grouped).filter(k => k === 'undefined').flatMap(k => grouped[k]);
+    const leprechauns = Object.keys(grouped).filter(k => k === GROUPS.leprechauns).flatMap(k => grouped[k]);
+
+    if (!!leprechauns.length && !!mimics.length) return false;
+    if (mimics.length > 1) return false;
+
+    return hasWispsOnGarden ? cards.length >= 2 : cards.length >= 3;
 }
 
 function hasCreatureOnGarden(garden, creatureGroup) {

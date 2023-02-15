@@ -1,5 +1,5 @@
 import {
-    CARD_AUTUMN_SONG, CARD_AUTUMN_SONG_EXECUTE, CARD_SPRING_SONG, CARD_WINTER_SONG, DISCARD_CARD, DOWN_CARDS,
+    CARD_AUTUMN_SONG, CARD_AUTUMN_SONG_EXECUTE, CARD_GOBLIN_CREATURE, CARD_SPRING_SONG, CARD_WINTER_SONG, DISCARD_CARD, DOWN_CARDS,
     SELECT_CARD_FROM_END_TURN_DISCARD, SELECT_CARD_FROM_SEARCH_DISCARD, TAKE_CARDS
 } from './actions';
 import { GROUPS } from './cards';
@@ -109,14 +109,14 @@ export function selectCardFromDiscard({ G, playerID, events }, deckOfDiscard, in
     events.setStage('downCards');
 }
 
-export function downCreatureCards({ G, playerID }, cards = []) {
+export function downCreatureCards({ G, playerID, events }, cards = []) {
     if (!isAbleDownCreatures(G.garden[playerID], cards)) {
         G.alert = 'Não é possível baixar as criaturas';
         return;
     }
 
     const grouped = _.groupBy(cards, c => c.group);
-    const groupOfCards = Object.keys(grouped).filter(k => k !== 'undefined');
+    const groupOfCards = Object.keys(grouped).filter(k => k !== 'undefined')[0];
 
     G.playerAlreadyDownedCreatureCard = true;
 
@@ -125,6 +125,14 @@ export function downCreatureCards({ G, playerID }, cards = []) {
         const index = G.hand[playerID].indexOf(card);
         G.hand[playerID].splice(index, 1);
     });
+
+    if (groupOfCards === GROUPS.goblins) {
+        if (G.goblinCardAlreadyPlayed[playerID]) return;
+
+        G.currentAction = CARD_GOBLIN_CREATURE;
+        G.showModal[playerID] = true;
+        events.setStage('goblinCard');
+    }
 }
 
 export function downSongCard({ G, playerID, events }, card) {
@@ -157,6 +165,16 @@ export function discardToEndTurn({ G, playerID, events, }, index) {
 
     events.endTurn();
     events.setStage('takeCards');
+}
+
+export function goblinCardExecute({ G, playerID, events }, toPlayer) {
+    G.hand[toPlayer].push(G.deck.pop());
+    G.hand[toPlayer].push(G.deck.pop());
+    G.currentAction = DOWN_CARDS;
+    G.showModal[playerID] = false;
+    G.goblinCardAlreadyPlayed[playerID] = true;
+
+    events.setStage('downCards');
 }
 
 export function springSongCardExecute({ G, playerID, events }, toPlayer) {

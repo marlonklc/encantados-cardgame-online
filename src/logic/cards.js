@@ -1,4 +1,4 @@
-import { CARD_AUTUMN_SONG, CARD_SPRING_SONG, CARD_WINTER_SONG, NONE } from './actions';
+import { CARD_AUTUMN_SONG, CARD_GOBLIN_CREATURE, CARD_SPRING_SONG, CARD_WINTER_SONG, NONE } from './actions';
 
 const Card = (name, value, image, description, group = undefined, isSong = false, action = NONE) => ({
     name, value, image, description, group, isSong, action
@@ -12,6 +12,7 @@ export const GROUPS = {
     leprechauns: 'leprechauns',
     wisps: 'wisps',
     gnomes: 'gnomes',
+    goblins: 'goblins',
     trolls: 'trolls',
     songs: 'songs',
 };
@@ -23,6 +24,7 @@ export const FAUN = Card("Faunos", 0, "/images/", "No final do jogo se ao menos 
 export const LEPRECHAUN = Card("Leprechauns", -4, "/images/", "No final do jogo se ao menos 2 leprechauns estiverem no seu jardim, ele vale 4 pontos (ao invés de -4)", GROUPS.leprechauns);
 export const WISP = Card("Fogos-fátuos", 2, "/images/", "Se ao menos 2 fogos-fátuos estiverem no seu jardim, você só precisa ter 2 cartas da mesma raça para baixar (ao invés de 3)", GROUPS.wisps);
 export const GNOME = Card("Gnomos", 3, "/images/", "Ao executar uma busca, se ao menos 2 gnomos estiverem no seu jardim, você pode escolher qualquer carta para descartar.", GROUPS.gnomes);
+export const GOBLIN = Card("Goblins", 3, "/images/", "Quando primeiro goblin entrar em seu jardim, escolha um jogador para comprar 2 cartas.", GROUPS.goblins, false, CARD_GOBLIN_CREATURE);
 
 export const TROLL = Card("Trolls", 0, "/images/duke.png", "Na primeira vez que um Troll entrar no seu jardim, escolha uma carta em jogo e coloque-a em qualquer jardim.", GROUPS.trolls);
 export const MIMIC = Card("Mímicos", -3, "/images/assassin.png");

@@ -4,13 +4,14 @@ export function initializeGarden(numberPlayers) {
     const gardens = Array(numberPlayers);
     for (let i = 0; i + 1 <= numberPlayers; i++) {
         gardens[i] = {
-            [GROUPS.dwarves]: [DWARF],
-            [GROUPS.elves]: i === 0 ? [] : [],
-            [GROUPS.fairies]: i === 0 ? [FAIRY, FAIRY, FAIRY] : [],
-            [GROUPS.fauns]: i === 0 ? [FAUN, FAUN, FAUN] : [],
-            [GROUPS.leprechauns]: i === 1 ? [LEPRECHAUN, LEPRECHAUN] : [],
-            [GROUPS.wisps]: i === 0 ? [WISP, WISP, WISP] : [],
-            [GROUPS.gnomes]: i === 0 ? [GNOME, GNOME] : [],
+            [GROUPS.dwarves]: [],
+            [GROUPS.elves]: [],
+            [GROUPS.fairies]: [],
+            [GROUPS.fauns]: [],
+            [GROUPS.leprechauns]: [],
+            [GROUPS.wisps]: [],
+            [GROUPS.gnomes]: [],
+            [GROUPS.goblins]: [],
             [GROUPS.trolls]: [],
             [GROUPS.songs]: [],
         };

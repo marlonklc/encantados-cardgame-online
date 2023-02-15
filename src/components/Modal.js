@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
-import { CARD_AUTUMN_SONG, CARD_AUTUMN_SONG_EXECUTE, CARD_SPRING_SONG, CARD_WINTER_SONG, DISCARD_CARD, 
+import { CARD_AUTUMN_SONG, CARD_AUTUMN_SONG_EXECUTE, CARD_GOBLIN_CREATURE, CARD_SPRING_SONG, CARD_WINTER_SONG, DISCARD_CARD, 
     SELECT_CARD_FROM_END_TURN_DISCARD, SELECT_CARD_FROM_SEARCH_DISCARD } from '../logic/actions';
-import { AUTUMN_SONG, GROUPS, SPRING_SONG } from '../logic/cards';
+import { AUTUMN_SONG, GOBLIN, GROUPS, SPRING_SONG } from '../logic/cards';
 import "./Modal.css";
 
 const Modal = ({ G, moves, playerID, enemyPlayerID }) => {
@@ -91,6 +91,16 @@ const Modal = ({ G, moves, playerID, enemyPlayerID }) => {
                                 <div key={index} class="card">{card.name}</div>
                             ))}
                         </div>
+                    </div>
+                </>}
+
+                {G.currentAction === CARD_GOBLIN_CREATURE && <>
+                    <div class="modal-header">
+                        <h4 class="modal-title">{GOBLIN.name}: Selecione o jogador que irá comprar 2 cartas...</h4>
+                    </div>
+                    <div class="modal-body">
+                        <button onClick={() => moves.goblinCardExecute(playerID)}>Você</button>
+                        <button onClick={() => moves.goblinCardExecute(enemyPlayerID)}>Inimigo</button>
                     </div>
                 </>}
 

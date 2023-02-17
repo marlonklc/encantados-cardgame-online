@@ -5,6 +5,7 @@ import Modal from './components/Modal';
 import { DISCARD_CARD, DOWN_CARDS, TAKE_CARDS } from './logic/actions';
 import { GROUPS } from './logic/cards';
 import _ from 'lodash';
+import Garden from './components/Garden';
 
 export function Board({ ctx, G, moves, playerID, redo, sendChatMessage, matchData, isActive, isConnected, log, ...ot }) {
     // console.log('redo>>>', redo)
@@ -14,6 +15,7 @@ export function Board({ ctx, G, moves, playerID, redo, sendChatMessage, matchDat
     // console.log('its the player connected?', isConnected);
     // console.log(ot)
     // console.log(matchData)
+    // console.log(ctx.activePlayers[playerID])
 
     const enemyPlayerID = matchData.filter(i => i.id !== parseInt(playerID))[0].id;
     const [selectedCards, setSelectedCards] = useState([]);
@@ -80,17 +82,7 @@ export function Board({ ctx, G, moves, playerID, redo, sendChatMessage, matchDat
             <h4>current player: {playerID} ({isActive}{isConnected}) - msg: {G.alert}</h4>
 
             <h4>INIMIGO</h4>
-            <section style={{ backgroundColor: '#a81944', display: 'flex', width: '100vw', height: '15vh' }}>
-                {Object.values(G.garden[enemyPlayerID]).map((group) => group.length ?
-                    (<ul class="garden">
-                        {group.map((card) => (
-                            <li class="garden-card">{card.name}</li>
-                        ))}
-                    </ul>)
-                    :
-                    <></>
-                )}
-            </section>
+            <Garden garden={G.garden[enemyPlayerID]} bgColor="#a81944"/>
 
             <section style={{ display: 'flex' }} disabled={isActive}>
                 <div class="deck">
@@ -115,20 +107,10 @@ export function Board({ ctx, G, moves, playerID, redo, sendChatMessage, matchDat
             </section>
 
             <h4>TEU JARDIM</h4>
-            <section style={{ backgroundColor: '#ccc', display: 'flex', width: '100vw', height: '15vh' }}>
-                {Object.values(G.garden[playerID]).map((group) => group.length ?
-                    (<ul class="garden">
-                        {group.map((card) => (
-                            <li class="garden-card">{card.name}</li>
-                        ))}
-                    </ul>)
-                    :
-                    <></>
-                )}
-            </section>
+            <Garden garden={G.garden[playerID]} bgColor="#0a72a8"/>
 
             <h3>TUA MAO</h3>
-            <section style={{ backgroundColor: '#0a72a8', display: 'flex', width: '100vw', height: '15vh' }} disabled={!isActive}>
+            <section style={{ backgroundColor: '#ccc', display: 'flex', width: '100vw', height: '15vh' }} disabled={!isActive}>
                 {G.hand[playerID].map((card, index) => (
                     <div key={index} class="card" onClick={isActive ? e => selectCard(card, e, index) : undefined}>{card.name}</div>
                 ))}

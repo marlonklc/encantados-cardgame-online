@@ -1,15 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import {
-    CARD_AUTUMN_SONG, CARD_AUTUMN_SONG_EXECUTE, CARD_GOBLIN_CREATURE, CARD_KOBOLD_CREATURE, CARD_SPRING_SONG, CARD_WINTER_SONG, DISCARD_CARD,
+    CARD_AUTUMN_SONG, CARD_AUTUMN_SONG_EXECUTE, CARD_GOBLIN_CREATURE, CARD_KOBOLD_CREATURE, CARD_SPRING_SONG, CARD_TROLL_CREATURE, CARD_WINTER_SONG, DISCARD_CARD,
     SELECT_CARD_FROM_END_TURN_DISCARD, SELECT_CARD_FROM_SEARCH_DISCARD
 } from '../logic/actions';
-import { AUTUMN_SONG, GOBLIN, GROUPS, KOBOLD, SPRING_SONG } from '../logic/cards';
-import "./Modal.css";
+import { AUTUMN_SONG, GOBLIN, GROUPS, KOBOLD, SPRING_SONG, TROLL } from '../logic/cards';
+import Garden from './Garden';
+import './Modal.css';
 
 const Modal = ({ G, moves, playerID, enemyPlayerID }) => {
 
     const [selectedCards, setSelectedCards] = useState([]);
+    const [cardToMove, setCardToMove] = useState();
+
+    const showModalPlayer = G.showModal[playerID];
+
+    useEffect(() => {
+        setSelectedCards([]);
+        setCardToMove();
+    }, [showModalPlayer])
 
     const hasElvesOnGarden = G.garden[playerID][GROUPS.elves].filter(card => card.group === GROUPS.elves).length >= 2;
 
@@ -29,8 +38,14 @@ const Modal = ({ G, moves, playerID, enemyPlayerID }) => {
         event.target.classList.toggle('selected-card');
     }
 
+    function selectCardToMove(selected, toPlayer) {
+        if (!!selected) setCardToMove({ ...selected, toPlayer });
+        else setCardToMove();
+    }
+
     function clearSelectedCards() {
-        setSelectedCards([]);
+        setSelectedCards([])
+        setCardToMove();
     }
 
     function shouldDisableDiscardButton() {
@@ -38,7 +53,7 @@ const Modal = ({ G, moves, playerID, enemyPlayerID }) => {
     }
 
     return ReactDOM.createPortal(
-        <div className={`modal ${G.showModal[playerID] ? 'enter-done' : ''}`}>
+        <div className={`modal ${showModalPlayer ? 'enter-done' : ''}`}>
             <div class="modal-content">
                 {G.currentAction === DISCARD_CARD && <>
                     <div class="modal-header">
@@ -108,35 +123,53 @@ const Modal = ({ G, moves, playerID, enemyPlayerID }) => {
 
                 {G.currentAction === CARD_KOBOLD_CREATURE && <>
                     <div class="modal-header">
-                        <h4 class="modal-title">{KOBOLD.name}: Selecione o jogador que irá comprar 2 cartas...</h4>
+                        <h4 class="modal-title">{KOBOLD.name}: Selecione a carta que quer colocar no fundo do baralho...</h4>
                     </div>
                     <div class="modal-body">
                         <h4>INIMIGO</h4>
-                        <section style={{ backgroundColor: '#a81944', display: 'flex', width: '100vw', height: '15vh' }}>
-                            {Object.entries(G.garden[enemyPlayerID]).map((group, index1) => group[1].length ?
-                                (<ul class="garden" key={index1}>
-                                    {group[1].map((card, index2) => (
-                                        <li class="garden-card" key={index2} onClick={() => moves.koboldCardExecute(enemyPlayerID, group[0], index2)}>{card.name}</li>
-                                    ))}
-                                </ul>)
-                                :
-                                <></>
-                            )}
-                        </section>
+                        <Garden
+                            garden={G.garden[enemyPlayerID]}
+                            playerID={enemyPlayerID}
+                            bgColor="#a81944"
+                            onSelectCard={(selected) => selectCardToMove(selected, playerID)}
+                            selectedCard={cardToMove}
+                            showSelectedGarden={false}
+                        />
                         <h4>TEU JARDIM</h4>
-                        <section style={{ backgroundColor: '#ccc', display: 'flex', width: '100vw', height: '15vh' }}>
-                            {Object.entries(G.garden[playerID]).map((group, index1) => group[1].length ?
-                                (<ul class="garden" key={index1}>
-                                    {group[1].map((card, index2) => (
-                                        <li class="garden-card" key={index2} onClick={() => moves.koboldCardExecute(playerID, group[0], index2)}>{card.name}</li>
-                                    ))}
-                                </ul>)
-                                :
-                                <></>
-                            )}
-                        </section>
-                        {/* <button onClick={() => moves.goblinCardExecute(playerID)}>Você</button>
-                        <button onClick={() => moves.goblinCardExecute(enemyPlayerID)}>Inimigo</button> */}
+                        <Garden
+                            garden={G.garden[playerID]}
+                            playerID={playerID}
+                            bgColor="#0a72a8"
+                            onSelectCard={(selected) => selectCardToMove(selected, enemyPlayerID)}
+                            selectedCard={cardToMove}
+                            showSelectedGarden={false}
+                        />
+                        <button disabled={!cardToMove} onClick={() => moves.koboldCardExecute(cardToMove.playerID, cardToMove.group, cardToMove.index)}>mover</button>
+                    </div>
+                </>}
+
+                {G.currentAction === CARD_TROLL_CREATURE && <>
+                    <div class="modal-header">
+                        <h4 class="modal-title">{TROLL.name}: Selecione a carta que deseja mover para o outro jardim...</h4>
+                    </div>
+                    <div class="modal-body">
+                        <h4>INIMIGO</h4>
+                        <Garden
+                            garden={G.garden[enemyPlayerID]}
+                            playerID={enemyPlayerID}
+                            bgColor="#a81944"
+                            onSelectCard={(selected) => selectCardToMove(selected, playerID)}
+                            selectedCard={cardToMove}
+                        />
+                        <h4>TEU JARDIM</h4>
+                        <Garden
+                            garden={G.garden[playerID]}
+                            playerID={playerID}
+                            bgColor="#0a72a8"
+                            onSelectCard={(selected) => selectCardToMove(selected, enemyPlayerID)}
+                            selectedCard={cardToMove}
+                        />
+                        <button disabled={!cardToMove} onClick={() => moves.trollCardExecute(cardToMove.playerID, cardToMove.group, cardToMove.index, cardToMove.toPlayer)}>mover</button>
                     </div>
                 </>}
 

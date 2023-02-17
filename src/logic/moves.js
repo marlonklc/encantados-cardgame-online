@@ -1,5 +1,5 @@
 import {
-    CARD_AUTUMN_SONG, CARD_AUTUMN_SONG_EXECUTE, CARD_GOBLIN_CREATURE, CARD_KOBOLD_CREATURE, CARD_SPRING_SONG, CARD_WINTER_SONG, DISCARD_CARD, DOWN_CARDS,
+    CARD_AUTUMN_SONG, CARD_AUTUMN_SONG_EXECUTE, CARD_GOBLIN_CREATURE, CARD_KOBOLD_CREATURE, CARD_SPRING_SONG, CARD_TROLL_CREATURE, CARD_WINTER_SONG, DISCARD_CARD, DOWN_CARDS,
     SELECT_CARD_FROM_END_TURN_DISCARD, SELECT_CARD_FROM_SEARCH_DISCARD, TAKE_CARDS
 } from './actions';
 import { GROUPS } from './cards';
@@ -147,6 +147,14 @@ export function downCreatureCards({ G, playerID, events }, cards = []) {
         G.showModal[playerID] = true;
         events.setStage('koboldCard');
     }
+
+    if (groupOfCards === GROUPS.trolls) {
+        if (G.trollCardAlreadyPlayed[playerID]) return;
+
+        G.currentAction = CARD_TROLL_CREATURE;
+        G.showModal[playerID] = true;
+        events.setStage('trollCard');
+    }
 }
 
 export function downSongCard({ G, playerID, events }, card) {
@@ -193,11 +201,36 @@ export function goblinCardExecute({ G, playerID, events }, toPlayer) {
 
 export function koboldCardExecute({ G, playerID, events }, toPlayer, groupOfCard, index) {
     const cardRemoved = G.garden[toPlayer][groupOfCard].splice(index, 1)[0];
-    
+
     G.deck.unshift(cardRemoved);
     G.currentAction = DOWN_CARDS;
     G.showModal[playerID] = false;
     G.koboldCardAlreadyPlayed[playerID] = true;
+
+    events.setStage('downCards');
+}
+
+export function trollCardExecute({ G, playerID, events }, fromPlayer, groupOfCard, index, toPlayer) {
+    const cardMoved = G.garden[fromPlayer][groupOfCard][index];
+
+    if (!!cardMoved.group) {
+        G.garden[toPlayer][cardMoved.group].push(cardMoved);
+        G.garden[fromPlayer][groupOfCard].splice(index, 1);
+    } else {
+        _.forEach(Object.entries(G.garden[toPlayer]), (group) => {
+            const mimicCards = group[1].filter(card => !card.group);
+
+            if (group[1].length > 1 && !mimicCards.length) {
+                G.garden[toPlayer][group[0]].push(cardMoved);
+                G.garden[fromPlayer][groupOfCard].splice(index, 1);
+                return false;
+            }
+        });
+    }
+
+    G.currentAction = DOWN_CARDS;
+    G.showModal[playerID] = false;
+    G.trollCardAlreadyPlayed[playerID] = true;
     events.setStage('downCards');
 }
 

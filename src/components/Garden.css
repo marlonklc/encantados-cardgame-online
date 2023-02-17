@@ -1,0 +1,37 @@
+.garden {
+    list-style: none;
+    text-align: center;
+    cursor: pointer;
+    padding: 10px;
+}
+
+.garden-selected {
+    border: 4px solid #000;
+}
+
+.garden-selected::before {
+    content: 'DESTINO';
+    height: 20px;
+    position: relative;
+    z-index: 9999;
+    left: -2px;
+    top: 0px;
+    color: #fff;
+    border: 3px solid #000;
+    border-radius: 3px;
+    background-color: #000;
+}
+
+.garden.garden-card {
+    width: 15%;
+    height: 10%;
+}
+
+.garden-card:hover {
+    transform: scale(1.3);
+    z-index: 9999;
+}
+
+.garden-card.selected-card {
+    transform: scale(1.3);
+}

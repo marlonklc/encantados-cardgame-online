@@ -9,6 +9,7 @@ import {
     selectCardFromDiscard,
     goblinCardExecute,
     koboldCardExecute,
+    trollCardExecute,
     springSongCardExecute,
     autumnSongCardSelectPlayer,
     autumnSongCardExecute,
@@ -27,10 +28,11 @@ export const Game = {
             deckDiscardEndTurn: [TROLL],
             tempDeck: [],
             garden: initializeGarden(ctx.numPlayers),
-            hand: Array(ctx.numPlayers).fill([TROLL, KOBOLD, KOBOLD, KOBOLD]),
+            hand: Array(ctx.numPlayers).fill([KOBOLD, KOBOLD, MIMIC]),
             currentAction: TAKE_CARDS,
             goblinCardAlreadyPlayed: Array(ctx.numPlayers).fill(false),
             koboldCardAlreadyPlayed: Array(ctx.numPlayers).fill(false),
+            trollCardAlreadyPlayed: Array(ctx.numPlayers).fill(false),
             playerAlreadyDownedSongCard: false,
             playerAlreadyDownedCreatureCard: false,
             playerSourceAction: undefined,
@@ -67,6 +69,9 @@ export const Game = {
             },
             koboldCard: {
                 moves: { koboldCardExecute }
+            },
+            trollCard: {
+                moves: { trollCardExecute }
             },
             springSongCard: {
                 moves: { springSongCardExecute, takeCardsFromSearch }

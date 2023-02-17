@@ -1,4 +1,4 @@
-import { CARD_AUTUMN_SONG, CARD_GOBLIN_CREATURE, CARD_KOBOLD_CREATURE, CARD_SPRING_SONG, CARD_WINTER_SONG, NONE } from './actions';
+import { CARD_AUTUMN_SONG, CARD_GOBLIN_CREATURE, CARD_KOBOLD_CREATURE, CARD_SPRING_SONG, CARD_TROLL_CREATURE, CARD_WINTER_SONG, NONE } from './actions';
 
 const Card = (name, value, image, description, group = undefined, isSong = false, action = NONE) => ({
     name, value, image, description, group, isSong, action
@@ -27,8 +27,7 @@ export const WISP = Card("Fogos-fátuos", 2, "/images/", "Se ao menos 2 fogos-f�
 export const GNOME = Card("Gnomos", 3, "/images/", "Ao executar uma busca, se ao menos 2 gnomos estiverem no seu jardim, você pode escolher qualquer carta para descartar.", GROUPS.gnomes);
 export const GOBLIN = Card("Goblins", 3, "/images/", "Quando o primeiro goblin entrar em seu jardim, escolha um jogador para comprar 2 cartas.", GROUPS.goblins, false, CARD_GOBLIN_CREATURE);
 export const KOBOLD = Card("Kobolds", 2, "/images/", "Quando o primeiro kobold entrar em seu jardim, você deve escolher uma carta de qualquer jardim e colocar no fundo do baralho.", GROUPS.kobolds, false, CARD_KOBOLD_CREATURE);
-
-export const TROLL = Card("Trolls", 0, "/images/duke.png", "Na primeira vez que um Troll entrar no seu jardim, escolha uma carta em jogo e coloque-a em qualquer jardim.", GROUPS.trolls);
+export const TROLL = Card("Trolls", 0, "/images/duke.png", "Na primeira vez que um Troll entrar no seu jardim, escolha uma carta em jogo e coloque-a em qualquer jardim.", GROUPS.trolls, false, CARD_TROLL_CREATURE);
 export const MIMIC = Card("Mímicos", -3, "/images/assassin.png");
 
 export const SPRING_SONG = Card("Canção da primavera", 0, "/images/spring-song-card.png", "Escolha um jogador para fazer uma busca.", GROUPS.songs, true, CARD_SPRING_SONG);
@@ -36,4 +35,4 @@ export const SUMMER_SONG = Card("Canção do verão", -3, "/images/summer-song-c
 export const AUTUMN_SONG = Card("Canção de outono", 0, "/images/autumn-song-card.png", "Escolha um jogador para comprar as 4 cartas do topo de uma das pilhas de descarte.", GROUPS.songs, true, CARD_AUTUMN_SONG);
 export const WINTER_SONG = Card("Canção de inverno", 0, "/images/winter-song-card.png", "Compre a carta do topo de uma pilha de descarte e em seguida faça uma busca.", GROUPS.songs, true, CARD_WINTER_SONG);
 
-export const cards = [DWARF, ELF, TROLL, MIMIC, SPRING_SONG, AUTUMN_SONG, WINTER_SONG];
+export const cards = [DWARF, ELF, FAIRY, FAUN, LEPRECHAUN, WISP, GNOME, GOBLIN, KOBOLD, TROLL, MIMIC, SPRING_SONG, SUMMER_SONG, AUTUMN_SONG, WINTER_SONG];

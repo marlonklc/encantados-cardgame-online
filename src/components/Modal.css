@@ -11,6 +11,7 @@
     opacity: 0;
     transition: all 0.3s ease-in-out;
     pointer-events: none;
+    z-index: 1000;
 }
 
 .modal.enter-done {
@@ -20,9 +21,13 @@
 
 .modal-content {
     width: 98vw;
-    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     transition: all 0.3s ease-in-out;
     transform: scale(0);
+    z-index: 1001;
 }
 
 .modal.enter-done .modal-content {
@@ -31,6 +36,7 @@
 
 .modal-header,
 .modal-footer {
+    color: #fff;
     padding: 10px;
 }
 
@@ -39,7 +45,15 @@
 }
 
 .modal-body {
+    background: #fff;
     padding: 10px;
     border-top: 1px solid #eee;
     border-bottom: 1px solid #eee;
+}
+
+.card {
+    border: 1px solid #000;
+    text-align: center;
+    min-width: 100px;
+    min-height: 50px;
 }

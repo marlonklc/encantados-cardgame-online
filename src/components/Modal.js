@@ -8,19 +8,32 @@ import { AUTUMN_SONG, GOBLIN, GROUPS, KOBOLD, SPRING_SONG, TROLL } from '../logi
 import Garden from './Garden';
 import './Modal.css';
 
-const Modal = ({ G, moves, playerID, enemyPlayerID }) => {
+const Modal = ({ G = {}, show, moves = {}, playerID, enemyPlayerID, isCloseable = false, content = '', onClose }) => {
 
     const [selectedCards, setSelectedCards] = useState([]);
     const [cardToMove, setCardToMove] = useState();
 
-    const showModalPlayer = G.showModal[playerID];
-
     useEffect(() => {
         setSelectedCards([]);
         setCardToMove();
-    }, [showModalPlayer])
+    }, [show]);
 
-    const hasElvesOnGarden = G.garden[playerID][GROUPS.elves].filter(card => card.group === GROUPS.elves).length >= 2;
+    const closeOnEscapeKeyDown = e => {
+        if ((e.charCode || e.keyCode) === 27) {
+            onClose();
+        }
+    };
+
+    useEffect(() => {
+        if (isCloseable) {
+            document.body.addEventListener("keydown", closeOnEscapeKeyDown);
+            return function cleanup() {
+                document.body.removeEventListener("keydown", closeOnEscapeKeyDown);
+            };
+        }
+    }, []);
+
+    const hasElvesOnGarden = G.garden ? G.garden[playerID][GROUPS.elves].filter(card => card.group === GROUPS.elves).length >= 2 : false;
 
     async function selectCard(card, event, index) {
         event.preventDefault();
@@ -53,8 +66,9 @@ const Modal = ({ G, moves, playerID, enemyPlayerID }) => {
     }
 
     return ReactDOM.createPortal(
-        <div className={`modal ${showModalPlayer ? 'enter-done' : ''}`}>
+        <div className={`modal ${show ? 'enter-done' : ''}`} onClick={isCloseable ? () => onClose() : undefined}>
             <div class="modal-content">
+                {content}
                 {G.currentAction === DISCARD_CARD && <>
                     <div class="modal-header">
                         <h4 class="modal-title">BUSCA - Selecione {hasElvesOnGarden ? 'duas cartas' : 'uma carta'} para o DESCARTE...</h4>

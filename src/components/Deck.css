@@ -1,0 +1,109 @@
+.deck {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    min-height: 150px;
+    height: 20vh;
+}
+
+.deck-item {
+    width: 20vw;
+    height: 100%;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.deck-item b {
+    text-shadow: 0 0 5px #000;
+}
+
+.deck-item button {
+    margin-top: 5px;
+    padding: 5px;
+    border: none;
+    border-radius: 15px;
+    background: rgb(38, 21, 13);
+    background: radial-gradient(circle, rgba(38, 21, 13, 1) 8%, rgba(52, 33, 16, 1) 45%);
+    height: 60px;
+    color: #e0e4e8;
+    cursor: pointer;
+    font-size: 0.8em;
+}
+
+.deck-item button:hover {
+    text-shadow:
+        0px -1px 5px #775787,
+        0px 1px 5px #775787,
+        -1px 0px 5px #775787,
+        1px 0px 5px #775787;
+
+    box-shadow: 0px -1px 5px #775787,
+        0px 1px 5px #775787,
+        -1px 0px 5px #775787,
+        1px 0px 5px #775787;
+}
+
+.deck-item-image {
+    position: relative;
+}
+
+.deck-item-image img {
+    box-shadow: 0 0 5px #000;
+    height: 100%;
+}
+
+.deck-item-image i {
+    color: #fff;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: rgb(255, 255, 255, 0.3);
+    display: flex;
+    opacity: 0;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.deck-item-image i svg {
+    color: #000;
+    font-size: 2.5em;
+}
+
+.deck-item-image i:hover {
+    opacity: 1;
+}
+
+.modal-cards-title {
+    color: #EDD63B;
+    text-shadow: 0 0 5px #fff;
+}
+
+.modal-cards-list {
+    display: flex;
+    width: 95vw;
+    height: auto;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1vw;
+}
+
+.modal-cards-list img {
+    max-width: 9vw;
+    min-width: 4vw;
+    transition: all 0.2s linear;
+    cursor: zoom-in;
+}
+
+.modal-cards-list img:hover {
+    transform: scale(1.9);
+    -webkit-transition-delay: 1s;
+    transition-delay: 1s;
+}

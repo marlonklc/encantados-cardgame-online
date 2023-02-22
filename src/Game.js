@@ -24,11 +24,11 @@ export const Game = {
         return ({
             deck: initializeDeck({ random }),
             alert: '',
-            deckDiscardSearch: [WINTER_SONG, MIMIC, DWARF],
+            deckDiscardSearch: [WINTER_SONG, MIMIC, DWARF,WINTER_SONG, MIMIC, DWARF,WINTER_SONG, MIMIC],
             deckDiscardEndTurn: [TROLL],
             tempDeck: [],
             garden: initializeGarden(ctx.numPlayers),
-            hand: Array(ctx.numPlayers).fill([KOBOLD, KOBOLD, MIMIC, TROLL, TROLL, TROLL, TROLL, TROLL, TROLL, AUTUMN_SONG]),
+            hand: Array(ctx.numPlayers).fill([KOBOLD, KOBOLD, MIMIC, TROLL, TROLL, TROLL, TROLL, TROLL, TROLL]),
             currentAction: TAKE_CARDS,
             goblinCardAlreadyPlayed: Array(ctx.numPlayers).fill(false),
             koboldCardAlreadyPlayed: Array(ctx.numPlayers).fill(false),

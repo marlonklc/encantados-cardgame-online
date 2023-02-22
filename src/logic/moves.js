@@ -32,7 +32,6 @@ export function takeCardsFromSearch({ G, playerID, events }, toPlayer = playerID
 }
 
 export function discardToSearch({ G, playerID, events }, cards) {
-    console.log('olaaaaaaaa');
     const hasElvesOnGarden = hasCreatureOnGarden(G.garden[playerID], GROUPS.elves);
 
     if (hasElvesOnGarden && cards.length > 2) return;

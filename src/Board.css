@@ -38,18 +38,16 @@ button {
 
 .deck-area {
     width: 100vw;
-    height: 25vh;
+    height: 28vh;
     z-index: 999;
-    margin: 1vh 0;
 }
 
 .player-area {
     width: 100vw;
-    height: 45vh;
+    height: 42vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-around;
 }
 
 .image-background {

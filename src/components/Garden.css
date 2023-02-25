@@ -1,6 +1,7 @@
 .garden {
     display: flex;
     height: 50%;
+    margin-top: 2vh;
 }
 
 .garden-selected {
@@ -27,7 +28,7 @@
 }
 
 .garden-item li {
-    max-height: 3vh;
+    max-height: 2vh;
 }
 
 .garden-item li img {

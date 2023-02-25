@@ -27,12 +27,11 @@
 
 .hand-card b {
     position: relative;
-    top: 40px;
-    left: 9px;
-    font-size: .7em;
+    top: 18px;
+    left: 0px;
+    font-size: .5em;
     color: #fff;
     background: #000;
-    padding-right: 30px;
 }
 
 .hand-card i {

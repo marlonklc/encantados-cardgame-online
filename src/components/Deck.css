@@ -3,34 +3,30 @@
     align-items: center;
     justify-content: center;
     width: 100vw;
-    min-height: 150px;
-    height: 20vh;
 }
 
 .deck-item {
-    width: 20vw;
-    height: 100%;
-    color: #EDD63B;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
+    width: 20vw;
 }
 
 .deck-item b {
     text-shadow: 0 0 5px #000;
+    font-size: 0.65em;
+    color: #EDD63B;
 }
 
 .deck-item button {
-    margin-top: 5px;
-    padding: 5px;
-    border-radius: 15px;
+    border-radius: 10px;
     background: rgb(38, 21, 13);
     background: radial-gradient(circle, rgba(38, 21, 13, 1) 8%, rgba(52, 33, 16, 1) 45%);
-    height: 60px;
     color: #e0e4e8;
     cursor: pointer;
-    font-size: 0.8em;
+    font-size: 0.6em;
+    padding: 5px;
 }
 
 .deck-item button:hover {
@@ -48,21 +44,23 @@
 
 .deck-item-image {
     margin: 10px 0;
+    width: 7vw;
     position: relative;
 }
 
 .deck-item-image img {
     box-shadow: 0 0 5px #000;
-    height: 100%;
+    width: 100%;
 }
 
 .deck-item-stack {
     margin: 10px 0;
+    width: 7vw;
     position: relative;
 }
 
 .deck-item-stack img {
-    height: 100%;
+    width: 100%;
 }
 
 .deck-item-stack img:nth-child(1) {
@@ -75,16 +73,16 @@
 
 .deck-item-stack img:nth-child(2) {
     position: absolute;
-    left: 4px;
-    top: 4px;
+    left: 3px;
+    top: 3px;
     box-shadow: 1px 1px 5px #000;
     z-index: 700;
 }
 
 .deck-item-stack img:nth-child(3) {
     position: absolute;
-    left: 8px;
-    top: 8px;
+    left: 6px;
+    top: 6px;
     box-shadow: 1px 1px 5px #000;
     z-index: 600;
 }
@@ -92,7 +90,7 @@
 .deck-item-image i {
     color: #fff;
     width: 100%;
-    height: 100%;
+    height: 93%;
     position: absolute;
     top: 0;
     left: 0;
@@ -106,7 +104,7 @@
 
 .deck-item-image i svg {
     color: #000;
-    font-size: 2.5em;
+    font-size: 1.7em;
 }
 
 .deck-item-image i:hover {

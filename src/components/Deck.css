@@ -10,12 +10,12 @@
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    width: 20vw;
+    width: 15vw;
 }
 
 .deck-item b {
     text-shadow: 0 0 5px #000;
-    font-size: 0.65em;
+    font-size: 0.75em;
     color: #EDD63B;
 }
 
@@ -44,7 +44,7 @@
 
 .deck-item-image {
     margin: 10px 0;
-    width: 7vw;
+    width: 5vw;
     position: relative;
 }
 
@@ -55,7 +55,7 @@
 
 .deck-item-stack {
     margin: 10px 0;
-    width: 7vw;
+    width: 5vw;
     position: relative;
 }
 

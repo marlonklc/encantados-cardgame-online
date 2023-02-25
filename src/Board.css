@@ -21,26 +21,35 @@ button {
     height: 100vh;
     display: flex;
     flex-direction: column;
+    /* background: url('http://localhost:3000/images/florest-bg.jpg');
+    background-repeat: no-repeat;
+    background-position: right top;
+    background-attachment: fixed; */
 }
 
 .enemy-area {
     width: 100vw;
-    height: 35vh;
+    margin-top: 1vh;
+    height: 30vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .deck-area {
     width: 100vw;
-    height: 28vh;
+    height: 25vh;
     z-index: 999;
+    margin: 1vh 0;
 }
 
 .player-area {
     width: 100vw;
-    height: 35vh;
+    height: 45vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-around;
 }
 
 .image-background {
@@ -56,7 +65,7 @@ button {
 
 /*
 ANIMATION 
-*/ 
+*/
 
 .bg-lights {
     z-index: 1;

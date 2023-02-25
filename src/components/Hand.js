@@ -6,7 +6,7 @@ import { DOWN_CARDS } from '../logic/actions';
 import { HiOutlineArrowsExpand } from 'react-icons/hi';
 import Modal from './Modal';
 
-const Hand = ({ hand, gardens, G, ctx, isActive, playerID, enemyPlayerID, moves }) => {
+const Hand = ({ hand, gardens, G, ctx, isActive, playerID, enemyPlayerID, moves, isEnemy = false }) => {
 
     const [selectedCards, setSelectedCards] = useState([]);
     const [showExpandedCard, setShowExpandedCard] = useState(false);
@@ -30,7 +30,7 @@ const Hand = ({ hand, gardens, G, ctx, isActive, playerID, enemyPlayerID, moves 
     }
 
     function showCardExpanded(card) {
-        setModalExpandedCard(<img src={card.imageExpanded} alt={card.name}/>);
+        setModalExpandedCard(<img src={card.imageExpanded} alt={card.name} />);
         setShowExpandedCard(true);
     }
 
@@ -59,18 +59,22 @@ const Hand = ({ hand, gardens, G, ctx, isActive, playerID, enemyPlayerID, moves 
         <div class="hand">
             {hand.map((card, index) => (
                 <div key={index}
-                    className={`hand-card ${selectedCards.find(c => c.index === index) ? 'selected-card' : ''}`}
+                    className={`${isEnemy ? 'hand-card-enemy' : 'hand-card'} ${selectedCards.find(c => c.index === index) && !isEnemy ? 'selected-card' : ''}`}
                 >
-                    <i onClick={() => showCardExpanded(card)}><HiOutlineArrowsExpand /></i>
-                    <b>{card.name}</b>
-                    <img src={card.image} alt={card.name} onClick={isActive ? e => selectCard(e, card, index) : undefined}/>
+                    {!isEnemy && <i onClick={() => showCardExpanded(card)}><HiOutlineArrowsExpand /></i>}
+                    {!isEnemy && <b>{card.name}</b>}
+                    {isEnemy ?
+                        <img src="/images/cover.png" alt="cover card" />
+                        :
+                        <img src={card.image} alt={card.name} onClick={isActive ? e => selectCard(e, card, index) : undefined} />
+                    }
                 </div>
             ))}
 
-            {isActive && <div class="hand-action">
+            {isActive && !isEnemy && <div class="hand-action">
                 <button
                     disabled={shouldDisableDownCreatures()}
-                    hidden={G.currentAction !== DOWN_CARDS ||  !selectedCards.length || selectedCards.some(c => c.isSong) || !!G.playerAlreadyDownedCreatureCard}
+                    hidden={G.currentAction !== DOWN_CARDS || !selectedCards.length || selectedCards.some(c => c.isSong) || !!G.playerAlreadyDownedCreatureCard}
                     onClick={() => {
                         moves.downCreatureCards(selectedCards);
                         clearSelectedCards()
@@ -94,7 +98,7 @@ const Hand = ({ hand, gardens, G, ctx, isActive, playerID, enemyPlayerID, moves 
                 >descarte final turno</button>
             </div>}
 
-            <Modal show={showExpandedCard} content={modalExpandedCard} isCloseable={true} onClose={closeCardExpanded} />
+            {!isEnemy && <Modal show={showExpandedCard} content={modalExpandedCard} isCloseable={true} onClose={closeCardExpanded} />}
         </div>
     );
 };

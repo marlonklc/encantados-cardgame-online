@@ -5,9 +5,8 @@
     width: 100vw;
 }
 
-.hand-card {
+.hand-card, .hand-card-enemy {
     width: 5vw;
-    max-width: 120px;
     z-index: 999;
     margin: 0 0.3vw;
     cursor: pointer;
@@ -17,15 +16,19 @@
     position: relative;
 }
 
+.hand-card-enemy {
+    width: 3vw; 
+}
+
 .hand-card.selected-card {
     transform: scale(1.1);
 }
 
-.hand-card img {
+.hand-card img, .hand-card-enemy img {
     width: 100%;
 }
 
-.hand-card b {
+.hand-card b, .hand-card-enemy b {
     position: relative;
     top: 18px;
     left: 0px;

@@ -47,10 +47,11 @@ export function Board({ ctx, G, moves, playerID, redo, sendChatMessage, matchDat
             {/* <h4>current player: {playerID} ({isActive}{isConnected}) - msg: {G.alert}</h4> */}
 
              <section class="enemy-area">
-                {/*
-                <h4>INIMIGO</h4>
+                
+                <Hand hand={G.hand[enemyPlayerID]} isEnemy={true}/>
+
                 <Garden garden={G.garden[enemyPlayerID]} bgColor="#a81944"/>
-                */}
+                
             </section> 
 
             <section class="deck-area">
@@ -58,8 +59,9 @@ export function Board({ ctx, G, moves, playerID, redo, sendChatMessage, matchDat
             </section>
 
             <section class="player-area">
-                {/* <h4>TEU JARDIM</h4>*/}
-                <Garden garden={G.garden[playerID]} bgColor="#0a72a8"/> 
+                
+                <Garden garden={G.garden[playerID]} bgColor="#0a72a8"/>
+
                 <Hand
                     ctx={ctx}
                     hand={G.hand[playerID]}

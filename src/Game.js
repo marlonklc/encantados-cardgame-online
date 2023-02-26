@@ -1,4 +1,4 @@
-import { TAKE_CARDS } from './logic/actions';
+import { DOWN_CARDS, TAKE_CARDS } from './logic/actions';
 import { 
     takeCardsFromSearch,
     downCreatureCards,
@@ -28,7 +28,7 @@ export const Game = {
             deckDiscardEndTurn: [TROLL, GNOME],
             tempDeck: [],
             garden: initializeGarden(ctx.numPlayers),
-            hand: Array(ctx.numPlayers).fill([KOBOLD, KOBOLD, KOBOLD, MIMIC, TROLL, TROLL, TROLL, TROLL, TROLL, TROLL]),
+            hand: Array(ctx.numPlayers).fill([GOBLIN, GOBLIN, MIMIC, TROLL, TROLL, TROLL, WINTER_SONG]),
             currentAction: TAKE_CARDS,
             goblinCardAlreadyPlayed: Array(ctx.numPlayers).fill(false),
             koboldCardAlreadyPlayed: Array(ctx.numPlayers).fill(false),

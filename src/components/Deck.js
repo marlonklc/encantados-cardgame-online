@@ -39,7 +39,7 @@ const Deck = ({ G, moves, playerID, isActive }) => {
             <div class="deck-item">
                 <b>descarte busca ({G.deckDiscardSearch.length})</b>
                 <div class="deck-item-image" onClick={() => showModal('search')}>
-                    <b>{G.deckDiscardSearch.slice(-1)[0].name}</b>
+                    <b>{G.deckDiscardSearch.slice(-1)[0]?.name}</b>
                     {!G.deckDiscardSearch.length ?
                         <img src="/images/cover.png" alt="cover card" /> : <img src={G.deckDiscardSearch.slice(-1)[0].image} alt="discard card" />
                     }
@@ -62,7 +62,7 @@ const Deck = ({ G, moves, playerID, isActive }) => {
             <div class="deck-item">
                 <b>descarte fim turno ({G.deckDiscardEndTurn.length})</b>
                 <div class="deck-item-image" onClick={() => showModal('endTurn')}>
-                    <b>{G.deckDiscardEndTurn.slice(-1)[0].name}</b>
+                    <b>{G.deckDiscardEndTurn.slice(-1)[0]?.name}</b>
                     {!G.deckDiscardEndTurn.length ?
                         <img src="/images/cover.png" alt="cover card" /> : <img src={G.deckDiscardEndTurn.slice(-1)[0].image} alt="discard card" />
                     }

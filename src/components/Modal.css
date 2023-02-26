@@ -41,6 +41,11 @@
 
 .modal-title {
     margin: 0;
+    text-align: center;
+}
+
+.modal-title b {
+    color: #d2bef9;
 }
 
 .modal-body {
@@ -57,8 +62,32 @@
     color: #f22;
 }
 
+.enemy-button-custom {
+    margin: 0 2vw;
+    padding: 2vw;
+    font-size: 1.2em;
+    text-transform: uppercase;
+}
+
+.button.enemy-button-custom:hover {
+    text-shadow: 0 0 5px #f22;
+    box-shadow: 0 0 15px #f22;
+}
+
 .player-font-color {
     color: #5e5eff;
+}
+
+.player-button-custom {
+    margin: 0 2vw;
+    padding: 2vw;
+    font-size: 1.2em;
+    text-transform: uppercase;
+}
+
+.button.player-button-custom:hover {
+    text-shadow: 0 0 5px #5e5eff;
+    box-shadow: 0 0 15px #5e5eff;
 }
 
 .card {

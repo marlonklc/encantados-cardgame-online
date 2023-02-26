@@ -4,10 +4,11 @@ import {
     CARD_AUTUMN_SONG, CARD_AUTUMN_SONG_EXECUTE, CARD_GOBLIN_CREATURE, CARD_KOBOLD_CREATURE, CARD_SPRING_SONG, CARD_TROLL_CREATURE, CARD_WINTER_SONG, DISCARD_CARD,
     SELECT_CARD_FROM_END_TURN_DISCARD, SELECT_CARD_FROM_SEARCH_DISCARD
 } from '../logic/actions';
-import { AUTUMN_SONG, GOBLIN, GROUPS, KOBOLD, SPRING_SONG, TROLL } from '../logic/cards';
+import { AUTUMN_SONG, DWARF, GOBLIN, GROUPS, KOBOLD, SPRING_SONG, TROLL, WINTER_SONG } from '../logic/cards';
 import Button from './Button';
 import CardList from './CardList';
 import Garden from './Garden';
+import Hand from './Hand';
 import './Modal.css';
 
 const Modal = ({ G = {}, show, moves = {}, playerID, enemyPlayerID, isCloseable = false, content = '', onClose }) => {
@@ -73,12 +74,13 @@ const Modal = ({ G = {}, show, moves = {}, playerID, enemyPlayerID, isCloseable 
                 {content}
                 {G.currentAction === DISCARD_CARD && <>
                     <div class="modal-header">
-                        <h4 class="modal-title">[Ação Busca] Selecione {hasElvesOnGarden ? 'duas cartas' : 'uma carta'} para o DESCARTE...</h4>
+                        <h4 class="modal-title"><b>[Ação Busca]</b> Selecione {hasElvesOnGarden ? 'duas cartas' : 'uma carta'} para o DESCARTE...</h4>
                     </div>
                     <div class="modal-body">
                         <CardList cards={G.tempDeck} maxSelected={1} onSelectCard={(cards) => setSelectedCards(cards)}>
-                            <Button text="descartar"
-                                disable={selectedCards.length !== 1}
+                            <Button
+                                text="descartar"
+                                disable={shouldDisableDiscardButton()}
                                 onClick={() => {
                                     moves.discardToSearch(selectedCards);
                                     clearSelectedCards();
@@ -90,57 +92,86 @@ const Modal = ({ G = {}, show, moves = {}, playerID, enemyPlayerID, isCloseable 
 
                 {G.currentAction === CARD_SPRING_SONG && <>
                     <div class="modal-header">
-                        <h4 class="modal-title">[Ação {SPRING_SONG.name}] Selecione o jogador que fará a compra.</h4>
+                        <h4 class="modal-title"><b>[Ação {SPRING_SONG.name}]</b> Selecione o jogador que fará a compra.</h4>
                     </div>
                     <div class="modal-body">
-                        <button onClick={() => moves.springSongCardExecute(playerID)}>Você</button>
-                        <button onClick={() => moves.springSongCardExecute(enemyPlayerID)}>Inimigo</button>
+                        <Button
+                            text="Você"
+                            onClick={() => moves.springSongCardExecute(playerID)}
+                            customClass="player-font-color player-button-custom"
+                        />
+                        <Button
+                            text="Inimigo"
+                            onClick={() => moves.springSongCardExecute(enemyPlayerID)}
+                            customClass="enemy-font-color enemy-button-custom"
+                        />
                     </div>
                 </>}
 
                 {G.currentAction === CARD_AUTUMN_SONG && <>
                     <div class="modal-header">
-                        <h4 class="modal-title">[Ação {AUTUMN_SONG.name}] Selecione o jogador que comprará as 4 cartas do topo de qualquer pilha de descarte.</h4>
+                        <h4 class="modal-title"><b>[Ação {AUTUMN_SONG.name}]</b> Selecione o jogador que comprará as 4 cartas do topo de qualquer pilha de descarte.</h4>
                     </div>
                     <div class="modal-body">
-                        <button onClick={() => moves.autumnSongCardSelectPlayer(playerID)}>Você</button>
-                        <button onClick={() => moves.autumnSongCardSelectPlayer(enemyPlayerID)}>Inimigo</button>
+                        <Button
+                            text="Você"
+                            onClick={() => moves.autumnSongCardSelectPlayer(playerID)}
+                            customClass="player-font-color player-button-custom"
+                        />
+                        <Button
+                            text="Inimigo"
+                            onClick={() => moves.autumnSongCardSelectPlayer(enemyPlayerID)}
+                            customClass="enemy-font-color enemy-button-custom"
+                        />
                     </div>
                 </>}
 
                 {G.currentAction === CARD_AUTUMN_SONG_EXECUTE && <>
                     <div class="modal-header">
-                        <h4 class="modal-title">[Ação {AUTUMN_SONG.name}] Selecione qual pilha de descarte você quer pegar.</h4>
+                        <h4 class="modal-title"><b>[Ação {AUTUMN_SONG.name}]</b> Selecione qual pilha de descarte você quer pegar.</h4>
                     </div>
                     <div class="modal-body">
-                        <div>
-                            <button onClick={() => moves.autumnSongCardExecute('search')}>descarte de compra</button>
-                            {G.deckDiscardSearch.slice(-4).map((card, index) => (
-                                <div key={index} class="card">{card.name}</div>
-                            ))}
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                            <Button
+                                text="pegar descarte de compra"
+                                onClick={() => moves.autumnSongCardExecute('search')}
+                            />
+
+                            <Hand hand={G.deckDiscardSearch.slice(-4)} />
                         </div>
-                        <div>
-                            <button onClick={() => moves.autumnSongCardExecute('endTurn')}>descarte de fim de turno</button>
-                            {G.deckDiscardEndTurn.slice(-4).map((card, index) => (
-                                <div key={index} class="card">{card.name}</div>
-                            ))}
+
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '7vh' }}>
+                            <Button
+                                text="pegar descarte de fim de turno"
+                                onClick={() => moves.autumnSongCardExecute('endTurn')}
+                            />
+
+                            <Hand hand={G.deckDiscardEndTurn.slice(-4)} />
                         </div>
                     </div>
                 </>}
 
                 {G.currentAction === CARD_GOBLIN_CREATURE && <>
                     <div class="modal-header">
-                        <h4 class="modal-title">[Ação {GOBLIN.name}] Selecione o jogador que irá comprar 2 cartas...</h4>
+                        <h4 class="modal-title"><b>[Ação {GOBLIN.name}]</b> Selecione o jogador que irá comprar 2 cartas...</h4>
                     </div>
                     <div class="modal-body">
-                        <button onClick={() => moves.goblinCardExecute(playerID)}>Você</button>
-                        <button onClick={() => moves.goblinCardExecute(enemyPlayerID)}>Inimigo</button>
+                        <Button
+                            text="Você"
+                            onClick={() => moves.goblinCardExecute(playerID)}
+                            customClass="player-font-color player-button-custom"
+                        />
+                        <Button
+                            text="Inimigo"
+                            onClick={() => moves.goblinCardExecute(enemyPlayerID)}
+                            customClass="enemy-font-color enemy-button-custom"
+                        />
                     </div>
                 </>}
 
                 {G.currentAction === CARD_KOBOLD_CREATURE && <>
                     <div class="modal-header">
-                        <h4 class="modal-title">[Ação {KOBOLD.name}] Selecione a carta que quer colocar no fundo do baralho...</h4>
+                        <h4 class="modal-title"><b>[Ação {KOBOLD.name}]</b> Selecione a carta que quer colocar no fundo do baralho...</h4>
                     </div>
                     <div class="modal-body">
                         <h4 class="enemy-font-color">INIMIGO</h4>
@@ -171,7 +202,7 @@ const Modal = ({ G = {}, show, moves = {}, playerID, enemyPlayerID, isCloseable 
 
                 {G.currentAction === CARD_TROLL_CREATURE && <>
                     <div class="modal-header">
-                        <h4 class="modal-title">[Ação {TROLL.name}] Selecione a carta que deseja mover...</h4>
+                        <h4 class="modal-title"><b>[Ação {TROLL.name}]</b> Selecione a carta que deseja mover...</h4>
                     </div>
                     <div class="modal-body">
                         <h4 class="enemy-font-color">INIMIGO</h4>
@@ -200,47 +231,69 @@ const Modal = ({ G = {}, show, moves = {}, playerID, enemyPlayerID, isCloseable 
 
                 {G.currentAction === CARD_WINTER_SONG && <>
                     <div class="modal-header">
-                        <h4 class="modal-title">{playerID !== G.playerSourceAction ?
-                            'Você foi selecionado pra executar a ação da Canção de inverno. Selecione a carta de uma pilha de descarte.'
-                            :
-                            'Selecione a carta de uma pilha de descarte.'
-                        }</h4>
+                        <h4 class="modal-title">
+                            <b>[Ação {WINTER_SONG.name}]</b> Selecione a carta de uma pilha de descarte.
+                            {/* {playerID !== G.playerSourceAction ?
+                                ' Você foi escolhido! Selecione a carta de uma pilha de descarte.'
+                                :
+                                ' Selecione a carta de uma pilha de descarte.'
+                            } */}
+                        </h4>
                     </div>
                     <div class="modal-body">
-                        <div>
-                            <button onClick={() => moves.winterSongCardExecute('search')}>descarte de compra</button>
-                            {G.deckDiscardSearch.slice(-1).map((card, index) => (
-                                <div key={index} class="card">{card.name}</div>
-                            ))}
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                            <Button
+                                text="pegar descarte de compra"
+                                onClick={() => moves.winterSongCardExecute('search')}
+                            />
+
+                            <Hand hand={G.deckDiscardSearch.slice(-1)} />
                         </div>
-                        <div>
-                            <button onClick={() => moves.winterSongCardExecute('endTurn')}>descarte de fim de turno</button>
-                            {G.deckDiscardEndTurn.slice(-1).map((card, index) => (
-                                <div key={index} class="card">{card.name}</div>
-                            ))}
+
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '7vh' }}>
+                            <Button
+                                text="pegar descarte de fim de turno"
+                                onClick={() => moves.winterSongCardExecute('endTurn')}
+                            />
+
+                            <Hand hand={G.deckDiscardEndTurn.slice(-1)} />
                         </div>
                     </div>
                 </>}
 
                 {G.currentAction === SELECT_CARD_FROM_SEARCH_DISCARD && <>
                     <div class="modal-header">
-                        <h4 class="modal-title">Escolha a carta do descarte de compras...</h4>
+                        <h4 class="modal-title"><b>[Ação {DWARF.name}]</b> Escolha uma carta do descarte de compras...</h4>
                     </div>
                     <div class="modal-body">
-                        {G.deckDiscardSearch.map((card, index) => (
-                            <div key={index} class="card" onClick={() => moves.selectCardFromDiscard('search', index)}>{card.name}</div>
-                        ))}
+                        <CardList cards={G.deckDiscardSearch} maxSelected={1} onSelectCard={(cards) => setSelectedCards(cards)}>
+                            <Button
+                                text="pegar"
+                                disable={selectedCards.length !== 1}
+                                onClick={() => {
+                                    moves.selectCardFromDiscard('search', selectedCards[0].index);
+                                    clearSelectedCards();
+                                }}
+                            />
+                        </CardList>
                     </div>
                 </>}
 
                 {G.currentAction === SELECT_CARD_FROM_END_TURN_DISCARD && <>
                     <div class="modal-header">
-                        <h4 class="modal-title">Escolha a carta do descarte de fim de turno...</h4>
+                        <h4 class="modal-title"><b>[Ação {DWARF.name}]</b> Escolha uma carta do descarte de fim de turno...</h4>
                     </div>
                     <div class="modal-body">
-                        {G.deckDiscardEndTurn.map((card, index) => (
-                            <div key={index} class="card" onClick={() => moves.selectCardFromDiscard('endTurn', index)}>{card.name}</div>
-                        ))}
+                        <CardList cards={G.deckDiscardEndTurn} maxSelected={1} onSelectCard={(cards) => setSelectedCards(cards)}>
+                            <Button
+                                text="pegar"
+                                disable={selectedCards.length !== 1}
+                                onClick={() => {
+                                    moves.selectCardFromDiscard('endTurn', selectedCards[0].index);
+                                    clearSelectedCards();
+                                }}
+                            />
+                        </CardList>
                     </div>
                 </>}
             </div>

@@ -1,9 +1,9 @@
 import './Button.css';
 
-const Button = ({ text = 'clique...', disable = false, onClick = () => { } }) => {
+const Button = ({ text = 'clique...', disable = false, onClick = () => {}, customClass = '' }) => {
     return (
         <button 
-            class="button" 
+            className={`button ${customClass}`} 
             disabled={disable}
             onClick={onClick}
         >

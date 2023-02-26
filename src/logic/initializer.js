@@ -4,7 +4,7 @@ export function initializeGarden(numberPlayers) {
     const gardens = Array(numberPlayers);
     for (let i = 0; i + 1 <= numberPlayers; i++) {
         gardens[i] = {
-            [GROUPS.dwarves]: [],
+            [GROUPS.dwarves]: [DWARF, DWARF, MIMIC],
             [GROUPS.elves]: [],
             [GROUPS.fairies]: [],
             [GROUPS.fauns]: [],
@@ -28,7 +28,7 @@ export function initializeDeck({ random }) {
     deck.push(TROLL);
     deck.push(MIMIC);
     deck.push(SPRING_SONG);
-    deck.push(AUTUMN_SONG);
+    
     deck.push(WINTER_SONG);
     deck.push(DWARF);
     deck.push(DWARF);
@@ -37,6 +37,8 @@ export function initializeDeck({ random }) {
     deck.push(GNOME);
     deck.push(MIMIC);
     deck.push(GNOME);
+    deck.push(SPRING_SONG);
+    deck.push(AUTUMN_SONG);
     return deck;
     //return random.Shuffle(deck);
 }

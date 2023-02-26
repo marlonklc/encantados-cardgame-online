@@ -10,7 +10,7 @@ export function initializeGarden(numberPlayers) {
             [GROUPS.fauns]: [],
             [GROUPS.wisps]: [],
             [GROUPS.gnomes]: i !== 0 ? [GNOME,GNOME,GNOME, MIMIC] : [],
-            [GROUPS.goblins]: i !== 0 ? [GOBLIN,GOBLIN,MIMIC] : [],
+            [GROUPS.goblins]: i !== 0 ? [GOBLIN] : [],
             [GROUPS.kobolds]: [],
             [GROUPS.leprechauns]: [],
             [GROUPS.trolls]: [],
@@ -36,7 +36,6 @@ export function initializeDeck({ random }) {
     deck.push(DWARF);
     deck.push(GNOME);
     deck.push(MIMIC);
-    deck.push(GNOME);
     deck.push(GNOME);
     return deck;
     //return random.Shuffle(deck);

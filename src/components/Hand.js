@@ -49,8 +49,14 @@ const Hand = ({ hand, gardens, G, ctx, isActive, playerID, enemyPlayerID, moves,
         const mimics = Object.keys(grouped).filter(k => k === 'undefined').flatMap(k => grouped[k]);
         const leprechauns = Object.keys(grouped).filter(k => k === GROUPS.leprechauns).flatMap(k => grouped[k]);
 
-        if (!!leprechauns.length && !!mimics.length) return true;
-        if (mimics.length > 1) return true;
+        const hasMimicsAmongLeprechauns = !!mimics.length && !!leprechauns.length;
+        if (hasMimicsAmongLeprechauns) return true;
+
+        const hasMoreThanOneMimic = mimics.length > 1;
+        if (hasMoreThanOneMimic) return true;
+
+        const hasIncompatibleCreatures = Object.keys(grouped).length === 2 && !mimics.length;
+        if (hasIncompatibleCreatures) return true;
 
         return hasWispsOnGarden ? selectedCards.length < 2 : selectedCards.length < 3;
     }

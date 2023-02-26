@@ -39,9 +39,11 @@ export function discardToSearch({ G, playerID, events }, cards) {
 
     // I have no idea why filter() doesnt work with G variables, it always keep the same array length and same objects.
     // Because of that I used this workaround
+    let count = 0;
     cards.map(c => c.index).sort().forEach(index => {
-        const newIndex = index !== 0 ? index - 1 : 0;
+        const newIndex = index !== 0 ? index - count : 0;
         G.tempDeck.splice(newIndex, 1);
+        count++;
     });
 
     const hasGnomesOnGarden = hasCreatureOnGarden(G.garden[playerID], GROUPS.gnomes);
@@ -220,7 +222,7 @@ export function trollCardExecute({ G, playerID, events }, fromPlayer, groupOfCar
         _.forEach(Object.entries(G.garden[toPlayer]), (group) => {
             const mimicCards = group[1].filter(card => !card.group);
 
-            if (group[1].length > 1 && !mimicCards.length) {
+            if (!!group[1].length && !mimicCards.length) {
                 G.garden[toPlayer][group[0]].push(cardMoved);
                 G.garden[fromPlayer][groupOfCard].splice(index, 1);
                 return false;
@@ -303,8 +305,14 @@ function isAbleDownCreatures(garden, cards) {
     const mimics = Object.keys(grouped).filter(k => k === 'undefined').flatMap(k => grouped[k]);
     const leprechauns = Object.keys(grouped).filter(k => k === GROUPS.leprechauns).flatMap(k => grouped[k]);
 
-    if (!!leprechauns.length && !!mimics.length) return false;
-    if (mimics.length > 1) return false;
+    const hasMimicsAmongLeprechauns = !!mimics.length && !!leprechauns.length;
+    if (hasMimicsAmongLeprechauns) return false;
+
+    const hasMoreThanOneMimic = mimics.length > 1;
+    if (hasMoreThanOneMimic) return false;
+
+    const hasIncompatibleCreatures = Object.keys(grouped).length === 2 && !mimics.length;
+    if (hasIncompatibleCreatures) return false;
 
     return hasWispsOnGarden ? cards.length >= 2 : cards.length >= 3;
 }

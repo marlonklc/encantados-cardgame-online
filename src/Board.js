@@ -50,7 +50,7 @@ export function Board({ ctx, G, moves, playerID, redo, sendChatMessage, matchDat
                 
                 <Hand hand={G.hand[enemyPlayerID]} isEnemy={true}/>
 
-                <Garden garden={G.garden[enemyPlayerID]} bgColor="#a81944"/>
+                <Garden garden={G.garden[enemyPlayerID]}/>
                 
             </section> 
 
@@ -60,7 +60,7 @@ export function Board({ ctx, G, moves, playerID, redo, sendChatMessage, matchDat
 
             <section class="player-area">
                 
-                <Garden garden={G.garden[playerID]} bgColor="#0a72a8"/>
+                <Garden garden={G.garden[playerID]} />
 
                 <Hand
                     ctx={ctx}

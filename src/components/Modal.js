@@ -5,6 +5,8 @@ import {
     SELECT_CARD_FROM_END_TURN_DISCARD, SELECT_CARD_FROM_SEARCH_DISCARD
 } from '../logic/actions';
 import { AUTUMN_SONG, GOBLIN, GROUPS, KOBOLD, SPRING_SONG, TROLL } from '../logic/cards';
+import Button from './Button';
+import CardList from './CardList';
 import Garden from './Garden';
 import './Modal.css';
 
@@ -71,23 +73,24 @@ const Modal = ({ G = {}, show, moves = {}, playerID, enemyPlayerID, isCloseable 
                 {content}
                 {G.currentAction === DISCARD_CARD && <>
                     <div class="modal-header">
-                        <h4 class="modal-title">BUSCA - Selecione {hasElvesOnGarden ? 'duas cartas' : 'uma carta'} para o DESCARTE...</h4>
+                        <h4 class="modal-title">[Ação Busca] Selecione {hasElvesOnGarden ? 'duas cartas' : 'uma carta'} para o DESCARTE...</h4>
                     </div>
                     <div class="modal-body">
-                        {G.tempDeck.map((card, index) => (
-                            <div key={index} class="card" onClick={e => selectCard(card, e, index)}>{card.name}</div>
-                        ))}
-
-                        <button disabled={shouldDisableDiscardButton()} onClick={() => {
-                            moves.discardToSearch(selectedCards);
-                            clearSelectedCards();
-                        }}>descartar</button>
+                        <CardList cards={G.tempDeck} maxSelected={1} onSelectCard={(cards) => setSelectedCards(cards)}>
+                            <Button text="descartar"
+                                disable={selectedCards.length !== 1}
+                                onClick={() => {
+                                    moves.discardToSearch(selectedCards);
+                                    clearSelectedCards();
+                                }}
+                            />
+                        </CardList>
                     </div>
                 </>}
 
                 {G.currentAction === CARD_SPRING_SONG && <>
                     <div class="modal-header">
-                        <h4 class="modal-title">{SPRING_SONG.name}: Selecione o jogador que fará a compra.</h4>
+                        <h4 class="modal-title">[Ação {SPRING_SONG.name}] Selecione o jogador que fará a compra.</h4>
                     </div>
                     <div class="modal-body">
                         <button onClick={() => moves.springSongCardExecute(playerID)}>Você</button>
@@ -97,7 +100,7 @@ const Modal = ({ G = {}, show, moves = {}, playerID, enemyPlayerID, isCloseable 
 
                 {G.currentAction === CARD_AUTUMN_SONG && <>
                     <div class="modal-header">
-                        <h4 class="modal-title">{AUTUMN_SONG.name}: Selecione o jogador que comprará as 4 cartas do topo de qualquer pilha de descarte.</h4>
+                        <h4 class="modal-title">[Ação {AUTUMN_SONG.name}] Selecione o jogador que comprará as 4 cartas do topo de qualquer pilha de descarte.</h4>
                     </div>
                     <div class="modal-body">
                         <button onClick={() => moves.autumnSongCardSelectPlayer(playerID)}>Você</button>
@@ -107,7 +110,7 @@ const Modal = ({ G = {}, show, moves = {}, playerID, enemyPlayerID, isCloseable 
 
                 {G.currentAction === CARD_AUTUMN_SONG_EXECUTE && <>
                     <div class="modal-header">
-                        <h4 class="modal-title">{AUTUMN_SONG.name}: Selecione qual pilha de descarte você quer pegar.</h4>
+                        <h4 class="modal-title">[Ação {AUTUMN_SONG.name}] Selecione qual pilha de descarte você quer pegar.</h4>
                     </div>
                     <div class="modal-body">
                         <div>
@@ -127,7 +130,7 @@ const Modal = ({ G = {}, show, moves = {}, playerID, enemyPlayerID, isCloseable 
 
                 {G.currentAction === CARD_GOBLIN_CREATURE && <>
                     <div class="modal-header">
-                        <h4 class="modal-title">{GOBLIN.name}: Selecione o jogador que irá comprar 2 cartas...</h4>
+                        <h4 class="modal-title">[Ação {GOBLIN.name}] Selecione o jogador que irá comprar 2 cartas...</h4>
                     </div>
                     <div class="modal-body">
                         <button onClick={() => moves.goblinCardExecute(playerID)}>Você</button>
@@ -137,53 +140,61 @@ const Modal = ({ G = {}, show, moves = {}, playerID, enemyPlayerID, isCloseable 
 
                 {G.currentAction === CARD_KOBOLD_CREATURE && <>
                     <div class="modal-header">
-                        <h4 class="modal-title">{KOBOLD.name}: Selecione a carta que quer colocar no fundo do baralho...</h4>
+                        <h4 class="modal-title">[Ação {KOBOLD.name}] Selecione a carta que quer colocar no fundo do baralho...</h4>
                     </div>
                     <div class="modal-body">
-                        <h4>INIMIGO</h4>
+                        <h4 class="enemy-font-color">INIMIGO</h4>
                         <Garden
                             garden={G.garden[enemyPlayerID]}
                             playerID={enemyPlayerID}
-                            bgColor="#a81944"
                             onSelectCard={(selected) => selectCardToMove(selected, playerID)}
                             selectedCard={cardToMove}
                             showSelectedGarden={false}
                         />
-                        <h4>TEU JARDIM</h4>
+                        <h4 class="player-font-color">TEU JARDIM</h4>
                         <Garden
                             garden={G.garden[playerID]}
                             playerID={playerID}
-                            bgColor="#0a72a8"
                             onSelectCard={(selected) => selectCardToMove(selected, enemyPlayerID)}
                             selectedCard={cardToMove}
                             showSelectedGarden={false}
                         />
-                        <button disabled={!cardToMove} onClick={() => moves.koboldCardExecute(cardToMove.playerID, cardToMove.group, cardToMove.index)}>mover</button>
+                    </div>
+                    <div class="modal-action">
+                        <Button
+                            disable={!cardToMove}
+                            text="mover"
+                            onClick={() => moves.koboldCardExecute(cardToMove.playerID, cardToMove.group, cardToMove.index)}
+                        />
                     </div>
                 </>}
 
                 {G.currentAction === CARD_TROLL_CREATURE && <>
                     <div class="modal-header">
-                        <h4 class="modal-title">{TROLL.name}: Selecione a carta que deseja mover para o outro jardim...</h4>
+                        <h4 class="modal-title">[Ação {TROLL.name}] Selecione a carta que deseja mover...</h4>
                     </div>
                     <div class="modal-body">
-                        <h4>INIMIGO</h4>
+                        <h4 class="enemy-font-color">INIMIGO</h4>
                         <Garden
                             garden={G.garden[enemyPlayerID]}
                             playerID={enemyPlayerID}
-                            bgColor="#a81944"
                             onSelectCard={(selected) => selectCardToMove(selected, playerID)}
                             selectedCard={cardToMove}
                         />
-                        <h4>TEU JARDIM</h4>
+                        <h4 class="enemy-font-color">TEU JARDIM</h4>
                         <Garden
                             garden={G.garden[playerID]}
                             playerID={playerID}
-                            bgColor="#0a72a8"
                             onSelectCard={(selected) => selectCardToMove(selected, enemyPlayerID)}
                             selectedCard={cardToMove}
                         />
-                        <button disabled={!cardToMove} onClick={() => moves.trollCardExecute(cardToMove.playerID, cardToMove.group, cardToMove.index, cardToMove.toPlayer)}>mover</button>
+                    </div>
+                    <div class="modal-action">
+                        <Button
+                            disable={!cardToMove}
+                            text="mover"
+                            onClick={() => moves.trollCardExecute(cardToMove.playerID, cardToMove.group, cardToMove.index, cardToMove.toPlayer)}
+                        />
                     </div>
                 </>}
 

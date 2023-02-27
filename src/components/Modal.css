@@ -74,6 +74,10 @@
     box-shadow: 0 0 15px #f22;
 }
 
+.default-font-color {
+    color: #fff;
+}
+
 .player-font-color {
     color: #5e5eff;
 }

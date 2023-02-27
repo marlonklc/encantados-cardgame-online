@@ -38,22 +38,6 @@ const Modal = ({ G = {}, show, moves = {}, playerID, enemyPlayerID, isCloseable 
 
     const hasElvesOnGarden = G.garden ? G.garden[playerID][GROUPS.elves].filter(card => card.group === GROUPS.elves).length >= 2 : false;
 
-    async function selectCard(card, event, index) {
-        event.preventDefault();
-        card.index = index;
-
-        if (event.target.classList.contains('selected-card')) {
-            const filtered = selectedCards.filter(i => i.index !== card.index);
-            setSelectedCards(filtered);
-        } else {
-            if (hasElvesOnGarden && selectedCards.length === 2) return;
-            if (!hasElvesOnGarden && selectedCards.length === 1) return;
-            setSelectedCards([...selectedCards, card]);
-        }
-
-        event.target.classList.toggle('selected-card');
-    }
-
     function selectCardToMove(selected, toPlayer) {
         if (!!selected) setCardToMove({ ...selected, toPlayer });
         else setCardToMove();

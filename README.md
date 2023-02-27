@@ -24,5 +24,5 @@ Launches the server (nodeJS) to test on development (running on 8000 port).\
 - [ ] avoid to active cards abilities without 2 replicas of same creature (mimics doesn't work to active abilities) 
 - [ ] avoid to down cards and don't have cards enough to discard on end turn 
 - [ ] use "ctx.activePlayers" to control current actions/stages on game instead of "G.currentAction"
-- [ ] avoid bug if song cards show modal without action (when need choose cards from discard, but there isn't)
+- [ ] avoid song cards show modal without action (when need choose cards from discard, but there isn't)
 - [x] avoid to down 2 creatures of different groups

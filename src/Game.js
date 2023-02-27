@@ -1,5 +1,5 @@
 import { DOWN_CARDS, TAKE_CARDS } from './logic/actions';
-import { 
+import {
     takeCardsFromSearch,
     downCreatureCards,
     downSongCard,
@@ -16,7 +16,11 @@ import {
     winterSongCardExecute,
 } from './logic/moves';
 import { initializeDeck, initializeGarden } from './logic/initializer';
-import { AUTUMN_SONG, DWARF, GNOME, GOBLIN, KOBOLD, MIMIC, SUMMER_SONG, TROLL, WINTER_SONG } from './logic/cards';
+import { AUTUMN_SONG, DWARF, GNOME, GOBLIN, GROUPS, KOBOLD, MIMIC, SUMMER_SONG, TROLL, WINTER_SONG } from './logic/cards';
+
+function calculatePlayerScore(G, playerID) {
+    return G.garden[playerID][GROUPS.dwarves].length * 11;
+}
 
 export const Game = {
     name: 'encantados-cardgame-online',
@@ -24,11 +28,11 @@ export const Game = {
         return ({
             deck: initializeDeck({ random }),
             alert: '',
-            deckDiscardSearch: [WINTER_SONG, MIMIC, DWARF,WINTER_SONG, MIMIC, DWARF,WINTER_SONG, MIMIC],
+            deckDiscardSearch: [WINTER_SONG, MIMIC, DWARF, WINTER_SONG, MIMIC, DWARF, WINTER_SONG, MIMIC],
             deckDiscardEndTurn: [TROLL, GNOME],
             tempDeck: [],
             garden: initializeGarden(ctx.numPlayers),
-            hand: Array(ctx.numPlayers).fill([GOBLIN, GOBLIN, MIMIC, TROLL, TROLL, TROLL, WINTER_SONG]),
+            hand: Array(ctx.numPlayers).fill([GNOME,GNOME]),
             currentAction: TAKE_CARDS,
             goblinCardAlreadyPlayed: Array(ctx.numPlayers).fill(false),
             koboldCardAlreadyPlayed: Array(ctx.numPlayers).fill(false),
@@ -42,14 +46,14 @@ export const Game = {
     turn: {
         minMoves: 2,
         activePlayers: { currentPlayer: 'takeCards' },
-        onEnd: ({G, ctx}) => {
-            //checkForWinner(G);
+        onEnd: ({ G, ctx }) => {
+            // end turn
         },
-        onBegin: ({G, ctx}) => {
+        onBegin: ({ G, ctx }) => {
             G.alert = 'Faça uma compra ou pegue uma carta das pilhas do descarte.';
         },
-        onMove: ({G, ctx, events}) => {
-
+        onMove: ({ G, ctx, events }) => {
+            // each move  
         },
         stages: {
             takeCards: {
@@ -84,11 +88,19 @@ export const Game = {
             },
         }
     },
-    moves: {
-
-    },
     endIf: ({ G, ctx }) => {
-        // if (isVictory(G.cells)) return { winner: ctx.currentPlayer };
-        // if (isDraw(G.cells)) return { draw: true };
+        if (!G.hand[ctx.currentPlayer].length) {
+            const player0Score = calculatePlayerScore(G, 0);
+            const player1Score = calculatePlayerScore(G, 1);
+
+            return {
+                score: {
+                    0: player0Score,
+                    1: player1Score
+                },
+                winner: player0Score > player1Score ? 0 : player1Score > player0Score ? 1 : undefined,
+                gameover: true,
+            };
+        }
     },
 };

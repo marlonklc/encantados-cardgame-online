@@ -1,10 +1,9 @@
 import { useState } from 'react';
-import _ from 'lodash';
-import { GROUPS } from '../logic/cards';
 import './Hand.css';
 import { DOWN_CARDS } from '../logic/actions';
 import { HiOutlineArrowsExpand } from 'react-icons/hi';
 import Modal from './Modal';
+import { isAbleDownCreatures } from '../logic/utils';
 
 const Hand = ({ hand, gardens, G, ctx, isActive, playerID, enemyPlayerID, moves, isEnemy = false }) => {
 
@@ -39,28 +38,6 @@ const Hand = ({ hand, gardens, G, ctx, isActive, playerID, enemyPlayerID, moves,
         setShowExpandedCard(false);
     }
 
-    function shouldDisableDownCreatures() {
-        const hasWispsOnGarden = gardens[playerID][GROUPS.wisps].filter(card => card.group === GROUPS.wisps).length >= 2;
-
-        const grouped = _.groupBy(selectedCards, c => c.group);
-
-        if (Object.keys(grouped).length > 2) return true;
-
-        const mimics = Object.keys(grouped).filter(k => k === 'undefined').flatMap(k => grouped[k]);
-        const leprechauns = Object.keys(grouped).filter(k => k === GROUPS.leprechauns).flatMap(k => grouped[k]);
-
-        const hasMimicsAmongLeprechauns = !!mimics.length && !!leprechauns.length;
-        if (hasMimicsAmongLeprechauns) return true;
-
-        const hasMoreThanOneMimic = mimics.length > 1;
-        if (hasMoreThanOneMimic) return true;
-
-        const hasIncompatibleCreatures = Object.keys(grouped).length === 2 && !mimics.length;
-        if (hasIncompatibleCreatures) return true;
-
-        return hasWispsOnGarden ? selectedCards.length < 2 : selectedCards.length < 3;
-    }
-
     return (
         <div class="hand">
             {hand.map((card, index) => (
@@ -79,7 +56,7 @@ const Hand = ({ hand, gardens, G, ctx, isActive, playerID, enemyPlayerID, moves,
 
             {isActive && !isEnemy && <div class="hand-action">
                 <button
-                    disabled={shouldDisableDownCreatures()}
+                    disabled={!isAbleDownCreatures(gardens[playerID], selectedCards)}
                     hidden={G.currentAction !== DOWN_CARDS || !selectedCards.length || selectedCards.some(c => c.isSong) || !!G.playerAlreadyDownedCreatureCard}
                     onClick={() => {
                         moves.downCreatureCards(selectedCards);

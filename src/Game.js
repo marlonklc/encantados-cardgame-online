@@ -1,4 +1,4 @@
-import { DOWN_CARDS, TAKE_CARDS } from './logic/actions';
+import { TAKE_CARDS } from './logic/actions';
 import {
     takeCardsFromSearch,
     downCreatureCards,
@@ -16,13 +16,10 @@ import {
     winterSongCardExecute,
 } from './logic/moves';
 import { initializeDeck, initializeGarden } from './logic/initializer';
-import { AUTUMN_SONG, DWARF, GNOME, GOBLIN, GROUPS, KOBOLD, MIMIC, SUMMER_SONG, TROLL, WINTER_SONG } from './logic/cards';
+import { AUTUMN_SONG, SUMMER_SONG_ACTIVE_VALUE, DWARF, GNOME, GOBLIN, GROUPS, KOBOLD, MIMIC, SUMMER_SONG, TROLL, WINTER_SONG } from './logic/cards';
+import { calculatePlayerScore } from './logic/utils';
 
-function calculatePlayerScore(G, playerID) {
-    return G.garden[playerID][GROUPS.dwarves].length * 11;
-}
-
-export const Game = {
+export const EncantadosGame = {
     name: 'encantados-cardgame-online',
     setup: ({ random, ctx }) => {
         return ({
@@ -32,7 +29,7 @@ export const Game = {
             deckDiscardEndTurn: [TROLL, GNOME],
             tempDeck: [],
             garden: initializeGarden(ctx.numPlayers),
-            hand: Array(ctx.numPlayers).fill([GNOME,GNOME]),
+            hand: Array(ctx.numPlayers).fill([GNOME, GNOME]),
             currentAction: TAKE_CARDS,
             goblinCardAlreadyPlayed: Array(ctx.numPlayers).fill(false),
             koboldCardAlreadyPlayed: Array(ctx.numPlayers).fill(false),

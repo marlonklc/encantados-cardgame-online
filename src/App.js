@@ -1,11 +1,11 @@
 import React from 'react';
 import { Client } from 'boardgame.io/react';
 import { Board } from './Board';
-import { Game } from './Game';
+import { EncantadosGame } from './Game';
 import { SocketIO } from 'boardgame.io/multiplayer';
 
-const GameClient = Client({
-    game: Game,
+const EncantadosGameClient = Client({
+    game: EncantadosGame,
     board: Board,
     // debug: false,
     multiplayer: SocketIO({ server: 'localhost:8000' }),
@@ -54,7 +54,7 @@ export default class App extends React.Component {
         }
         return (
             <div>
-                <GameClient playerID={this.state.playerID}
+                <EncantadosGameClient playerID={this.state.playerID}
                     matchID={this.state.matchID}
                 />
             </div>

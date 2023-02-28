@@ -16,7 +16,7 @@ import {
     winterSongCardExecute,
 } from './logic/moves';
 import { initializeDeck, initializeGarden } from './logic/initializer';
-import { AUTUMN_SONG, SUMMER_SONG_ACTIVE_VALUE, DWARF, GNOME, GOBLIN, GROUPS, KOBOLD, MIMIC, SUMMER_SONG, TROLL, WINTER_SONG } from './logic/cards';
+import { AUTUMN_SONG, SUMMER_SONG_ACTIVE_VALUE, DWARF, GNOME, GOBLIN, GROUPS, KOBOLD, MIMIC, SUMMER_SONG, TROLL, WINTER_SONG, LEPRECHAUN } from './logic/cards';
 import { calculatePlayerScore } from './logic/utils';
 
 export const EncantadosGame = {
@@ -29,7 +29,7 @@ export const EncantadosGame = {
             deckDiscardEndTurn: [TROLL, GNOME],
             tempDeck: [],
             garden: initializeGarden(ctx.numPlayers),
-            hand: Array(ctx.numPlayers).fill([GNOME, GNOME]),
+            hand: Array(ctx.numPlayers).fill([GNOME, MIMIC, MIMIC]),
             currentAction: TAKE_CARDS,
             goblinCardAlreadyPlayed: Array(ctx.numPlayers).fill(false),
             koboldCardAlreadyPlayed: Array(ctx.numPlayers).fill(false),

@@ -115,14 +115,25 @@ export function selectCardFromDiscard({ G, playerID, events }, deckOfDiscard, in
     events.setStage('downCards');
 }
 
-export function downCreatureCards({ G, playerID, events }, cards = []) {
-    if (!isAbleDownCreatures(G.garden[playerID], cards)) {
+export function downCreatureCards({ G, playerID, events }, enemyPlayerID, cards = []) {
+    if (!isAbleDownCreatures(G, playerID, enemyPlayerID, cards)) {
         G.alert = 'Não é possível baixar as criaturas';
         return;
     }
 
     const grouped = _.groupBy(cards, c => c.group);
-    const groupOfCards = Object.keys(grouped).filter(k => k !== 'undefined')[0];
+    let groupOfCards = Object.keys(grouped).filter(k => k !== 'undefined')[0];
+
+    const isMimicDownCard = cards.length === 1 && cards[0].group === undefined;
+    if (isMimicDownCard) {
+        const groupWithoutMimics = Object.entries(G.garden[playerID])
+            .filter(group => group[0] !== GROUPS.songs)
+            .filter(group => !!group[1].length)
+            .filter(group => !group[1].some(card => card.group === undefined))
+            [0];
+
+        groupOfCards = groupWithoutMimics[0];
+    }
 
     G.playerAlreadyDownedCreatureCard = true;
 
@@ -135,6 +146,8 @@ export function downCreatureCards({ G, playerID, events }, cards = []) {
         G.garden[playerID][groupOfCards].push(removedCard);
         count++;
     });
+
+    if (isMimicDownCard) return;
 
     if (groupOfCards === GROUPS.goblins) {
         if (G.goblinCardAlreadyPlayed[playerID]) return;
@@ -162,7 +175,14 @@ export function downCreatureCards({ G, playerID, events }, cards = []) {
 }
 
 export function downSongCard({ G, playerID, events }, card) {
+    if (!card) return;
+
+    const playerHasNotEnoughCards = (G.hand[playerID].length - 1) <= 0;
+    if (playerHasNotEnoughCards) return;
+
     G.playerAlreadyDownedSongCard = true;
+    G.garden[playerID].songs.push(card);
+    G.hand[playerID].splice(card.index, 1);
 
     if (card.action === CARD_SPRING_SONG) {
         G.currentAction = CARD_SPRING_SONG;
@@ -176,10 +196,7 @@ export function downSongCard({ G, playerID, events }, card) {
         G.showModal[playerID] = true;
         G.currentAction = CARD_WINTER_SONG;
         events.setStage('winterSongCard');
-    }
-
-    G.garden[playerID].songs.push(card);
-    G.hand[playerID].splice(card.index, 1);
+    }   
 }
 
 export function discardToEndTurn({ G, playerID, events, }, index) {

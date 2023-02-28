@@ -56,10 +56,10 @@ const Hand = ({ hand, gardens, G, ctx, isActive, playerID, enemyPlayerID, moves,
 
             {isActive && !isEnemy && <div class="hand-action">
                 <button
-                    disabled={!isAbleDownCreatures(gardens[playerID], selectedCards)}
+                    disabled={!isAbleDownCreatures(G, playerID, enemyPlayerID, selectedCards)}
                     hidden={G.currentAction !== DOWN_CARDS || !selectedCards.length || selectedCards.some(c => c.isSong) || !!G.playerAlreadyDownedCreatureCard}
                     onClick={() => {
-                        moves.downCreatureCards(selectedCards);
+                        moves.downCreatureCards(enemyPlayerID, selectedCards);
                         clearSelectedCards()
                     }}
                 >baixar raça</button>

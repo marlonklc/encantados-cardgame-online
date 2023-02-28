@@ -1,4 +1,4 @@
-import { AUTUMN_SONG, cards, DWARF, ELF, FAIRY, FAUN, GNOME, GOBLIN, GROUPS, LEPRECHAUN, MIMIC, SPRING_SONG, SUMMER_SONG, TROLL, WINTER_SONG, WISP } from './cards';
+import { AUTUMN_SONG, cards, DWARF, ELF, FAIRY, FAUN, GNOME, GOBLIN, GROUPS, KOBOLD, LEPRECHAUN, MIMIC, SPRING_SONG, SUMMER_SONG, TROLL, WINTER_SONG, WISP } from './cards';
 
 export function initializeGarden(numberPlayers) {
     const gardens = Array(numberPlayers);
@@ -7,14 +7,14 @@ export function initializeGarden(numberPlayers) {
             [GROUPS.dwarves]: [],
             [GROUPS.elves]: [],
             [GROUPS.fairies]: [],
-            [GROUPS.fauns]: [FAUN],
-            [GROUPS.wisps]: [WISP, WISP],
-            [GROUPS.gnomes]: [GNOME],
-            [GROUPS.goblins]: [GOBLIN],
-            [GROUPS.kobolds]: [],
-            [GROUPS.leprechauns]: [MIMIC],
+            [GROUPS.fauns]: [],
+            [GROUPS.wisps]: [],
+            [GROUPS.gnomes]: i !== 0 ? [GNOME] : [],
+            [GROUPS.goblins]: [GOBLIN,MIMIC],
+            [GROUPS.kobolds]: [KOBOLD],
+            [GROUPS.leprechauns]: [],
             [GROUPS.trolls]: [],
-            [GROUPS.songs]: [WINTER_SONG, WINTER_SONG, SUMMER_SONG],
+            [GROUPS.songs]: [WINTER_SONG],
         };
     }
     return gardens;

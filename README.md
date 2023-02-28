@@ -14,15 +14,15 @@ Launches the server (nodeJS) to test on development (running on 8000 port).\
 ### TODO LIST
 
 - [ ] enable play the game multiple times until one player achieve 100 points
-- [ ] enable the cards expand on garden (including mimics cards too)
+- [x] enable the cards expand on garden (including mimics cards too)
 - [ ] create components to improve easy maintenance
 - [ ] able to play with more than two players (on future, because it changes a lot the game flow)
 - [ ] i18n - internationalization
 
 ## FIXES
 - [x] avoid leprechauns cards be down with mimics cards (on down moves)
-- [ ] avoid to active cards abilities without 2 replicas of same creature (mimics doesn't work to active abilities) 
-- [ ] avoid to down cards and don't have cards enough to discard on end turn 
+- [x] avoid to active cards abilities without 2 replicas of same creature (mimics doesn't work to active abilities)
+- [x] avoid to down cards and don't have cards enough to discard on end turn
 - [ ] use "ctx.activePlayers" to control current actions/stages on game instead of "G.currentAction"
 - [ ] avoid song cards show modal without action (when need choose cards from discard, but there isn't)
 - [x] avoid to down 2 creatures of different groups

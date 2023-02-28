@@ -25,11 +25,11 @@ export const EncantadosGame = {
         return ({
             deck: initializeDeck({ random }),
             alert: '',
-            deckDiscardSearch: [WINTER_SONG, MIMIC, DWARF, WINTER_SONG, MIMIC, DWARF, WINTER_SONG, MIMIC],
-            deckDiscardEndTurn: [TROLL, GNOME],
+            deckDiscardSearch: [WINTER_SONG],
+            deckDiscardEndTurn: [],
             tempDeck: [],
             garden: initializeGarden(ctx.numPlayers),
-            hand: Array(ctx.numPlayers).fill([GNOME, MIMIC, MIMIC]),
+            hand: Array(ctx.numPlayers).fill([TROLL, TROLL, MIMIC]),
             currentAction: TAKE_CARDS,
             goblinCardAlreadyPlayed: Array(ctx.numPlayers).fill(false),
             koboldCardAlreadyPlayed: Array(ctx.numPlayers).fill(false),
@@ -86,7 +86,7 @@ export const EncantadosGame = {
         }
     },
     endIf: ({ G, ctx }) => {
-        if (!G.hand[ctx.currentPlayer].length) {
+        if (!G.hand[ctx.currentPlayer].length || !G.deck.length) {
             const player0Score = calculatePlayerScore(G, 0);
             const player1Score = calculatePlayerScore(G, 1);
 

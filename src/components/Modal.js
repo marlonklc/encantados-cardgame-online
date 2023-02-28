@@ -217,11 +217,6 @@ const Modal = ({ G = {}, show, moves = {}, playerID, enemyPlayerID, isCloseable 
                     <div class="modal-header">
                         <h4 class="modal-title">
                             <b>[Ação {WINTER_SONG.name}]</b> Selecione a carta de uma pilha de descarte.
-                            {/* {playerID !== G.playerSourceAction ?
-                                ' Você foi escolhido! Selecione a carta de uma pilha de descarte.'
-                                :
-                                ' Selecione a carta de uma pilha de descarte.'
-                            } */}
                         </h4>
                     </div>
                     <div class="modal-body">

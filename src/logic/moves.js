@@ -8,8 +8,6 @@ import _ from 'lodash';
 import { isAbleDownCreatures, isCreatureAbilityEnabled } from './utils';
 
 export function takeCardsFromSearch({ G, playerID, events }, toPlayer = playerID) {
-    if (!G.deck.length) return;
-
     const hasGnomesOnGarden = isCreatureAbilityEnabled(G.garden[playerID], GROUPS.gnomes);
     if (hasGnomesOnGarden) {
         G.hand[playerID].forEach(card => G.tempDeck.push(card));
@@ -21,6 +19,9 @@ export function takeCardsFromSearch({ G, playerID, events }, toPlayer = playerID
     }
     G.tempDeck.push(G.deck.pop());
     G.tempDeck.push(G.deck.pop());
+
+    const hasNoEnoughCardsOnDeck = !G.deck.length;
+    if (hasNoEnoughCardsOnDeck) return;
 
     G.playerSourceAction = playerID;
     G.currentAction = DISCARD_CARD;
@@ -189,10 +190,19 @@ export function downSongCard({ G, playerID, events }, card) {
         G.showModal[playerID] = true;
         events.setStage('springSongCard');
     } else if (card.action === CARD_AUTUMN_SONG) {
+        if (!G.deckDiscardSearch.length && !G.deckDiscardEndTurn.length) {
+            return;
+        }
+
         G.showModal[playerID] = true;
         G.currentAction = CARD_AUTUMN_SONG;
         events.setStage('autumnSongCard');
     } else if (card.action === CARD_WINTER_SONG) {
+        if (!G.deckDiscardSearch.length && !G.deckDiscardEndTurn.length) {
+            takeCardsFromSearch({ G, playerID, events });
+            return;
+        }
+
         G.showModal[playerID] = true;
         G.currentAction = CARD_WINTER_SONG;
         events.setStage('winterSongCard');
@@ -264,12 +274,6 @@ export function springSongCardExecute({ G, playerID, events }, toPlayer) {
 }
 
 export function autumnSongCardSelectPlayer({ G, playerID, events }, toPlayer) {
-    if (!G.deckDiscardSearch.length && !G.deckDiscardEndTurn.length) {
-        G.currentAction = DOWN_CARDS;
-        G.showModal[playerID] = false;
-        return;
-    }
-
     if (playerID !== toPlayer) {
         G.showModal[playerID] = false;
         G.showModal[toPlayer] = true;

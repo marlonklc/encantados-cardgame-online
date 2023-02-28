@@ -9,12 +9,12 @@ export function initializeGarden(numberPlayers) {
             [GROUPS.fairies]: [],
             [GROUPS.fauns]: [],
             [GROUPS.wisps]: [],
-            [GROUPS.gnomes]: i !== 0 ? [GNOME] : [],
-            [GROUPS.goblins]: [GOBLIN,MIMIC],
-            [GROUPS.kobolds]: [KOBOLD],
+            [GROUPS.gnomes]: [],
+            [GROUPS.goblins]: [],
+            [GROUPS.kobolds]: [],
             [GROUPS.leprechauns]: [],
             [GROUPS.trolls]: [],
-            [GROUPS.songs]: [WINTER_SONG],
+            [GROUPS.songs]: [],
         };
     }
     return gardens;
@@ -24,18 +24,18 @@ export function initializeDeck({ random }) {
     const deck = []
     // cards.forEach(c => { deck.push(c); deck.push(c); deck.push(c); });
     // cards.forEach(c => { deck.push(c); });
-    deck.push(TROLL);
-    deck.push(TROLL);
-    deck.push(MIMIC);
-    deck.push(SPRING_SONG);
+    // deck.push(TROLL);
+    // deck.push(TROLL);
+    // deck.push(MIMIC);
+    // deck.push(SPRING_SONG);
     
-    deck.push(WINTER_SONG);
-    deck.push(DWARF);
-    deck.push(DWARF);
-    deck.push(DWARF);
-    deck.push(DWARF);
-    deck.push(GNOME);
-    deck.push(MIMIC);
+    // deck.push(WINTER_SONG);
+    // deck.push(DWARF);
+    // deck.push(DWARF);
+    // deck.push(DWARF);
+    // deck.push(DWARF);
+    // deck.push(GNOME);
+    // deck.push(MIMIC);
     deck.push(GNOME);
     deck.push(SPRING_SONG);
     deck.push(AUTUMN_SONG);

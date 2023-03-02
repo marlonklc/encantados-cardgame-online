@@ -2,6 +2,7 @@ import { TAKE_CARDS } from './logic/actions';
 import {
     takeCardsFromSearch,
     downCreatureCards,
+    expandCreatureCards,
     downSongCard,
     discardToSearch,
     discardToEndTurn,
@@ -15,21 +16,22 @@ import {
     autumnSongCardExecute,
     winterSongCardExecute,
 } from './logic/moves';
-import { initializeDeck, initializeGarden } from './logic/initializer';
-import { AUTUMN_SONG, SUMMER_SONG_ACTIVE_VALUE, DWARF, GNOME, GOBLIN, GROUPS, KOBOLD, MIMIC, SUMMER_SONG, TROLL, WINTER_SONG, LEPRECHAUN } from './logic/cards';
+import { initializeDeck, initializeGarden, initializePlayersHand } from './logic/initializer';
 import { calculatePlayerScore } from './logic/utils';
+import { GAME_NAME } from './config';
 
 export const EncantadosGame = {
-    name: 'encantados-cardgame-online',
+    name: GAME_NAME,
     setup: ({ random, ctx }) => {
+        const deck = initializeDeck({ random });
         return ({
-            deck: initializeDeck({ random }),
+            deck,
             alert: '',
-            deckDiscardSearch: [WINTER_SONG],
+            deckDiscardSearch: [],
             deckDiscardEndTurn: [],
             tempDeck: [],
+            hand: initializePlayersHand(ctx, deck),
             garden: initializeGarden(ctx.numPlayers),
-            hand: Array(ctx.numPlayers).fill([TROLL, TROLL, MIMIC]),
             currentAction: TAKE_CARDS,
             goblinCardAlreadyPlayed: Array(ctx.numPlayers).fill(false),
             koboldCardAlreadyPlayed: Array(ctx.numPlayers).fill(false),
@@ -47,7 +49,6 @@ export const EncantadosGame = {
             // end turn
         },
         onBegin: ({ G, ctx }) => {
-            G.alert = 'Faça uma compra ou pegue uma carta das pilhas do descarte.';
         },
         onMove: ({ G, ctx, events }) => {
             // each move  
@@ -60,7 +61,7 @@ export const EncantadosGame = {
                 moves: { discardToSearch }
             },
             downCards: {
-                moves: { downCreatureCards, downSongCard, discardToEndTurn },
+                moves: { downCreatureCards, expandCreatureCards, downSongCard, discardToEndTurn },
             },
             idle: {
                 moves: {}

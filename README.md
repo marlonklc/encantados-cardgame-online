@@ -28,4 +28,4 @@ Launches the server (nodeJS) to test on development (running on 8000 port).\
 - [x] avoid song cards show modal without action (when need choose cards from discard, but there isn't)
 - [x] avoid creature abilities show modal without action (when need chosse cards, but there isn't)
 - [x] avoid to down 2 creatures of different groups
-- [ ] avoid to expand creature using just mimics
+- [x] avoid to expand creature using just mimics

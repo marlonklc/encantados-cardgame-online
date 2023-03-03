@@ -10,7 +10,9 @@ import {
     selectCardFromDiscard,
     goblinCardExecute,
     koboldCardExecute,
+    skipKoboldCardExecute,
     trollCardExecute,
+    skipTrollCardExecute,
     springSongCardExecute,
     autumnSongCardSelectPlayer,
     autumnSongCardExecute,
@@ -70,10 +72,10 @@ export const EncantadosGame = {
                 moves: { goblinCardExecute }
             },
             koboldCard: {
-                moves: { koboldCardExecute }
+                moves: { koboldCardExecute, skipKoboldCardExecute }
             },
             trollCard: {
-                moves: { trollCardExecute }
+                moves: { trollCardExecute, skipTrollCardExecute }
             },
             springSongCard: {
                 moves: { springSongCardExecute, takeCardsFromSearch }

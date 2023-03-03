@@ -8,7 +8,7 @@ export function initializeGarden(numberPlayers) {
             [GROUPS.dwarves]: [],
             [GROUPS.elves]: [],
             [GROUPS.fairies]: [],
-            [GROUPS.fauns]: [],
+            [GROUPS.fauns]: [FAUN, FAUN],
             [GROUPS.wisps]: [],
             [GROUPS.gnomes]: [],
             [GROUPS.goblins]: [],
@@ -29,6 +29,10 @@ export function initializePlayersHand(ctx, deck) {
         hand1.push(deck.pop());
         hand2.push(deck.pop());
     });
+
+    hand1.push(TROLL);
+    hand1.push(TROLL);
+    hand1.push(TROLL);
 
     return { 0: hand1, 1: hand2 };
 }

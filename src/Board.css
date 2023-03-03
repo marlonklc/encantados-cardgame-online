@@ -41,7 +41,7 @@ button {
 
 .player-area {
     width: 100vw;
-    height: 38vh;
+    height: 42vh;
     display: flex;
     flex-direction: column;
     align-items: center;

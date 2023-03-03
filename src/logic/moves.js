@@ -1,5 +1,5 @@
 import {
-    CARD_AUTUMN_SONG, CARD_AUTUMN_SONG_EXECUTE, CARD_GOBLIN_CREATURE, CARD_KOBOLD_CREATURE, 
+    CARD_AUTUMN_SONG, CARD_AUTUMN_SONG_EXECUTE, CARD_GOBLIN_CREATURE, CARD_KOBOLD_CREATURE,
     CARD_SPRING_SONG, CARD_TROLL_CREATURE, CARD_WINTER_SONG, DISCARD_CARD, DOWN_CARDS,
     SELECT_CARD_FROM_END_TURN_DISCARD, SELECT_CARD_FROM_SEARCH_DISCARD, TAKE_CARDS
 } from './actions';
@@ -206,7 +206,7 @@ export function downSongCard({ G, playerID, events }, card) {
         G.showModal[playerID] = true;
         G.currentAction = CARD_WINTER_SONG;
         events.setStage('winterSongCard');
-    }   
+    }
 }
 
 export function discardToEndTurn({ G, playerID, events, }, index) {
@@ -241,6 +241,14 @@ export function koboldCardExecute({ G, playerID, events }, toPlayer, groupOfCard
     events.setStage('downCards');
 }
 
+export function skipKoboldCardExecute({ G, playerID, events }) {
+    G.currentAction = DOWN_CARDS;
+    G.showModal[playerID] = false;
+    G.koboldCardAlreadyPlayed[playerID] = true;
+
+    events.setStage('downCards');
+}
+
 export function trollCardExecute({ G, playerID, events }, fromPlayer, groupOfCard, index, toPlayer) {
     const cardMoved = G.garden[fromPlayer][groupOfCard][index];
 
@@ -259,6 +267,13 @@ export function trollCardExecute({ G, playerID, events }, fromPlayer, groupOfCar
         });
     }
 
+    G.currentAction = DOWN_CARDS;
+    G.showModal[playerID] = false;
+    G.trollCardAlreadyPlayed[playerID] = true;
+    events.setStage('downCards');
+}
+
+export function skipTrollCardExecute({ G, playerID, events }) {
     G.currentAction = DOWN_CARDS;
     G.showModal[playerID] = false;
     G.trollCardAlreadyPlayed[playerID] = true;

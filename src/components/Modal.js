@@ -34,7 +34,7 @@ const Modal = ({ G = {}, show, moves = {}, playerID, enemyPlayerID, isCloseable 
                 document.body.removeEventListener("keydown", closeOnEscapeKeyDown);
             };
         }
-    }, []);
+    }, []); // eslint-disable-line
 
     const hasElvesOnGarden = G.garden ? G.garden[playerID][GROUPS.elves].filter(card => card.group === GROUPS.elves).length >= 2 : false;
 
@@ -181,6 +181,10 @@ const Modal = ({ G = {}, show, moves = {}, playerID, enemyPlayerID, isCloseable 
                             text="mover"
                             onClick={() => moves.koboldCardExecute(cardToMove.playerID, cardToMove.group, cardToMove.index)}
                         />
+                        <Button
+                            text="pular"
+                            onClick={() => moves.skipKoboldCardExecute()}
+                        />
                     </div>
                 </>}
 
@@ -209,6 +213,10 @@ const Modal = ({ G = {}, show, moves = {}, playerID, enemyPlayerID, isCloseable 
                             disable={!cardToMove}
                             text="mover"
                             onClick={() => moves.trollCardExecute(cardToMove.playerID, cardToMove.group, cardToMove.index, cardToMove.toPlayer)}
+                        />
+                        <Button
+                            text="pular"
+                            onClick={() => moves.skipTrollCardExecute()}
                         />
                     </div>
                 </>}

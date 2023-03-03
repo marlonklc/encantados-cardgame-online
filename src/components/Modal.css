@@ -56,6 +56,8 @@
 
 .modal-action {
     margin-top: 13vh;
+    display: flex;
+    gap: 2vw;
 }
 
 .enemy-font-color {
@@ -92,11 +94,4 @@
 .button.player-button-custom:hover {
     text-shadow: 0 0 5px #5e5eff;
     box-shadow: 0 0 15px #5e5eff;
-}
-
-.card {
-    border: 1px solid #000;
-    text-align: center;
-    min-width: 100px;
-    min-height: 50px;
 }

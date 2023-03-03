@@ -1,7 +1,7 @@
 import React from "react";
 import './Garden.css';
 
-const Garden = ({ garden, playerID, onSelectCard = () => {}, selectedCard, showSelectedGarden = true }) => {
+const Garden = ({ garden, playerID, onSelectCard = () => { }, selectedCard, showSelectedGarden = true }) => {
 
     function shouldCheckCard(group, index) {
         return selectedCard?.playerID === playerID && selectedCard?.group === group && selectedCard?.index === index;
@@ -19,7 +19,7 @@ const Garden = ({ garden, playerID, onSelectCard = () => {}, selectedCard, showS
                             onClick={() => onSelectCard({ card, group: group[0], playerID, index: index2 })}
                         >
                             <img src={card.image} alt={card.name} />
-                            {card.name}
+                            {/* {card.name} */}
                         </li>
                     ))}
                 </ul>)

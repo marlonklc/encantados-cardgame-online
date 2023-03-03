@@ -3,9 +3,9 @@ import './Hand.css';
 import { DOWN_CARDS } from '../logic/actions';
 import { HiOutlineArrowsExpand } from 'react-icons/hi';
 import Modal from './Modal';
-import { isAbleDownCreatures } from '../logic/utils';
+import { isAbleDownCreatures, isAbleExpandCreatures } from '../logic/utils';
 
-const Hand = ({ hand, gardens, G, ctx, isActive, playerID, enemyPlayerID, moves, isEnemy = false }) => {
+const Hand = ({ hand, G, isActive, playerID, enemyPlayerID, moves, isEnemy = false }) => {
 
     const [selectedCards, setSelectedCards] = useState([]);
     const [showExpandedCard, setShowExpandedCard] = useState(false);
@@ -45,7 +45,7 @@ const Hand = ({ hand, gardens, G, ctx, isActive, playerID, enemyPlayerID, moves,
                     className={`${isEnemy ? 'hand-card-enemy' : 'hand-card'} ${selectedCards.find(c => c.index === index) && !isEnemy ? 'selected-card' : ''}`}
                 >
                     {!isEnemy && <i onClick={() => showCardExpanded(card)}><HiOutlineArrowsExpand /></i>}
-                    {!isEnemy && <b>{card.name}</b>}
+                    {/* {!isEnemy && <b>{card.name}</b>} */}
                     {isEnemy ?
                         <img src="/images/cover.png" alt="cover card" />
                         :
@@ -56,13 +56,21 @@ const Hand = ({ hand, gardens, G, ctx, isActive, playerID, enemyPlayerID, moves,
 
             {isActive && !isEnemy && <div class="hand-action">
                 <button
-                    disabled={!isAbleDownCreatures(G, playerID, enemyPlayerID, selectedCards)}
+                    disabled={!isAbleDownCreatures(G, playerID, selectedCards)}
                     hidden={G.currentAction !== DOWN_CARDS || !selectedCards.length || selectedCards.some(c => c.isSong) || !!G.playerAlreadyDownedCreatureCard}
                     onClick={() => {
-                        moves.downCreatureCards(enemyPlayerID, selectedCards);
-                        clearSelectedCards()
+                        moves.downCreatureCards(selectedCards);
+                        clearSelectedCards();
                     }}
                 >baixar raça</button>
+                <button
+                    disabled={!isAbleExpandCreatures(G, playerID, enemyPlayerID, selectedCards)}
+                    hidden={G.currentAction !== DOWN_CARDS || !selectedCards.length || selectedCards.some(c => c.isSong)}
+                    onClick={() => {
+                        moves.expandCreatureCards(enemyPlayerID, selectedCards);
+                        clearSelectedCards();
+                    }}
+                >expandir raça</button>
                 <button
                     disabled={selectedCards.length !== 1}
                     hidden={G.currentAction !== DOWN_CARDS || !selectedCards.length || selectedCards.some(c => !c.isSong) || !!G.playerAlreadyDownedSongCard}

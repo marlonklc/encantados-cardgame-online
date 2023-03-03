@@ -61,26 +61,38 @@ export function calculatePlayerScore(G, playerID) {
     return score + allCardsScore;
 }
 
-export function isAbleDownCreatures(G, playerID, enemyPlayerID, cards) {
+export function isAbleExpandCreatures(G, playerID, enemyPlayerID, cards) {
     if (!cards || !cards.length) return false;
 
     const playerHasNoEnoughCards = (G.hand[playerID].length - cards.length) <= 0;
     if (playerHasNoEnoughCards) return false;
 
-    if (isMimicDownCard(cards)) {
-        return ableDownMimic(G.garden[playerID]);
-    }
-
     if (isCreatureExpansion(G.garden[playerID], G.garden[enemyPlayerID], cards)) {
-        return ableCreatureExpansion(G.garden[playerID], cards);
+        const grouped = _.groupBy(cards, c => c.group);
+        const groupOfCards = Object.keys(grouped).filter(k => k !== 'undefined')[0];
+        const amountOfGroupedCards = Object.keys(grouped).length;
+
+        if (amountOfGroupedCards > 2) return false;
+
+        const mimicOnCards = Object.keys(grouped).filter(k => k === 'undefined').flatMap(k => grouped[k]);
+        const mimicOnGardenGroup = G.garden[playerID][groupOfCards].filter(card => card.group === undefined);
+        const leprechauns = Object.keys(grouped).filter(k => k === GROUPS.leprechauns).flatMap(k => grouped[k]);
+
+        const hasMimicsAmongLeprechauns = !!mimicOnCards.length && !!leprechauns.length;
+        if (hasMimicsAmongLeprechauns) return false;
+
+        if (mimicOnCards.length > 1) return false;
+        if (!mimicOnCards.length && amountOfGroupedCards > 1) return false;
+
+        return !(mimicOnCards.length && mimicOnGardenGroup.length);
     }
 
-    return ableDownCreatureAtFirstTime(G.garden[playerID], cards);
+    return false;
 }
 
 function isCreatureExpansion(playerGarden, enemyGarden, cards) {
     const grouped = _.groupBy(cards, c => c.group);
-    const groupOfCards = Object.keys(grouped).filter(k => k !== 'undefined')[0]; 
+    const groupOfCards = Object.keys(grouped).filter(k => k !== 'undefined')[0];
 
     const playerHasValidCreatureOnGarden = !!playerGarden[groupOfCards] && !!playerGarden[groupOfCards].filter(card => card.group !== undefined).length;
     const enemyHasValidCreatureOnGarden = !!enemyGarden[groupOfCards] && !!enemyGarden[groupOfCards].filter(card => card.group !== undefined).length;
@@ -88,33 +100,12 @@ function isCreatureExpansion(playerGarden, enemyGarden, cards) {
     return playerHasValidCreatureOnGarden || enemyHasValidCreatureOnGarden;
 }
 
-function ableCreatureExpansion(playerGarden, cards) {
-    const grouped = _.groupBy(cards, c => c.group);
-    const groupOfCards = Object.keys(grouped).filter(k => k !== 'undefined')[0];
+export function isAbleDownCreatures(G, playerID, cards) {
+    const playerHasNoEnoughCards = (G.hand[playerID].length - cards.length) <= 0;
+    if (playerHasNoEnoughCards) return false;
 
-    const mimicOnCards = Object.keys(grouped).filter(k => k === 'undefined').flatMap(k => grouped[k]);//.map(group => group[1]);
-    const mimicOnGardenGroup = playerGarden[groupOfCards].filter(card => card.group === undefined);
+    const hasWispsOnGarden = G.garden[playerID][GROUPS.wisps].filter(card => card.group === GROUPS.wisps).length >= 2;
 
-    if (mimicOnCards.length > 1) return false;
-
-    return !(mimicOnCards.length && mimicOnGardenGroup.length);
-}
-
-function isMimicDownCard(cards) {
-    return cards.length === 1 && cards[0].group === undefined;
-}
-
-function ableDownMimic(playerGarden) {
-    const groupWithoutMimics = Object.entries(playerGarden)
-        .filter(group => group[0] !== GROUPS.songs)
-        .filter(group => !!group[1].length)
-        .filter(group => !group[1].some(card => card.group === undefined))
-        [0];
-
-    return !!groupWithoutMimics && groupWithoutMimics[0] !== GROUPS.leprechauns;
-}
-
-function ableDownCreatureAtFirstTime(playerGarden, cards) {
     const grouped = _.groupBy(cards, c => c.group);
 
     if (Object.keys(grouped).length > 2) return false;
@@ -131,7 +122,9 @@ function ableDownCreatureAtFirstTime(playerGarden, cards) {
     const hasIncompatibleCreatures = Object.keys(grouped).length === 2 && !mimics.length;
     if (hasIncompatibleCreatures) return false;
 
-    const hasWispsOnGarden = playerGarden[GROUPS.wisps].filter(card => card.group === GROUPS.wisps).length >= 2;
-
     return hasWispsOnGarden ? cards.length >= 2 : cards.length >= 3;
+}
+
+export function sortCardsIndex(cards) {
+    return cards.map(c => c.index).sort((a, b) => a - b);
 }

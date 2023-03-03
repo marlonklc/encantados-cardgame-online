@@ -4,7 +4,6 @@ import Modal from './components/Modal';
 import Garden from './components/Garden';
 import Hand from './components/Hand';
 import Deck from './components/Deck';
-import Button from './components/Button';
 
 export function Board({ ctx, G, moves, playerID, redo, sendChatMessage, matchData, isActive, isConnected, log, reset, events, ...ot }) {
     // console.log('redo>>>', redo)
@@ -51,10 +50,8 @@ export function Board({ ctx, G, moves, playerID, redo, sendChatMessage, matchDat
                 <Garden garden={G.garden[playerID]} />
 
                 <Hand
-                    ctx={ctx}
                     hand={G.hand[playerID]}
                     G={G}
-                    gardens={G.garden}
                     playerID={playerID}
                     enemyPlayerID={enemyPlayerID}
                     moves={moves}

@@ -45,7 +45,7 @@ const CardList = ({ cards, maxSelected, onSelectCard = () => { }, children }) =>
                         className={`card-list-card ${selectedCards.find(c => c.index === index) ? 'selected-card' : ''}`}
                     >
                         <i onClick={() => showCardExpanded(card)}><HiOutlineArrowsExpand /></i>
-                        <b>{card.name}</b>
+                        {/* <b>{card.name}</b> */}
                         <img src={card.image} alt={card.name} onClick={e => selectCard(e, card, index)} />
                     </div>
                 ))}

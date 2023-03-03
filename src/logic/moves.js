@@ -5,7 +5,7 @@ import {
 } from './actions';
 import { GROUPS } from './cards';
 import _ from 'lodash';
-import { isAbleDownCreatures, isCreatureAbilityEnabled } from './utils';
+import { isAbleDownCreatures, isAbleExpandCreatures, isCreatureAbilityEnabled, sortCardsIndex as sortCardsByIndex } from './utils';
 
 export function takeCardsFromSearch({ G, playerID, events }, toPlayer = playerID) {
     const hasGnomesOnGarden = isCreatureAbilityEnabled(G.garden[playerID], GROUPS.gnomes);
@@ -43,7 +43,7 @@ export function discardToSearch({ G, playerID, events }, cards) {
     // I have no idea why filter() doesnt work with G variables, it always keep the same array length and same objects.
     // Because of that I used this workaround
     let count = 0;
-    cards.map(c => c.index).sort().forEach(index => {
+    sortCardsByIndex(cards).forEach(index => {
         const newIndex = index !== 0 ? index - count : 0;
         G.tempDeck.splice(newIndex, 1);
         count++;
@@ -116,39 +116,39 @@ export function selectCardFromDiscard({ G, playerID, events }, deckOfDiscard, in
     events.setStage('downCards');
 }
 
-export function downCreatureCards({ G, playerID, events }, enemyPlayerID, cards = []) {
-    if (!isAbleDownCreatures(G, playerID, enemyPlayerID, cards)) {
+export function downCreatureCards({ G, playerID, events }, cards = []) {
+    if (!isAbleDownCreatures(G, playerID, cards)) {
         G.alert = 'Não é possível baixar as criaturas';
         return;
     }
 
-    const grouped = _.groupBy(cards, c => c.group);
-    let groupOfCards = Object.keys(grouped).filter(k => k !== 'undefined')[0];
+    G.playerAlreadyDownedCreatureCard = true;
 
-    const isMimicDownCard = cards.length === 1 && cards[0].group === undefined;
-    if (isMimicDownCard) {
-        const groupWithoutMimics = Object.entries(G.garden[playerID])
-            .filter(group => group[0] !== GROUPS.songs)
-            .filter(group => !!group[1].length)
-            .filter(group => !group[1].some(card => card.group === undefined))
-            [0];
+    downCreatureOnGarden(G, playerID, events, cards);
+}
 
-        groupOfCards = groupWithoutMimics[0];
+export function expandCreatureCards({ G, playerID, events }, enemyPlayerID, cards = []) {
+    if (!isAbleExpandCreatures(G, playerID, enemyPlayerID, cards)) {
+        G.alert = 'Não é possível baixar as criaturas';
+        return;
     }
 
-    G.playerAlreadyDownedCreatureCard = true;
+    downCreatureOnGarden(G, playerID, events, cards);
+}
+
+function downCreatureOnGarden(G, playerID, events, cards) {
+    const grouped = _.groupBy(cards, c => c.group);
+    let groupOfCards = Object.keys(grouped).filter(k => k !== 'undefined')[0];
 
     // I have no idea why filter() doesnt work with G variables, it always keep the same array length and same objects.
     // Because of that I used this workaround
     let count = 0;
-    cards.map(c => c.index).sort().forEach(index => {
+    sortCardsByIndex(cards).forEach(index => {
         const newIndex = index !== 0 ? index - count : 0;
         const removedCard = G.hand[playerID].splice(newIndex, 1)[0];
         G.garden[playerID][groupOfCards].push(removedCard);
         count++;
     });
-
-    if (isMimicDownCard) return;
 
     if (groupOfCards === GROUPS.goblins) {
         if (G.goblinCardAlreadyPlayed[playerID]) return;

@@ -30,10 +30,6 @@ export function initializePlayersHand(ctx, deck) {
         hand2.push(deck.pop());
     });
 
-    hand1.push(TROLL);
-    hand1.push(TROLL);
-    hand1.push(TROLL);
-
     return { 0: hand1, 1: hand2 };
 }
 

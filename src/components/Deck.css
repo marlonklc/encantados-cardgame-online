@@ -141,3 +141,16 @@
     -webkit-transition-delay: 1s;
     transition-delay: 1s;
 }
+
+@media all and (max-width: 1690px){
+    .deck-item {
+        width: 20vw;
+    }
+}
+
+@media all and (max-width: 1000px) {
+
+    .modal-cards-list img {
+        max-height: 15vh;
+    }
+}

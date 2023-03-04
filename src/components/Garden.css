@@ -32,6 +32,7 @@
 
 .garden-item li img {
     max-height: 15vh;
+    max-width: 12vw;
 }
 
 .garden-item li:hover {

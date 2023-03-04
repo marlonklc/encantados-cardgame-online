@@ -4,6 +4,7 @@
     justify-content: center;
     width: 100vw;
     gap: 1vw;
+    flex-wrap: wrap;
 }
 
 .card-list-card {
@@ -19,7 +20,8 @@
     transform: scale(1.1);
 }
 
-.card-list-card img, .card-list-card-enemy img {
+.card-list-card img,
+.card-list-card-enemy img {
     width: 100%;
 }
 
@@ -37,8 +39,8 @@
     color: #fff;
     font-size: 1.3em;
     position: absolute;
-    bottom: 1px;
-    left: 1px;
+    bottom: 8px;
+    left: 0px;
     background: #000;
     width: 1em;
     height: 1.1em;
@@ -67,4 +69,21 @@
     display: flex;
     justify-content: center;
     height: 5vh;
+}
+
+@media all and (max-width: 1300px) {
+    .card-list-card {
+        width: 15vw;
+    }
+
+    .card-list-card i {
+        font-size: 1em;
+        left: 7px;
+        bottom: 9px;
+    }
+
+    .card-list-card.selected-card i {
+        left: 3px;
+        bottom: 12px;
+    }
 }

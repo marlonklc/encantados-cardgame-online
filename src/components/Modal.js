@@ -11,7 +11,7 @@ import Garden from './Garden';
 import Hand from './Hand';
 import './Modal.css';
 
-const Modal = ({ G = {}, show, moves = {}, playerID, enemyPlayerID, isCloseable = false, content = '', onClose }) => {
+const Modal = ({ G = {}, show, moves = {}, playerID, enemyPlayerID, isCloseable = false, content = '', onClose, zIndex = 10001 }) => {
 
     const [selectedCards, setSelectedCards] = useState([]);
     const [cardToMove, setCardToMove] = useState();
@@ -53,7 +53,7 @@ const Modal = ({ G = {}, show, moves = {}, playerID, enemyPlayerID, isCloseable 
     }
 
     return ReactDOM.createPortal(
-        <div className={`modal ${show ? 'enter-done' : ''}`} onClick={isCloseable ? () => onClose() : undefined}>
+        <div className={`modal ${show ? 'enter-done' : ''}`} onClick={isCloseable ? () => onClose() : undefined} style={{ zIndex }}>
             <div class="modal-content">
                 {content}
                 {G.currentAction === DISCARD_CARD && <>

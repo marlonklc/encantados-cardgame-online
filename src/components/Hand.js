@@ -39,21 +39,24 @@ const Hand = ({ hand, G, isActive, playerID, enemyPlayerID, moves, isEnemy = fal
     }
 
     return (
-        <div class="hand">
+        <div className={`${isEnemy ? 'hand-enemy' : 'hand'}`}>
             {hand.map((card, index) => (
                 <div key={index}
                     className={`${isEnemy ? 'hand-card-enemy' : 'hand-card'} ${selectedCards.find(c => c.index === index) && !isEnemy ? 'selected-card' : ''}`}
                 >
                     {!isEnemy && <i onClick={() => showCardExpanded(card)}><HiOutlineArrowsExpand /></i>}
                     {/* {!isEnemy && <b>{card.name}</b>} */}
-                    {isEnemy ?
-                        <img src="/images/cover.png" alt="cover card" />
-                        :
-                        <img src={card.image} alt={card.name} onClick={isActive ? e => selectCard(e, card, index) : undefined} />
-                    }
+                    <div onClick={isActive ? e => selectCard(e, card, index) : undefined}>
+                        {isEnemy ?
+                            <img src="/images/cover.png" alt="cover card" />
+                            :
+                            <img src={card.image} alt={card.name}  />
+                        }
+                    </div>
                 </div>
             ))}
 
+            {true && <br />}
             {isActive && !isEnemy && <div class="hand-action">
                 <button
                     disabled={!isAbleDownCreatures(G, playerID, selectedCards)}

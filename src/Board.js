@@ -31,7 +31,7 @@ export function Board({ ctx, G, moves, playerID, redo, sendChatMessage, matchDat
                 <li></li>
                 <li></li>
             </ul>
-            <img src="/images/florest-bg.jpg" class="image-background" alt="" />
+            {/* <img src="/images/florest-bg.jpg" class="image-background" alt="" /> */}
 
             <section class="enemy-area">
 

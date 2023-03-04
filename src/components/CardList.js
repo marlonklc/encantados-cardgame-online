@@ -46,7 +46,9 @@ const CardList = ({ cards, maxSelected, onSelectCard = () => { }, children }) =>
                     >
                         <i onClick={() => showCardExpanded(card)}><HiOutlineArrowsExpand /></i>
                         {/* <b>{card.name}</b> */}
-                        <img src={card.image} alt={card.name} onClick={e => selectCard(e, card, index)} />
+                        <div onClick={e => selectCard(e, card, index)}>
+                            <img src={card.image} alt={card.name} />
+                        </div>
                     </div>
                 ))}
 
@@ -56,7 +58,7 @@ const CardList = ({ cards, maxSelected, onSelectCard = () => { }, children }) =>
                 {children}
             </div>
 
-            <Modal show={showExpandedCard} content={modalExpandedCard} isCloseable={true} onClose={closeCardExpanded} />
+            <Modal show={showExpandedCard} zIndex={'99999'} content={modalExpandedCard} isCloseable={true} onClose={closeCardExpanded} />
         </>
     );
 };

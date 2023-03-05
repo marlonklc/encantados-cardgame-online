@@ -15,10 +15,11 @@ const Garden = ({ garden, playerID, onSelectCard = () => { }, selectedCard, show
                 (<ul key={index1} class="garden-item">
                     {group[1].map((card, index2) => (
                         <li key={index2}
-                            className={`${shouldCheckCard(group[0], index2) ? 'selected-card' : ''}`}
-                            onClick={() => onSelectCard({ card, group: group[0], playerID, index: index2 })}
+                            className={`${shouldCheckCard(group[0], index2) ? 'selected-card' : ''}`}   
                         >
-                            <img src={card.image} alt={card.name} />
+                            <div onClick={() => onSelectCard({ card, group: group[0], playerID, index: index2 })}>
+                                <img src={card.image} alt={card.name} />
+                            </div>
                             {/* {card.name} */}
                         </li>
                     ))}

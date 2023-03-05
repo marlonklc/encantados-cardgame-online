@@ -30,7 +30,7 @@
     max-height: 2vh;
 }
 
-.garden-item li img {
+.garden-item li div img {
     max-height: 15vh;
     max-width: 12vw;
 }

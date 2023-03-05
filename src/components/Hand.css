@@ -5,6 +5,11 @@
     width: 100vw;
     height: 50%;
     gap: 0.3vw;
+    flex-wrap: wrap;
+}
+
+.hand-card-wrapper {
+    display: flex;
 }
 
 .hand-enemy {
@@ -82,7 +87,6 @@
     align-items: stretch;
     flex-direction: column;
     gap: 1vh;
-    height: 100%;
 }
 
 .hand-action button {
@@ -118,5 +122,10 @@
 @media all and (max-width: 1400px){
     .hand-enemy {
         height: 15%;
+    }
+
+    .hand-action {
+        left: 0vw;
+        flex-direction: row;
     }
 }

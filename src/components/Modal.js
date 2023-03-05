@@ -200,7 +200,7 @@ const Modal = ({ G = {}, show, moves = {}, playerID, enemyPlayerID, isCloseable 
                             onSelectCard={(selected) => selectCardToMove(selected, playerID)}
                             selectedCard={cardToMove}
                         />
-                        <h4 class="enemy-font-color">TEU JARDIM</h4>
+                        <h4 class="player-font-color">TEU JARDIM</h4>
                         <Garden
                             garden={G.garden[playerID]}
                             playerID={playerID}

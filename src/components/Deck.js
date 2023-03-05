@@ -19,7 +19,7 @@ const Deck = ({ G, moves, playerID, isActive }) => {
         let content = '';
 
         cards.slice().reverse().forEach(c => {
-            content += `<img src="${c.imageExpanded}"/>`;
+            content += `<div><img src="${c.imageExpanded}"/></div>`;
         });
 
         setModalDiscardCards(<>

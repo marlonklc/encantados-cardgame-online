@@ -129,17 +129,22 @@
     gap: 1vw;
 }
 
-.modal-cards-list img {
+.modal-cards-list div {
+    position: relative;
     max-width: 9vw;
     min-width: 4vw;
     transition: all 0.2s linear;
     cursor: zoom-in;
 }
 
-.modal-cards-list img:hover {
+.modal-cards-list div:hover {
     transform: scale(1.9);
-    -webkit-transition-delay: 1s;
-    transition-delay: 1s;
+    -webkit-transition-delay: .5s;
+    transition-delay: .5s;
+}
+
+.modal-cards-list img {
+    width: 100%;
 }
 
 @media all and (max-width: 1690px){
@@ -150,7 +155,23 @@
 
 @media all and (max-width: 1000px) {
 
-    .modal-cards-list img {
-        max-height: 15vh;
+    .modal-cards-list div {
+        max-width: 15vw;
+    }
+
+    .deck-item {
+        width: 30vw;
+    }
+
+    .deck-item-image {
+        width: 10vw;
+    }
+
+    .deck-item-stack {
+        width: 10vw;
+    }
+
+    .deck-item b {
+        font-size: 0.4em;
     }
 }

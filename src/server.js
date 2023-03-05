@@ -6,6 +6,8 @@ const serve = require('koa-static');
 
 const PORT = process.env.PORT_ENCANTADOSONLINE_SRC_SERVER || DEFAULT_PORT;
 
+console.log('port:', PORT, process.env);
+
 const server = Server({
     games: [EncantadosGame],
     origins: ['http://www.scrappingamazonwishlist.kinghost.net']

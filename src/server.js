@@ -6,11 +6,11 @@ const serve = require('koa-static');
 
 const PORT = process.env.PORT_SRC_SERVER || process.env.PORT_ENCANTADOSONLINE_SRC_SERVER || DEFAULT_PORT;
 
-console.log('port:', PORT, process.env);
+console.log('port:', process.env.PORT_SRC_SERVER, process.env.PORT_ENCANTADOSONLINE_SRC_SERVER);
 
 const server = Server({
     games: [EncantadosGame],
-    origins: ['http://www.scrappingamazonwishlist.kinghost.net']
+    origins: ['http://www.marlonklc.kinghost.net', Origins.LOCALHOST]
 });
 
 const frontEndAppBuildPath = path.resolve(__dirname, "../build");

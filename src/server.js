@@ -4,7 +4,7 @@ const { DEFAULT_PORT } = require('./config');
 const path = require('path');
 const serve = require('koa-static');
 
-const PORT = process.env.PORT_ENCANTADOSONLINE_SRC_SERVER || DEFAULT_PORT;
+const PORT = process.env.PORT_SRC_SERVER || process.env.PORT_ENCANTADOSONLINE_SRC_SERVER || DEFAULT_PORT;
 
 console.log('port:', PORT, process.env);
 

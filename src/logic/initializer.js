@@ -8,7 +8,7 @@ export function initializeGarden(numberPlayers) {
             [GROUPS.dwarves]: [],
             [GROUPS.elves]: [],
             [GROUPS.fairies]: [],
-            [GROUPS.fauns]: [FAUN, FAUN],
+            [GROUPS.fauns]: [],
             [GROUPS.wisps]: [],
             [GROUPS.gnomes]: [],
             [GROUPS.goblins]: [],

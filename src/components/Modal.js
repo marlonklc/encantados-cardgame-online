@@ -61,7 +61,7 @@ const Modal = ({ G = {}, show, moves = {}, playerID, enemyPlayerID, isCloseable 
                         <h4 class="modal-title"><b>[Ação Busca]</b> Selecione {hasElvesOnGarden ? 'duas cartas' : 'uma carta'} para o DESCARTE...</h4>
                     </div>
                     <div class="modal-body">
-                        <CardList cards={G.tempDeck} maxSelected={1} onSelectCard={(cards) => setSelectedCards(cards)}>
+                        <CardList cards={G.tempDeck} maxSelected={hasElvesOnGarden ? 2 : 1} onSelectCard={(cards) => setSelectedCards(cards)}>
                             <Button
                                 text="descartar"
                                 disable={shouldDisableDiscardButton()}

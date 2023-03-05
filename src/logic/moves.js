@@ -8,12 +8,12 @@ import _ from 'lodash';
 import { isAbleDownCreatures, isAbleExpandCreatures, isCreatureAbilityEnabled, sortCardsIndex as sortCardsByIndex } from './utils';
 
 export function takeCardsFromSearch({ G, playerID, events }, toPlayer = playerID) {
-    const hasGnomesOnGarden = isCreatureAbilityEnabled(G.garden[playerID], GROUPS.gnomes);
+    const hasGnomesOnGarden = isCreatureAbilityEnabled(G.garden[toPlayer], GROUPS.gnomes);
     if (hasGnomesOnGarden) {
-        G.hand[playerID].forEach(card => G.tempDeck.push(card));
+        G.hand[toPlayer].forEach(card => G.tempDeck.push(card));
     }
 
-    const hasElvesOnGarden = isCreatureAbilityEnabled(G.garden[playerID], GROUPS.elves);
+    const hasElvesOnGarden = isCreatureAbilityEnabled(G.garden[toPlayer], GROUPS.elves);
     if (hasElvesOnGarden) {
         G.tempDeck.push(G.deck.pop());
     }

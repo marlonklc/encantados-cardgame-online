@@ -5,7 +5,7 @@ import {
 } from './actions';
 import { GROUPS } from './cards';
 import _ from 'lodash';
-import { isAbleDownCreatures, isAbleExpandCreatures, isCreatureAbilityEnabled, sortCardsIndex as sortCardsByIndex } from './utils';
+import { isAbleDownCreatures, isAbleExpandCreatures, isCreatureAbilityEnabled, sortCardsIndex as sortCardsByIndex, sortHandByGroups } from './utils';
 
 export function takeCardsFromSearch({ G, playerID, events }, toPlayer = playerID) {
     const hasGnomesOnGarden = isCreatureAbilityEnabled(G.garden[toPlayer], GROUPS.gnomes);
@@ -57,6 +57,7 @@ export function discardToSearch({ G, playerID, events }, cards) {
         G.hand[playerID].push(G.tempDeck[0]);
     }
 
+    G.hand[playerID] = sortHandByGroups(G.hand[playerID]);
     G.deckDiscardSearch = G.deckDiscardSearch.concat(cards);
     G.tempDeck = [];
     G.currentAction = DOWN_CARDS;
@@ -98,6 +99,7 @@ export function takeCardFromDiscard({ G, playerID, events }, deckOfDiscard) {
         G.hand[playerID].push(G.deckDiscardEndTurn.pop());
     }
 
+    G.hand[playerID] = sortHandByGroups(G.hand[playerID]);
     G.currentAction = DOWN_CARDS;
     events.setStage('downCards');
 }
@@ -111,6 +113,7 @@ export function selectCardFromDiscard({ G, playerID, events }, deckOfDiscard, in
         G.hand[playerID].push(G.deckDiscardEndTurn.splice(index, 1)[0]);
     }
 
+    G.hand[playerID] = sortHandByGroups(G.hand[playerID]);
     G.showModal[playerID] = false;
     G.currentAction = DOWN_CARDS;
     events.setStage('downCards');
@@ -223,6 +226,8 @@ export function discardToEndTurn({ G, playerID, events, }, index) {
 export function goblinCardExecute({ G, playerID, events }, toPlayer) {
     G.hand[toPlayer].push(G.deck.pop());
     G.hand[toPlayer].push(G.deck.pop());
+
+    G.hand[toPlayer] = sortHandByGroups(G.hand[toPlayer]);
     G.currentAction = DOWN_CARDS;
     G.showModal[playerID] = false;
     G.goblinCardAlreadyPlayed[playerID] = true;
@@ -314,6 +319,7 @@ export function autumnSongCardExecute({ G, playerID, events }, deckOfDiscard) {
         G.hand[playerID] = G.hand[playerID].concat(G.deckDiscardEndTurn.splice(-4, 4));
     }
 
+    G.hand[playerID] = sortHandByGroups(G.hand[playerID]);
     G.showModal[playerID] = false;
     G.playerSourceAction = undefined;
     G.currentAction = DOWN_CARDS;

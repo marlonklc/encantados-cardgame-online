@@ -1,5 +1,6 @@
 import { AUTUMN_SONG, DWARF, ELF, FAIRY, FAUN, GNOME, GOBLIN, GROUPS, KOBOLD, LEPRECHAUN, MIMIC, 
     SPRING_SONG, SUMMER_SONG, TROLL, WINTER_SONG, WISP } from './cards';
+import { sortHandByGroups } from './utils';
 
 export function initializeGarden(numberPlayers) {
     const gardens = Array(numberPlayers);
@@ -30,7 +31,7 @@ export function initializePlayersHand(ctx, deck) {
         hand2.push(deck.pop());
     });
 
-    return { 0: hand1, 1: hand2 };
+    return { 0: sortHandByGroups(hand1), 1: sortHandByGroups(hand2) };
 }
 
 export function initializeDeck({ random }) {

@@ -128,3 +128,7 @@ export function isAbleDownCreatures(G, playerID, cards) {
 export function sortCardsIndex(cards) {
     return cards.map(c => c.index).sort((a, b) => a - b);
 }
+
+export function sortHandByGroups(hand) {
+    return _.sortBy(hand, ['group'])
+}

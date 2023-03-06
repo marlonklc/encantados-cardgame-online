@@ -47,7 +47,7 @@ const Hand = ({ hand, G, isActive, playerID, enemyPlayerID, moves, isEnemy = fal
                     >
                         {!isEnemy && <i onClick={() => showCardExpanded(card)}><HiOutlineArrowsExpand /></i>}
                         {/* {!isEnemy && <b>{card.name}</b>} */}
-                        <div onClick={isActive ? e => selectCard(e, card, index) : undefined}>
+                        <div onClick={isActive && G.currentAction === DOWN_CARDS ? e => selectCard(e, card, index) : undefined}>
                             {isEnemy ?
                                 <img src="/images/cover.png" alt="cover card" />
                                 :

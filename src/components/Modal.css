@@ -61,7 +61,7 @@
 }
 
 .enemy-font-color {
-    color: #f22;
+    color: #f22f33;
 }
 
 .enemy-button-custom {
@@ -72,8 +72,8 @@
 }
 
 .button.enemy-button-custom:hover {
-    text-shadow: 0 0 5px #f22;
-    box-shadow: 0 0 15px #f22;
+    text-shadow: 0 0 5px #f22f33;
+    box-shadow: 0 0 15px #f22f33;
 }
 
 .default-font-color {
@@ -81,7 +81,7 @@
 }
 
 .player-font-color {
-    color: #5e5eff;
+    color: #6866FF;
 }
 
 .player-button-custom {
@@ -92,6 +92,6 @@
 }
 
 .button.player-button-custom:hover {
-    text-shadow: 0 0 5px #5e5eff;
-    box-shadow: 0 0 15px #5e5eff;
+    text-shadow: 0 0 5px #6866FF;
+    box-shadow: 0 0 15px #6866FF;
 }

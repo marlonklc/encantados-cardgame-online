@@ -1,5 +1,5 @@
 ## Available Scripts
-In the project directory, you can run:
+To run this project in local, you must be on project directory and run the commands:
 
 ### `npm start`
 Runs the app in the development mode.\
@@ -22,19 +22,21 @@ Launches the server (nodeJS) to test on development (running on 8000 port).\
 - [x] avoid to expand creature using just mimics
 
 ## IMPROVEMENTS
-- [ ] create components to improve easy maintenance [DOING]
 - [x] enable the cards expand on garden (including mimics cards too)
 - [x] every change on hand player/enemy, sort cards by groups
-- [ ] improve colors of enemy player (maybe red more light, not so strong)
-- [ ] use "ctx.activePlayers" to control current actions/stages on game instead of "G.currentAction"
+- [x] improve colors of enemy player (maybe red more light, not so strong)
 - [ ] create end game animation (to look better)
-- [ ] add sounds to have better imersion in game
-- [ ] show if enemy player is active
+- [x] add sounds to have better imersion in the game
+- [ ] show if enemy player is connected
 - [ ] change the rule to select cards instead of discard them on make a search
-- [ ] put zoom on cards within garden
-- [ ] put message of enemy playing his turn
+- [ ] enable zoom on cards within garden
+- [ ] show message of enemy playing his turn
+
+## TECHNICAL DEBTS
+- [ ] create components to improve easy maintenance [DOING]
+- [ ] refactor code to use "ctx.activePlayers" to control current actions/stages on game instead of "G.currentAction"
 
 ## BACKLOG
 - [ ] enable play the game multiple times until one player achieve 100 points
-- [ ] able to play with more than two players (on future, because it changes a lot the game flow)
+- [ ] able to play with more than two players (it changes a lot the game flow)
 - [ ] i18n - internationalization

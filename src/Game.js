@@ -17,10 +17,12 @@ import {
     autumnSongCardSelectPlayer,
     autumnSongCardExecute,
     winterSongCardExecute,
+    resetAudio,
 } from './logic/moves';
 import { initializeDeck, initializeGarden, initializePlayersHand } from './logic/initializer';
 import { calculatePlayerScore } from './logic/utils';
 import { GAME_NAME } from './config';
+import { AUDIOS } from './logic/audio';
 
 export const EncantadosGame = {
     name: GAME_NAME,
@@ -35,6 +37,7 @@ export const EncantadosGame = {
             hand: initializePlayersHand(ctx, deck),
             garden: initializeGarden(ctx.numPlayers),
             currentAction: TAKE_CARDS,
+            audio: Array(ctx.numPlayers).fill(undefined),
             goblinCardAlreadyPlayed: Array(ctx.numPlayers).fill(false),
             koboldCardAlreadyPlayed: Array(ctx.numPlayers).fill(false),
             trollCardAlreadyPlayed: Array(ctx.numPlayers).fill(false),
@@ -51,40 +54,43 @@ export const EncantadosGame = {
             // end turn
         },
         onBegin: ({ G, ctx }) => {
+            if (ctx.turn !== 1) {
+                G.audio[ctx.currentPlayer] = AUDIOS.PLAYER_START_TURN;
+            }
         },
         onMove: ({ G, ctx, events }) => {
             // each move  
         },
         stages: {
             takeCards: {
-                moves: { takeCardsFromSearch, takeCardFromDiscard, selectCardFromDiscard }
+                moves: { takeCardsFromSearch, takeCardFromDiscard, selectCardFromDiscard, resetAudio }
             },
             discardCards: {
-                moves: { discardToSearch }
+                moves: { discardToSearch, resetAudio }
             },
             downCards: {
-                moves: { downCreatureCards, expandCreatureCards, downSongCard, discardToEndTurn },
+                moves: { downCreatureCards, expandCreatureCards, downSongCard, discardToEndTurn, resetAudio },
             },
             idle: {
-                moves: {}
+                moves: { resetAudio }
             },
             goblinCard: {
-                moves: { goblinCardExecute }
+                moves: { goblinCardExecute, resetAudio }
             },
             koboldCard: {
-                moves: { koboldCardExecute, skipKoboldCardExecute }
+                moves: { koboldCardExecute, skipKoboldCardExecute, resetAudio }
             },
             trollCard: {
-                moves: { trollCardExecute, skipTrollCardExecute }
+                moves: { trollCardExecute, skipTrollCardExecute, resetAudio }
             },
             springSongCard: {
-                moves: { springSongCardExecute, takeCardsFromSearch }
+                moves: { springSongCardExecute, takeCardsFromSearch, resetAudio }
             },
             autumnSongCard: {
-                moves: { autumnSongCardSelectPlayer, autumnSongCardExecute }
+                moves: { autumnSongCardSelectPlayer, autumnSongCardExecute, resetAudio }
             },
             winterSongCard: {
-                moves: { winterSongCardExecute, takeCardsFromSearch }
+                moves: { winterSongCardExecute, takeCardsFromSearch, resetAudio }
             },
         }
     },

@@ -29,7 +29,7 @@ export function calculatePlayerScore(G, playerID) {
 
     if (!!G.hand[playerID].length) {
         G.hand[playerID].forEach(card => {
-            score += -Math.abs(card.value);
+            score += -Math.abs(!!card ? card.value : 0);
         });
     }
 

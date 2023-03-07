@@ -1,0 +1,21 @@
+export const VOLUME = {
+    HIGH: .8,
+    MEDIUM: .5,
+    LOW: .1,
+};
+
+export const AUDIOS = {
+    TAKE_CARDS_FROM_SEARCH: { file: '/audios/card-flip2.mp3', volume: VOLUME.HIGH },
+    TAKE_CARDS_FROM_DISCARD: { file: '/audios/card-flip1.mp3', volume: VOLUME.MEDIUM },
+    PUT_CARDS_ON_HAND: { file: '/audios/card-flip4.mp3', volume: VOLUME.MEDIUM },
+    PLAYER_START_TURN: { file: '/audios/player-turn-1.mp3', volume: VOLUME.MEDIUM },
+    DOWN_CREATURE_CARDS: { file: '/audios/down-creature-cards.mp3', volume: .2 },
+    DOWN_SONG_CARD: { file: '/audios/down-song-card.mp3', volume: VOLUME.MEDIUM },
+};
+
+export function playAudio(path, volume = VOLUME.HIGH) {
+    const audio = new Audio(path);
+    audio.volume = volume;
+    audio.play();
+    return audio;
+}

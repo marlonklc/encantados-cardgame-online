@@ -12,6 +12,10 @@ body {
     font-family: 'Shantell Sans', cursive;
 }
 
+audio {
+    display: none;
+}
+
 button {
     font-size: 1em;
     font-family: 'Shantell Sans', cursive;

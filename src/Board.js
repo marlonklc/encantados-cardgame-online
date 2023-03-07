@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './Board.css';
 import Modal from './components/Modal';
 import Garden from './components/Garden';
 import Hand from './components/Hand';
 import Deck from './components/Deck';
+import { playAudio } from './logic/audio';
 
 export function Board({ ctx, G, moves, playerID, redo, sendChatMessage, matchData, isActive, isConnected, log, reset, events, ...ot }) {
     // console.log('redo>>>', redo)
@@ -17,8 +18,23 @@ export function Board({ ctx, G, moves, playerID, redo, sendChatMessage, matchDat
 
     const enemyPlayerID = matchData.filter(i => i.id !== parseInt(playerID))[0].id;
 
+    useEffect(() => {
+        const audio = playAudio('/audios/celestial-melody.mp3', .09);
+        audio.loop = true;
+    }, []);
+
+    useEffect(() => {
+        if (!!G.audio[playerID]) {
+            const dynamicVolume = isActive ? 1 : .7; 
+            playAudio(G.audio[playerID].file, G.audio[playerID].volume * dynamicVolume);
+            moves.resetAudio();
+        }
+    }, [G.audio[playerID]]); // eslint-disable-line
+
     return (
         <div class="board">
+            {/* <audio autoplay loop id="game-audio" src="/audios/birds-sond1.mp3"></audio> */}
+
             <ul class="bg-lights">
                 <li></li>
                 <li></li>

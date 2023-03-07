@@ -6,6 +6,7 @@ import {
 import { GROUPS } from './cards';
 import _ from 'lodash';
 import { isAbleDownCreatures, isAbleExpandCreatures, isCreatureAbilityEnabled, sortCardsIndex as sortCardsByIndex, sortHandByGroups } from './utils';
+import { AUDIOS } from './audio';
 
 export function takeCardsFromSearch({ G, playerID, events }, toPlayer = playerID) {
     const hasGnomesOnGarden = isCreatureAbilityEnabled(G.garden[toPlayer], GROUPS.gnomes);
@@ -23,6 +24,8 @@ export function takeCardsFromSearch({ G, playerID, events }, toPlayer = playerID
     const hasNoEnoughCardsOnDeck = !G.deck.length;
     if (hasNoEnoughCardsOnDeck) return;
 
+    G.audio[0] = AUDIOS.TAKE_CARDS_FROM_SEARCH;
+    G.audio[1] = AUDIOS.TAKE_CARDS_FROM_SEARCH;
     G.playerSourceAction = playerID;
     G.currentAction = DISCARD_CARD;
     G.showModal[toPlayer] = true;
@@ -60,6 +63,8 @@ export function discardToSearch({ G, playerID, events }, cards) {
     G.hand[playerID] = sortHandByGroups(G.hand[playerID]);
     G.deckDiscardSearch = G.deckDiscardSearch.concat(cards);
     G.tempDeck = [];
+    G.audio[0] = AUDIOS.TAKE_CARDS_FROM_SEARCH;
+    G.audio[1] = AUDIOS.TAKE_CARDS_FROM_SEARCH;
     G.currentAction = DOWN_CARDS;
     G.showModal[playerID] = false;
 
@@ -99,6 +104,8 @@ export function takeCardFromDiscard({ G, playerID, events }, deckOfDiscard) {
         G.hand[playerID].push(G.deckDiscardEndTurn.pop());
     }
 
+    G.audio[0] = AUDIOS.TAKE_CARDS_FROM_DISCARD;
+    G.audio[1] = AUDIOS.TAKE_CARDS_FROM_DISCARD;
     G.hand[playerID] = sortHandByGroups(G.hand[playerID]);
     G.currentAction = DOWN_CARDS;
     events.setStage('downCards');
@@ -153,6 +160,9 @@ function downCreatureOnGarden(G, playerID, events, cards) {
         count++;
     });
 
+    G.audio[0] = AUDIOS.DOWN_CREATURE_CARDS;
+    G.audio[1] = AUDIOS.DOWN_CREATURE_CARDS;
+
     if (groupOfCards === GROUPS.goblins) {
         if (G.goblinCardAlreadyPlayed[playerID]) return;
 
@@ -187,6 +197,8 @@ export function downSongCard({ G, playerID, events }, card) {
     G.playerAlreadyDownedSongCard = true;
     G.garden[playerID].songs.push(card);
     G.hand[playerID].splice(card.index, 1);
+    G.audio[0] = AUDIOS.DOWN_SONG_CARD;
+    G.audio[1] = AUDIOS.DOWN_SONG_CARD;
 
     if (card.action === CARD_SPRING_SONG) {
         G.currentAction = CARD_SPRING_SONG;
@@ -337,4 +349,8 @@ export function winterSongCardExecute({ G, playerID, events }, deckOfDiscard) {
     }
 
     takeCardsFromSearch({ G, playerID, events });
+}
+
+export function resetAudio({ G, playerID, events }) {
+    G.audio[playerID] = undefined;
 }

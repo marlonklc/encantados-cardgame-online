@@ -44,7 +44,7 @@ export function Board({ ctx, G, moves, playerID, redo, sendChatMessage, matchDat
                     </div>
                 }
 
-                {!isActive &&
+                {!isActive && matchData[enemyPlayerID].isConnected &&
                     <div class="enemy-turn-message">
                         <b>Oponente está jogando...</b>
                     </div>

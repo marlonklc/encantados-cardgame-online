@@ -29,7 +29,7 @@ Launches the server (nodeJS) to test on development (running on 8000 port).\
 - [x] add sounds to have better imersion in the game
 - [ ] show if enemy player is connected
 - [ ] change the rule to select cards instead of discard them on make a search
-- [ ] enable zoom on cards within garden
+- [x] enable zoom on cards within garden
 - [ ] show message of enemy playing his turn
 
 ## TECHNICAL DEBTS

@@ -52,6 +52,7 @@ export const EncantadosGame = {
         activePlayers: { currentPlayer: 'takeCards' },
         onEnd: ({ G, ctx }) => {
             // end turn
+            G.audio[ctx.currentPlayer] = AUDIOS.PLAYER_END_TURN;
         },
         onBegin: ({ G, ctx }) => {
             if (ctx.turn !== 1) {

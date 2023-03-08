@@ -30,17 +30,36 @@
     max-height: 2vh;
 }
 
+.garden-item li div {
+    position: relative;
+}
+
+.garden-item li div:hover {
+    transform: scale(1.1);
+    z-index: 9999;
+}
+
 .garden-item li div img {
     max-height: 15vh;
     max-width: 12vw;
-}
-
-.garden-item li:hover {
-    transform: scale(1.1);
-    z-index: 9999;
 }
 
 .garden-item li.selected-card {
     transform: scale(1.1);
 }
 
+.garden-item li div i {
+    transform: scale(0.9);
+    color: #fff;
+    font-size: 80%;
+    position: absolute;
+    bottom: 10px;
+    left: 1px;
+    background: #000;
+    width: 1.3rem;
+    height: 1.3rem;
+}
+
+.garden-item li div i:hover {
+    transform: scale(1);
+}

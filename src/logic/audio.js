@@ -12,6 +12,7 @@ export const AUDIOS = {
     PLAYER_END_TURN: { file: '/audios/player-end-turn.mp3', volume: .2 },
     DOWN_CREATURE_CARDS: { file: '/audios/down-creature-cards.mp3', volume: .2 },
     DOWN_SONG_CARD: { file: '/audios/down-song-card.mp3', volume: .3 },
+    ALERT_PLAYER: { file: '/audios/alert-choosed-player.mp3', volume: .5 },
 };
 
 export function playAudio(path, volume = VOLUME.HIGH) {

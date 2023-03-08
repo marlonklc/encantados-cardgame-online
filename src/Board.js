@@ -7,19 +7,6 @@ import Deck from './components/Deck';
 import { playAudio } from './logic/audio';
 
 export function Board({ ctx, G, moves, playerID, redo, sendChatMessage, matchData, isActive, isConnected, log, reset, events, ...ot }) {
-    // console.log('redo>>>', redo)
-    // console.log('sendChatMessage>>>', sendChatMessage)
-    // console.log(log)
-    // console.log('its the player active? ', isActive);
-    // console.log('its the player connected?', isConnected);
-    // console.log(ot)
-    // console.log(matchData)
-    // console.log(ctx.activePlayers[playerID])
-
-    // console.log(isConnected)
-    console.log(matchData)
-    // console.log(ctx)
-
     const enemyPlayerID = matchData.filter(i => i.id !== parseInt(playerID))[0].id;
 
     useEffect(() => {
@@ -92,7 +79,7 @@ export function Board({ ctx, G, moves, playerID, redo, sendChatMessage, matchDat
                         <br />
                         <h4 class="player-font-color">Você fez {ctx.gameover.score[playerID]} pontos</h4>
                         <br />
-                        <h4 class="enemy-font-color">Inimigo fez {ctx.gameover.score[enemyPlayerID]} pontos</h4>
+                        <h4 class="enemy-font-color">Oponente fez {ctx.gameover.score[enemyPlayerID]} pontos</h4>
                     </>
                 } />)
             }

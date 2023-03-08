@@ -8,7 +8,7 @@ import _ from 'lodash';
 import { isAbleDownCreatures, isAbleExpandCreatures, isCreatureAbilityEnabled, sortCardsIndex as sortCardsByIndex, sortHandByGroups } from './utils';
 import { AUDIOS } from './audio';
 
-export function takeCardsFromSearch({ G, playerID, events }, toPlayer = playerID) {
+export function takeCardsFromSearch({ G, playerID, events }, toPlayer = playerID, shouldPlayAudio = true) {
     const hasGnomesOnGarden = isCreatureAbilityEnabled(G.garden[toPlayer], GROUPS.gnomes);
     if (hasGnomesOnGarden) {
         G.hand[toPlayer].forEach(card => G.tempDeck.push(card));
@@ -24,8 +24,11 @@ export function takeCardsFromSearch({ G, playerID, events }, toPlayer = playerID
     const hasNoEnoughCardsOnDeck = !G.deck.length;
     if (hasNoEnoughCardsOnDeck) return;
 
-    G.audio[0] = AUDIOS.TAKE_CARDS_FROM_SEARCH;
-    G.audio[1] = AUDIOS.TAKE_CARDS_FROM_SEARCH;
+    if (shouldPlayAudio) {
+        G.audio[0] = AUDIOS.TAKE_CARDS_FROM_SEARCH;
+        G.audio[1] = AUDIOS.TAKE_CARDS_FROM_SEARCH;
+    }
+    
     G.playerSourceAction = playerID;
     G.currentAction = DISCARD_CARD;
     G.showModal[toPlayer] = true;
@@ -300,15 +303,18 @@ export function skipTrollCardExecute({ G, playerID, events }) {
 export function springSongCardExecute({ G, playerID, events }, toPlayer) {
     if (playerID !== toPlayer) {
         G.showModal[playerID] = false;
+        console.log(playerID, toPlayer)
+        G.audio[toPlayer] = AUDIOS.ALERT_PLAYER;
     }
 
-    takeCardsFromSearch({ G, playerID, events }, toPlayer);
+    takeCardsFromSearch({ G, playerID, events }, toPlayer, false);
 }
 
 export function autumnSongCardSelectPlayer({ G, playerID, events }, toPlayer) {
     if (playerID !== toPlayer) {
         G.showModal[playerID] = false;
         G.showModal[toPlayer] = true;
+        G.audio[toPlayer] = AUDIOS.ALERT_PLAYER;
     }
 
     G.currentAction = CARD_AUTUMN_SONG_EXECUTE;
@@ -317,8 +323,7 @@ export function autumnSongCardSelectPlayer({ G, playerID, events }, toPlayer) {
     events.setActivePlayers({
         value: {
             [toPlayer]: 'autumnSongCard'
-        },
-        maxMoves: 1,
+        }
     });
 }
 

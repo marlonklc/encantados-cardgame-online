@@ -11,7 +11,7 @@ const SERVER_URL = APP_PRODUCTION ? origin : `${protocol}//${hostname}:${DEFAULT
 const EncantadosGameClient = Client({
     game: EncantadosGame,
     board: Board,
-    debug: false,
+    // debug: false,
     multiplayer: SocketIO({ server: SERVER_URL }),
     numPlayers: 2
 });

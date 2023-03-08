@@ -85,7 +85,7 @@ const Modal = ({ G = {}, show, moves = {}, playerID, enemyPlayerID, isCloseable 
                             customClass="player-font-color player-button-custom"
                         />
                         <Button
-                            text="Inimigo"
+                            text="Oponente"
                             onClick={() => moves.springSongCardExecute(enemyPlayerID)}
                             customClass="enemy-font-color enemy-button-custom"
                         />
@@ -103,7 +103,7 @@ const Modal = ({ G = {}, show, moves = {}, playerID, enemyPlayerID, isCloseable 
                             customClass="player-font-color player-button-custom"
                         />
                         <Button
-                            text="Inimigo"
+                            text="Oponente"
                             onClick={() => moves.autumnSongCardSelectPlayer(enemyPlayerID)}
                             customClass="enemy-font-color enemy-button-custom"
                         />
@@ -146,7 +146,7 @@ const Modal = ({ G = {}, show, moves = {}, playerID, enemyPlayerID, isCloseable 
                             customClass="player-font-color player-button-custom"
                         />
                         <Button
-                            text="Inimigo"
+                            text="Oponente"
                             onClick={() => moves.goblinCardExecute(enemyPlayerID)}
                             customClass="enemy-font-color enemy-button-custom"
                         />
@@ -158,7 +158,7 @@ const Modal = ({ G = {}, show, moves = {}, playerID, enemyPlayerID, isCloseable 
                         <h4 class="modal-title"><b>[Ação {KOBOLD.name}]</b> Selecione a carta que quer colocar no fundo do baralho...</h4>
                     </div>
                     <div class="modal-body">
-                        <h4 class="enemy-font-color">INIMIGO</h4>
+                        <h4 class="enemy-font-color">OPONENTE</h4>
                         <Garden
                             garden={G.garden[enemyPlayerID]}
                             playerID={enemyPlayerID}
@@ -193,7 +193,7 @@ const Modal = ({ G = {}, show, moves = {}, playerID, enemyPlayerID, isCloseable 
                         <h4 class="modal-title"><b>[Ação {TROLL.name}]</b> Selecione a carta que deseja mover...</h4>
                     </div>
                     <div class="modal-body">
-                        <h4 class="enemy-font-color">INIMIGO</h4>
+                        <h4 class="enemy-font-color">OPONENTE</h4>
                         <Garden
                             garden={G.garden[enemyPlayerID]}
                             playerID={enemyPlayerID}

@@ -6,8 +6,6 @@ const serve = require('koa-static');
 
 const PORT = process.env.PORT_SRC_SERVER || process.env.PORT_ENCANTADOSONLINE_SRC_SERVER || DEFAULT_PORT;
 
-console.log('port:', process.env.PORT_SRC_SERVER, process.env.PORT_ENCANTADOSONLINE_SRC_SERVER);
-
 const server = Server({
     games: [EncantadosGame],
     origins: ['http://www.marlonklc.kinghost.net', Origins.LOCALHOST]

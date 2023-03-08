@@ -27,10 +27,10 @@ Launches the server (nodeJS) to test on development (running on 8000 port).\
 - [x] improve colors of enemy player (maybe red more light, not so strong)
 - [ ] create end game animation (to look better)
 - [x] add sounds to have better imersion in the game
-- [ ] show if enemy player is connected
+- [x] show if enemy player is connected
 - [ ] change the rule to select cards instead of discard them on make a search
 - [x] enable zoom on cards within garden
-- [ ] show message of enemy playing his turn
+- [x] show message of enemy playing his turn
 
 ## TECHNICAL DEBTS
 - [ ] create components to improve easy maintenance [DOING]

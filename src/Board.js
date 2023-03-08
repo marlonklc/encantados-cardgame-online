@@ -16,6 +16,10 @@ export function Board({ ctx, G, moves, playerID, redo, sendChatMessage, matchDat
     // console.log(matchData)
     // console.log(ctx.activePlayers[playerID])
 
+    // console.log(isConnected)
+    console.log(matchData)
+    // console.log(ctx)
+
     const enemyPlayerID = matchData.filter(i => i.id !== parseInt(playerID))[0].id;
 
     useEffect(() => {
@@ -25,7 +29,7 @@ export function Board({ ctx, G, moves, playerID, redo, sendChatMessage, matchDat
 
     useEffect(() => {
         if (!!G.audio[playerID]) {
-            const dynamicVolume = isActive ? 1 : .7; 
+            const dynamicVolume = isActive ? 1 : .7;
             playAudio(G.audio[playerID].file, G.audio[playerID].volume * dynamicVolume);
             moves.resetAudio();
         }
@@ -33,8 +37,6 @@ export function Board({ ctx, G, moves, playerID, redo, sendChatMessage, matchDat
 
     return (
         <div class="board">
-            {/* <audio autoplay loop id="game-audio" src="/audios/birds-sond1.mp3"></audio> */}
-
             <ul class="bg-lights">
                 <li></li>
                 <li></li>
@@ -47,14 +49,23 @@ export function Board({ ctx, G, moves, playerID, redo, sendChatMessage, matchDat
                 <li></li>
                 <li></li>
             </ul>
-            {/* <img src="/images/florest-bg.jpg" class="image-background" alt="" /> */}
 
             <section class="enemy-area">
+                {!matchData[enemyPlayerID].isConnected &&
+                    <div class="enemy-offline-message">
+                        <b>Oponente está offline...</b>
+                    </div>
+                }
+
+                {!isActive &&
+                    <div class="enemy-turn-message">
+                        <b>Oponente está jogando...</b>
+                    </div>
+                }
 
                 <Hand hand={G.hand[enemyPlayerID]} isEnemy={true} />
 
                 <Garden garden={G.garden[enemyPlayerID]} />
-
             </section>
 
             <section class="deck-area">
@@ -62,7 +73,6 @@ export function Board({ ctx, G, moves, playerID, redo, sendChatMessage, matchDat
             </section>
 
             <section class="player-area">
-
                 <Garden garden={G.garden[playerID]} />
 
                 <Hand

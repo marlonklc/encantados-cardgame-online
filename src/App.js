@@ -39,19 +39,24 @@ export default class App extends React.Component {
         if (this.state.playerID === null) {
             return (
                 <div>
-                    <p>JOGAR COMO:</p>
-                    <button onClick={() => this.setState({ playerID: "0" })}>
-                        Player 0
-                    </button>
-                    {' '}
-                    <button onClick={() => this.setState({ playerID: "1" })}>
-                        Player 1
-                    </button>
-                    <br/>
-                    <br/>
+                    <p>Jogar como {' '}
+                        <button onClick={() => this.setState({ playerID: "0" })}>
+                            Player 1
+                        </button>
+                        {' '}
+                        <button onClick={() => this.setState({ playerID: "1" })}>
+                            Player 2
+                        </button>
+                    </p>
+                    <br />
                     <button onClick={this.resetGame}>
                         RESETAR O JOGO
                     </button>
+                    <br /><br />
+                    <h3>Links</h3>
+                    <a href="https://ludopedia.com.br/jogo/encantados-3-edicao" target="_blank" rel="noopener noreferrer">mais detalhes sobre o jogo</a>
+                    <br /><br />
+                    <a href="https://ludopedia.com.br/download.php?id_jogo_anexo=179044" target="_blank" rel="noopener noreferrer">manual do jogo</a>
                 </div>
             );
         }

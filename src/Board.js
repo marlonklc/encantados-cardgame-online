@@ -10,7 +10,7 @@ export function Board({ ctx, G, moves, playerID, redo, sendChatMessage, matchDat
     const enemyPlayerID = matchData.filter(i => i.id !== parseInt(playerID))[0].id;
 
     useEffect(() => {
-        const audio = playAudio('/audios/celestial-melody.mp3', .09);
+        const audio = playAudio('/audios/relaxation-music1.mp3', .09);
         audio.loop = true;
     }, []);
 

@@ -16,7 +16,7 @@ export function Board({ ctx, G, moves, playerID, redo, sendChatMessage, matchDat
 
     useEffect(() => {
         if (!!G.audio[playerID]) {
-            const dynamicVolume = isActive ? 1 : .7;
+            const dynamicVolume = isActive ? 1 : 0.5;
             playAudio(G.audio[playerID].file, G.audio[playerID].volume * dynamicVolume);
             moves.resetAudio();
         }

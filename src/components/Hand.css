@@ -25,6 +25,11 @@
     flex-direction: column;
     align-items: flex-end;
     position: relative;
+    transition: all .1s linear;
+}
+
+.hand-card:hover {
+    transform: scale(1.1);
 }
 
 .hand-card-enemy {
@@ -73,10 +78,6 @@
 .selected-card img {
     border: 4px solid #225D86;
     border-radius: 7px;
-}
-
-.hand-card:hover {
-    transform: scale(1.1);
 }
 
 .hand-action {

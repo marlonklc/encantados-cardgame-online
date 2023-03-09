@@ -37,6 +37,7 @@ const Modal = ({ G = {}, show, moves = {}, playerID, enemyPlayerID, isCloseable 
         }
     }, []); // eslint-disable-line
 
+    const hasGnomesOnGarden = G.garden ? isCreatureAbilityEnabled(G.garden[playerID], GROUPS.gnomes) : false;
     const hasElvesOnGarden = G.garden ? isCreatureAbilityEnabled(G.garden[playerID], GROUPS.elves) : false;
 
     function selectCardToMove(selected, toPlayer) {
@@ -50,7 +51,7 @@ const Modal = ({ G = {}, show, moves = {}, playerID, enemyPlayerID, isCloseable 
     }
 
     function shouldDisableDiscardButton() {
-        return hasElvesOnGarden ? selectedCards.length !== 2 : selectedCards.length !== 1;
+        return hasElvesOnGarden && hasGnomesOnGarden ? selectedCards.length !== 2 : selectedCards.length !== 1;
     }
 
     return ReactDOM.createPortal(
@@ -59,12 +60,23 @@ const Modal = ({ G = {}, show, moves = {}, playerID, enemyPlayerID, isCloseable 
                 {content}
                 {G.currentAction === DISCARD_CARD && <>
                     <div class="modal-header">
-                        <h4 class="modal-title"><b>[Ação Busca]</b> Selecione {hasElvesOnGarden ? 'duas cartas' : 'uma carta'} para o DESCARTE...</h4>
+                        <h4 class="modal-title">
+                            <b>[Ação Busca]</b>
+                            {hasGnomesOnGarden ?
+                                (hasElvesOnGarden ?
+                                    'Selecione as duas cartas para DESCARTAR...'
+                                    :
+                                    'Selecione uma carta para DESCARTAR... '
+                                )
+                                :
+                                'Selecione uma carta para ficar na sua mão...'
+                            }
+                        </h4>
                     </div>
                     <div class="modal-body">
-                        <CardList cards={G.tempDeck} maxSelected={hasElvesOnGarden ? 2 : 1} onSelectCard={(cards) => setSelectedCards(cards)}>
+                        <CardList cards={G.tempDeck} maxSelected={hasElvesOnGarden && hasGnomesOnGarden ? 2 : 1} onSelectCard={(cards) => setSelectedCards(cards)}>
                             <Button
-                                text="descartar"
+                                text={hasGnomesOnGarden ? 'descartar' : 'pegar'}
                                 disable={shouldDisableDiscardButton()}
                                 onClick={() => {
                                     moves.discardToSearch(selectedCards);
@@ -77,7 +89,7 @@ const Modal = ({ G = {}, show, moves = {}, playerID, enemyPlayerID, isCloseable 
 
                 {G.currentAction === CARD_SPRING_SONG && <>
                     <div class="modal-header">
-                        <h4 class="modal-title"><b>[Ação {SPRING_SONG.name}]</b> Selecione o jogador que fará a compra.</h4>
+                        <h4 class="modal-title"><b>[Ação {SPRING_SONG.name}]</b>Selecione o jogador que fará a compra.</h4>
                     </div>
                     <div class="modal-body">
                         <Button
@@ -95,7 +107,7 @@ const Modal = ({ G = {}, show, moves = {}, playerID, enemyPlayerID, isCloseable 
 
                 {G.currentAction === CARD_AUTUMN_SONG && <>
                     <div class="modal-header">
-                        <h4 class="modal-title"><b>[Ação {AUTUMN_SONG.name}]</b> Selecione o jogador que comprará as 4 cartas do topo de qualquer pilha de descarte.</h4>
+                        <h4 class="modal-title"><b>[Ação {AUTUMN_SONG.name}]</b>Selecione o jogador que comprará as 4 cartas do topo de qualquer pilha de descarte.</h4>
                     </div>
                     <div class="modal-body">
                         <Button
@@ -113,7 +125,7 @@ const Modal = ({ G = {}, show, moves = {}, playerID, enemyPlayerID, isCloseable 
 
                 {G.currentAction === CARD_AUTUMN_SONG_EXECUTE && <>
                     <div class="modal-header">
-                        <h4 class="modal-title"><b>[Ação {AUTUMN_SONG.name}]</b> Selecione qual pilha de descarte você quer pegar.</h4>
+                        <h4 class="modal-title"><b>[Ação {AUTUMN_SONG.name}]</b>Selecione qual pilha de descarte você quer pegar.</h4>
                     </div>
                     <div class="modal-body">
                         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -138,7 +150,7 @@ const Modal = ({ G = {}, show, moves = {}, playerID, enemyPlayerID, isCloseable 
 
                 {G.currentAction === CARD_GOBLIN_CREATURE && <>
                     <div class="modal-header">
-                        <h4 class="modal-title"><b>[Ação {GOBLIN.name}]</b> Selecione o jogador que irá comprar 2 cartas...</h4>
+                        <h4 class="modal-title"><b>[Ação {GOBLIN.name}]</b>Selecione o jogador que irá comprar 2 cartas...</h4>
                     </div>
                     <div class="modal-body">
                         <Button
@@ -156,7 +168,7 @@ const Modal = ({ G = {}, show, moves = {}, playerID, enemyPlayerID, isCloseable 
 
                 {G.currentAction === CARD_KOBOLD_CREATURE && <>
                     <div class="modal-header">
-                        <h4 class="modal-title"><b>[Ação {KOBOLD.name}]</b> Selecione a carta que quer colocar no fundo do baralho...</h4>
+                        <h4 class="modal-title"><b>[Ação {KOBOLD.name}]</b>Selecione a carta que quer colocar no fundo do baralho...</h4>
                     </div>
                     <div class="modal-body">
                         <h4 class="enemy-font-color">OPONENTE</h4>
@@ -191,7 +203,7 @@ const Modal = ({ G = {}, show, moves = {}, playerID, enemyPlayerID, isCloseable 
 
                 {G.currentAction === CARD_TROLL_CREATURE && <>
                     <div class="modal-header">
-                        <h4 class="modal-title"><b>[Ação {TROLL.name}]</b> Selecione a carta que deseja mover...</h4>
+                        <h4 class="modal-title"><b>[Ação {TROLL.name}]</b>Selecione a carta que deseja mover...</h4>
                     </div>
                     <div class="modal-body">
                         <h4 class="enemy-font-color">OPONENTE</h4>
@@ -225,7 +237,7 @@ const Modal = ({ G = {}, show, moves = {}, playerID, enemyPlayerID, isCloseable 
                 {G.currentAction === CARD_WINTER_SONG && <>
                     <div class="modal-header">
                         <h4 class="modal-title">
-                            <b>[Ação {WINTER_SONG.name}]</b> Selecione a carta de uma pilha de descarte.
+                            <b>[Ação {WINTER_SONG.name}]</b>Selecione a carta de uma pilha de descarte.
                         </h4>
                     </div>
                     <div class="modal-body">
@@ -251,7 +263,7 @@ const Modal = ({ G = {}, show, moves = {}, playerID, enemyPlayerID, isCloseable 
 
                 {G.currentAction === SELECT_CARD_FROM_SEARCH_DISCARD && <>
                     <div class="modal-header">
-                        <h4 class="modal-title"><b>[Ação {DWARF.name}]</b> Escolha uma carta do descarte de compras...</h4>
+                        <h4 class="modal-title"><b>[Ação {DWARF.name}]</b>Escolha uma carta do descarte de compras...</h4>
                     </div>
                     <div class="modal-body">
                         <CardList cards={G.deckDiscardSearch} maxSelected={1} onSelectCard={(cards) => setSelectedCards(cards)}>
@@ -269,7 +281,7 @@ const Modal = ({ G = {}, show, moves = {}, playerID, enemyPlayerID, isCloseable 
 
                 {G.currentAction === SELECT_CARD_FROM_END_TURN_DISCARD && <>
                     <div class="modal-header">
-                        <h4 class="modal-title"><b>[Ação {DWARF.name}]</b> Escolha uma carta do descarte de fim de turno...</h4>
+                        <h4 class="modal-title"><b>[Ação {DWARF.name}]</b>Escolha uma carta do descarte de fim de turno...</h4>
                     </div>
                     <div class="modal-body">
                         <CardList cards={G.deckDiscardEndTurn} maxSelected={1} onSelectCard={(cards) => setSelectedCards(cards)}>

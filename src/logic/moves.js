@@ -41,10 +41,11 @@ export function takeCardsFromSearch({ G, playerID, events }, toPlayer = playerID
 }
 
 export function discardToSearch({ G, playerID, events }, cards) {
+    const hasGnomesOnGarden = isCreatureAbilityEnabled(G.garden[playerID], GROUPS.gnomes);
     const hasElvesOnGarden = isCreatureAbilityEnabled(G.garden[playerID], GROUPS.elves);
 
-    if (hasElvesOnGarden && cards.length > 2) return;
-    if (!hasElvesOnGarden && cards.length > 1) return;
+    if (hasElvesOnGarden && hasGnomesOnGarden && cards.length !== 2) return;
+    if (!hasGnomesOnGarden && cards.length !== 1) return;
 
     // I have no idea why filter() doesnt work with G variables, it always keep the same array length and same objects.
     // Because of that I used this workaround
@@ -55,16 +56,15 @@ export function discardToSearch({ G, playerID, events }, cards) {
         count++;
     });
 
-    const hasGnomesOnGarden = isCreatureAbilityEnabled(G.garden[playerID], GROUPS.gnomes);
-
     if (hasGnomesOnGarden) {
         G.hand[playerID] = G.tempDeck;
+        G.deckDiscardSearch = G.deckDiscardSearch.concat(cards);
     } else {
-        G.hand[playerID].push(G.tempDeck[0]);
+        G.hand[playerID] = G.hand[playerID].concat(cards);
+        G.deckDiscardSearch = G.deckDiscardSearch.concat(G.tempDeck);
     }
 
     G.hand[playerID] = sortHandByGroups(G.hand[playerID]);
-    G.deckDiscardSearch = G.deckDiscardSearch.concat(cards);
     G.tempDeck = [];
     G.audio[0] = AUDIOS.TAKE_CARDS_FROM_SEARCH;
     G.audio[1] = AUDIOS.TAKE_CARDS_FROM_SEARCH;

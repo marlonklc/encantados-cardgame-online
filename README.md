@@ -29,7 +29,7 @@ Launches the server (nodeJS) to test on development (running on 8000 port).\
 - [x] show if enemy player is connected
 - [x] enable zoom on cards within garden
 - [x] show message of enemy playing his turn
-- [ ] change the rule to select cards instead of discard them on make a search
+- [x] change the rule to select cards instead of discard them on make a search
 - [x] show cards from players hand when game was finished
 - [ ] create end game animation (to look better)
 

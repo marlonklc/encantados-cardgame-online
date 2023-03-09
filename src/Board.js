@@ -24,7 +24,8 @@ export function Board({ ctx, G, moves, playerID, redo, sendChatMessage, matchDat
     }, [G.audio[playerID]]); // eslint-disable-line
 
     function playAgain() {
-        window.location.search = `matchID=match-${new Date().getTime()}&playerID=${playerID}`;
+        // window.location.search = `matchID=match-${new Date().getTime()}&playerID=${playerID}`;
+        window.location.search = `matchID=match-${new Date().getTime()}`;
     }
 
     return (
@@ -80,7 +81,6 @@ export function Board({ ctx, G, moves, playerID, redo, sendChatMessage, matchDat
             {!!ctx.gameover &&
                 (<Modal show={true} zIndex={9999} content={
                     <>
-
                         <h1 class="default-font-color">FIM DE JOGO !</h1>
                         <br />
                         <h4 class="player-font-color">Você fez {ctx.gameover.score[playerID]} pontos</h4>

@@ -5,6 +5,7 @@ import {
     SELECT_CARD_FROM_END_TURN_DISCARD, SELECT_CARD_FROM_SEARCH_DISCARD
 } from '../logic/actions';
 import { AUTUMN_SONG, DWARF, GOBLIN, GROUPS, KOBOLD, SPRING_SONG, TROLL, WINTER_SONG } from '../logic/cards';
+import { isCreatureAbilityEnabled } from '../logic/utils';
 import Button from './Button';
 import CardList from './CardList';
 import Garden from './Garden';
@@ -36,7 +37,7 @@ const Modal = ({ G = {}, show, moves = {}, playerID, enemyPlayerID, isCloseable 
         }
     }, []); // eslint-disable-line
 
-    const hasElvesOnGarden = G.garden ? G.garden[playerID][GROUPS.elves].filter(card => card.group === GROUPS.elves).length >= 2 : false;
+    const hasElvesOnGarden = G.garden ? isCreatureAbilityEnabled(G.garden[playerID], GROUPS.elves) : false;
 
     function selectCardToMove(selected, toPlayer) {
         if (!!selected) setCardToMove({ ...selected, toPlayer });

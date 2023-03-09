@@ -104,7 +104,7 @@ export function isAbleDownCreatures(G, playerID, cards) {
     const playerHasNoEnoughCards = (G.hand[playerID].length - cards.length) <= 0;
     if (playerHasNoEnoughCards) return false;
 
-    const hasWispsOnGarden = G.garden[playerID][GROUPS.wisps].filter(card => card.group === GROUPS.wisps).length >= 2;
+    const hasWispsOnGarden = isCreatureAbilityEnabled(G.garden[playerID], GROUPS.wisps);
 
     const grouped = _.groupBy(cards, c => c.group);
 

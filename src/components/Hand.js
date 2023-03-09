@@ -5,7 +5,7 @@ import { HiOutlineArrowsExpand } from 'react-icons/hi';
 import Modal from './Modal';
 import { isAbleDownCreatures, isAbleExpandCreatures } from '../logic/utils';
 
-const Hand = ({ hand, G, isActive, playerID, enemyPlayerID, moves, isEnemy = false }) => {
+const Hand = ({ hand, G, isActive, playerID, enemyPlayerID, moves, isEnemy = false, enableActions = true }) => {
 
     const [selectedCards, setSelectedCards] = useState([]);
     const [showExpandedCard, setShowExpandedCard] = useState(false);
@@ -45,7 +45,7 @@ const Hand = ({ hand, G, isActive, playerID, enemyPlayerID, moves, isEnemy = fal
                     <div key={index}
                         className={`${isEnemy ? 'hand-card-enemy' : 'hand-card'} ${selectedCards.find(c => c.index === index) && !isEnemy ? 'selected-card' : ''}`}
                     >
-                        {!isEnemy && <i onClick={() => showCardExpanded(card)}><HiOutlineArrowsExpand /></i>}
+                        {!isEnemy && enableActions && <i onClick={() => showCardExpanded(card)}><HiOutlineArrowsExpand /></i>}
                         {/* {!isEnemy && <b>{card.name}</b>} */}
                         <div onClick={isActive && G.currentAction === DOWN_CARDS ? e => selectCard(e, card, index) : undefined}>
                             {isEnemy ?
@@ -59,7 +59,7 @@ const Hand = ({ hand, G, isActive, playerID, enemyPlayerID, moves, isEnemy = fal
             </div>
 
             {true && <br />}
-            {isActive && !isEnemy && <div class="hand-action">
+            {isActive && !isEnemy && enableActions && <div class="hand-action">
                 <button
                     disabled={!isAbleDownCreatures(G, playerID, selectedCards)}
                     hidden={G.currentAction !== DOWN_CARDS || !selectedCards.length || selectedCards.some(c => c.isSong) || !!G.playerAlreadyDownedCreatureCard}
@@ -94,7 +94,7 @@ const Hand = ({ hand, G, isActive, playerID, enemyPlayerID, moves, isEnemy = fal
                 >descarte final turno</button>
             </div>}
 
-            {!isEnemy && <Modal show={showExpandedCard} content={modalExpandedCard} isCloseable={true} onClose={closeCardExpanded} />}
+            {!isEnemy && enableActions && <Modal show={showExpandedCard} content={modalExpandedCard} isCloseable={true} onClose={closeCardExpanded} />}
         </div>
     );
 };

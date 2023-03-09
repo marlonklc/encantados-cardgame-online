@@ -35,7 +35,7 @@ export function initializePlayersHand(ctx, deck) {
 }
 
 export function initializeDeck({ random }) {
-    const deck = []
+    const deck = [];
     Array(5).fill('').forEach(i => deck.push(DWARF));
     Array(5).fill('').forEach(i => deck.push(ELF));
     Array(5).fill('').forEach(i => deck.push(FAIRY));

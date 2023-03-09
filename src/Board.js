@@ -80,11 +80,14 @@ export function Board({ ctx, G, moves, playerID, redo, sendChatMessage, matchDat
             {!!ctx.gameover &&
                 (<Modal show={true} zIndex={9999} content={
                     <>
+
                         <h1 class="default-font-color">FIM DE JOGO !</h1>
                         <br />
                         <h4 class="player-font-color">Você fez {ctx.gameover.score[playerID]} pontos</h4>
+                        {!!G.hand[playerID].length && <Hand hand={G.hand[playerID]} enableActions={false} />}
                         <br />
                         <h4 class="enemy-font-color">Oponente fez {ctx.gameover.score[enemyPlayerID]} pontos</h4>
+                        {!!G.hand[enemyPlayerID].length && <Hand hand={G.hand[enemyPlayerID]} enableActions={false} />}
                         <br />
                         <Button text="Jogar novamente" onClick={() => playAgain()} />
                     </>

@@ -11,7 +11,7 @@ const SERVER_URL = APP_PRODUCTION ? origin : `${protocol}//${hostname}:${DEFAULT
 const EncantadosGameClient = Client({
     game: EncantadosGame,
     board: Board,
-    // debug: false,
+    debug: false,
     multiplayer: SocketIO({ server: SERVER_URL }),
     numPlayers: 2
 });
@@ -21,18 +21,13 @@ export default class App extends React.Component {
 
     componentDidMount() {
         const matchID = new URLSearchParams(window.location.search).get('matchID');
+        const playerID = new URLSearchParams(window.location.search).get('playerID');
 
         if (matchID === null) {
             window.location.search = `matchID=match-${new Date().getTime()}`
         }
 
-        this.setState({ matchID })
-    }
-
-    resetGame = () => {
-        window.location.search = `matchID=match-${new Date().getTime()}`
-
-        alert('Jogo foi resetado!');
+        this.setState({ matchID, playerID })
     }
 
     render() {
@@ -48,10 +43,6 @@ export default class App extends React.Component {
                             Player 2
                         </button>
                     </p>
-                    <br />
-                    <button onClick={this.resetGame}>
-                        RESETAR O JOGO
-                    </button>
                     <br /><br />
                     <h3>Links</h3>
                     <a href="https://ludopedia.com.br/jogo/encantados-3-edicao" target="_blank" rel="noopener noreferrer">mais detalhes sobre o jogo</a>

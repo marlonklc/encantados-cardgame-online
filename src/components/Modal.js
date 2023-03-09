@@ -11,7 +11,7 @@ import Garden from './Garden';
 import Hand from './Hand';
 import './Modal.css';
 
-const Modal = ({ G = {}, show, moves = {}, playerID, enemyPlayerID, isCloseable = false, content = '', onClose, zIndex = 10001 }) => {
+const Modal = ({ G = {}, show, moves = {}, playerID, enemyPlayerID, isCloseable = false, content = '', onClose, zIndex = 1001 }) => {
 
     const [selectedCards, setSelectedCards] = useState([]);
     const [cardToMove, setCardToMove] = useState();

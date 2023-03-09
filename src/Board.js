@@ -5,12 +5,13 @@ import Garden from './components/Garden';
 import Hand from './components/Hand';
 import Deck from './components/Deck';
 import { playAudio } from './logic/audio';
+import Button from './components/Button';
 
 export function Board({ ctx, G, moves, playerID, redo, sendChatMessage, matchData, isActive, isConnected, log, reset, events, ...ot }) {
     const enemyPlayerID = matchData.filter(i => i.id !== parseInt(playerID))[0].id;
 
     useEffect(() => {
-        const audio = playAudio('/audios/relaxation-music1.mp3', .09);
+        const audio = playAudio('/audios/relaxation-music1.mp3', .05);
         audio.loop = true;
     }, []);
 
@@ -21,6 +22,10 @@ export function Board({ ctx, G, moves, playerID, redo, sendChatMessage, matchDat
             moves.resetAudio();
         }
     }, [G.audio[playerID]]); // eslint-disable-line
+
+    function playAgain() {
+        window.location.search = `matchID=match-${new Date().getTime()}&playerID=${playerID}`;
+    }
 
     return (
         <div class="board">
@@ -73,13 +78,15 @@ export function Board({ ctx, G, moves, playerID, redo, sendChatMessage, matchDat
             </section>
 
             {!!ctx.gameover &&
-                (<Modal show={true} content={
+                (<Modal show={true} zIndex={9999} content={
                     <>
                         <h1 class="default-font-color">FIM DE JOGO !</h1>
                         <br />
                         <h4 class="player-font-color">Você fez {ctx.gameover.score[playerID]} pontos</h4>
                         <br />
                         <h4 class="enemy-font-color">Oponente fez {ctx.gameover.score[enemyPlayerID]} pontos</h4>
+                        <br />
+                        <Button text="Jogar novamente" onClick={() => playAgain()} />
                     </>
                 } />)
             }

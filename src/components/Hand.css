@@ -19,7 +19,6 @@
 .hand-card, .hand-card-enemy {
     max-width: 99px;
     width: 100%;
-    z-index: 999;
     cursor: pointer;
     display: flex;
     flex-direction: column;

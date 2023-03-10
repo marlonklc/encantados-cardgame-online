@@ -1,4 +1,5 @@
 import React from 'react';
+import { BsEmojiSmile } from 'react-icons/bs';
 import { Client } from 'boardgame.io/react';
 import { Board } from './Board';
 import { EncantadosGame } from './Game';
@@ -43,7 +44,10 @@ export default class App extends React.Component {
                             Player 2
                         </button>
                     </p>
-                    <br /><br />
+                    <br />
+                    <p><b>Como jogar ?</b></p>
+                    <p>Escolher o player e enviar o link da barra de endereço pro seu amiguinho <BsEmojiSmile /></p>
+                    <br />
                     <h3>Links</h3>
                     <a href="https://ludopedia.com.br/jogo/encantados-3-edicao" target="_blank" rel="noopener noreferrer">mais detalhes sobre o jogo</a>
                     <br /><br />

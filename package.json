@@ -8,7 +8,6 @@
     "@testing-library/user-event": "^13.5.0",
     "boardgame.io": "^0.50.2",
     "esm": "^3.2.25",
-    "koa-static": "^5.0.0",
     "lodash": "^4.17.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -36,7 +35,7 @@
       "src/Board.js",
       "src/index.js",
       "src/index.css",
-      "src/_original/**",
+      "src/components/**",
       "/node_modules/**",
       "/public/**"
     ]

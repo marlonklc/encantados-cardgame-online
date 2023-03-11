@@ -4,10 +4,9 @@ import { Client } from 'boardgame.io/react';
 import { Board } from './Board';
 import { EncantadosGame } from './Game';
 import { SocketIO } from 'boardgame.io/multiplayer';
-import { DEFAULT_PORT, APP_PRODUCTION } from './config';
+import { APP_PRODUCTION, PORT_PRODUCTION, DEFAULT_PORT } from './config';
 
-const { origin, protocol, hostname } = window.location;
-const SERVER_URL = APP_PRODUCTION ? origin : `${protocol}//${hostname}:${DEFAULT_PORT}`;
+const SERVER_URL = APP_PRODUCTION ? `http://www.marlonklc.kinghost.net:${PORT_PRODUCTION}` : `http://localhost:${DEFAULT_PORT}`;
 
 const EncantadosGameClient = Client({
     game: EncantadosGame,

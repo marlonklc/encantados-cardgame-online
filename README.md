@@ -1,3 +1,6 @@
+## picture of game
+![image](https://user-images.githubusercontent.com/9343013/232090976-d0e7be42-df52-4e87-8d44-74fb082a3336.png)
+
 ## Available Scripts
 To run this project in local, you must be on project directory and run the commands:
 

@@ -16,14 +16,21 @@ code {
   display: flex;
   width: 85%;
   margin: 10% auto;
+  max-height: 650px;
+  height: 500px;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
+}
+
+.initial-screen-description {
+  font-size: .8em;
 }
 
 .initial-screen-players {
   display: flex;
   flex-direction: column;
-  width: 30%;
+  width: 40%;
   align-items: center;
   flex-flow: row wrap;
 }
@@ -36,8 +43,26 @@ code {
 
 .initial-screen-players button {
   flex: 0 0 48%;
-  height: 4.5em;
+  height: 6.5em;
   margin: 1%;
   cursor: pointer;
-  /* border-radius: 10px; */
+}
+
+.button-players {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.button-players i {
+  font-size: 2.5em;
+}
+
+.player1 {
+  color: darkblue;
+}
+
+.player2 {
+  color: darkred;
 }

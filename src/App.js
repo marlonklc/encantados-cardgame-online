@@ -33,23 +33,29 @@ export default class App extends React.Component {
     render() {
         if (this.state.playerID === null) {
             return (
-                <div>
-                    <p>Jogar como {' '}
-                        <button onClick={() => this.setState({ playerID: "0" })}>
+                <div id="initial-screen">
+                    <section class="initial-screen-players">
+                        <span>jogar como:</span>
+                        <button 
+                            onClick={() => this.setState({ playerID: "0" })}
+                            disabled={false}
+                        >
                             Player 1
                         </button>
-                        {' '}
-                        <button onClick={() => this.setState({ playerID: "1" })}>
+                        <button 
+                            onClick={() => this.setState({ playerID: "1" })}
+                            disabled={false}
+                        >
                             Player 2
                         </button>
-                    </p>
+                    </section>
                     <br />
                     <p><b>Como jogar ?</b></p>
-                    <p>Escolher o player e enviar o link da barra de endereço pro seu amiguinho <BsEmojiSmile /></p>
+                    <p>1. Escolha com qual player quer jogar.</p> 
+                    <p>2. Envie o link pro seu amigo e peça para ele escolher o outro jogador <BsEmojiSmile /></p>
                     <br />
                     <h3>Links</h3>
                     <a href="https://ludopedia.com.br/jogo/encantados-3-edicao" target="_blank" rel="noopener noreferrer">mais detalhes sobre o jogo</a>
-                    <br /><br />
                     <a href="https://ludopedia.com.br/download.php?id_jogo_anexo=179044" target="_blank" rel="noopener noreferrer">manual do jogo</a>
                 </div>
             );

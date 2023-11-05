@@ -1,6 +1,6 @@
 import React from 'react';
 import { BsEmojiSmile } from 'react-icons/bs';
-import { LiaUserCircle } from 'react-icons/lia';
+import { FaUserCircle } from 'react-icons/fa';
 import { Client } from 'boardgame.io/react';
 import { Board } from './Board';
 import { EncantadosGame } from './Game';
@@ -42,7 +42,7 @@ export default class App extends React.Component {
                             disabled={false}
                             class="button-players player1"
                         >
-                            <i><LiaUserCircle/></i>
+                            <i><FaUserCircle/></i>
                             Player 1
                         </button>
                         <button 
@@ -50,7 +50,7 @@ export default class App extends React.Component {
                             disabled={false}
                             class="button-players player2"
                         >
-                            <i><LiaUserCircle/></i>
+                            <i><FaUserCircle/></i>
                             Player 2
                         </button>
                     </section>

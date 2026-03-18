@@ -1,29 +1,13 @@
-FROM node:20-alpine AS backend-builder
+FROM node:20-alpine
 
-WORKDIR /app
+WORKDIR /home/app
 
-# Copiar e instalar
-COPY package*.json .
+COPY package.json ./
 
-RUN npm ci
+RUN npm install --silent
 
-COPY /src ./src
+COPY . .
 
-# Build do backend
-RUN npm run build
+EXPOSE 21005
 
-# ========== STAGE 3: PRODUCTION ==========
-FROM node:20-alpine AS production
-
-WORKDIR /app
-
-# Copiar backend
-COPY --from=backend-builder /app/package*.json ./
-COPY --from=backend-builder /app/dist ./dist
-
-# Instalar apenas prod deps
-RUN npm ci --only=production
-
-ENV NODE_ENV=production
-EXPOSE 3001
-CMD [ "npm", "run", "start" ]
+CMD [ "npm", "start" ]

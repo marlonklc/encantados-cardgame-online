@@ -8,7 +8,7 @@ const ALLOW_ORIGIN = process.env.ALLOW_ORIGIN || 'http://localhost:8000';
 const server = Server({
     games: [EncantadosGame],
     origins: [
-        ALLOW_ORIGIN, 
+        'https://encantados.marlonklc.com', 
         Origins.LOCALHOST
     ]
 });

@@ -5,7 +5,6 @@ WORKDIR /app
 # Copiar e instalar
 COPY package*.json .
 
-WORKDIR /app/backend
 RUN npm ci
 
 COPY /src ./src

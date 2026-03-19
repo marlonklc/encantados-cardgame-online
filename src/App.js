@@ -7,7 +7,7 @@ import { EncantadosGame } from './Game';
 import { SocketIO } from 'boardgame.io/multiplayer';
 import { APP_PRODUCTION, PORT_PRODUCTION, DEFAULT_PORT } from './config';
 
-const SERVER_URL = APP_PRODUCTION ? `http://www.marlonklc.kinghost.net:${PORT_PRODUCTION}` : `http://localhost:${DEFAULT_PORT}`;
+const SERVER_URL = APP_PRODUCTION ? `${process.env.ALLOW_ORIGIN}:${PORT_PRODUCTION}` : `http://localhost:${DEFAULT_PORT}`;
 
 const EncantadosGameClient = Client({
     game: EncantadosGame,

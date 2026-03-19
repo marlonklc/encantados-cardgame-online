@@ -12,4 +12,4 @@ COPY . .
 
 EXPOSE 21005
 
-CMD [ "npm", "start" ]
+CMD [ "npm", "run", "production" ]

@@ -8,6 +8,14 @@ Este projeto agora possui dois Dockerfiles:
 - `Dockerfile.frontend`: build do React + servidor estático
 - `Dockerfile.backend`: servidor boardgame.io
 
+Para compatibilidade com Coolify (quando ele exige arquivo chamado `Dockerfile`), também existem:
+
+- `docker/frontend/Dockerfile`
+- `docker/backend/Dockerfile`
+
+> Importante no Coolify: mantenha o **Build Context** como `.` (raiz do repositório).
+> Se usar `docker/frontend` ou `docker/backend` como contexto, os comandos `COPY package*.json` e `COPY src` podem falhar.
+
 ### Variáveis de ambiente
 
 #### Frontend
@@ -16,21 +24,21 @@ Este projeto agora possui dois Dockerfiles:
 
 #### Backend
 - `SERVER_PORT` (runtime): porta interna do backend (padrão: `8000`)
-- `CORS_ORIGINS` (runtime): origens permitidas separadas por vírgula (ex.: `https://app.seudominio.com,http://localhost:3000`)
+- `ALLOW_ORIGIN` (runtime): origens permitidas separadas por vírgula (ex.: `https://app.seudominio.com,http://localhost:3000`)
 
 ### Build e execução local com Docker
 
 Frontend:
 
 ```bash
-docker build -f Dockerfile.frontend -t encantados-frontend --build-arg REACT_APP_SERVER_URL=http://localhost:8000 .
+docker build -f docker/frontend/Dockerfile -t encantados-frontend --build-arg REACT_APP_SERVER_URL=http://localhost:8000 .
 docker run --rm -p 3000:80 encantados-frontend
 ```
 
 Backend:
 
 ```bash
-docker build -f Dockerfile.backend -t encantados-backend .
+docker build -f docker/backend/Dockerfile -t encantados-backend .
 docker run --rm -p 8000:8000 -e SERVER_PORT=8000 -e CORS_ORIGINS=http://localhost:3000 encantados-backend
 ```
 

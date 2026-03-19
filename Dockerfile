@@ -4,11 +4,11 @@ WORKDIR /home/app
 
 COPY package.json ./
 
+ENV NODE_ENV=production
+
 RUN npm install --silent
 
 COPY . .
-
-ENV NODE_ENV=production
 
 EXPOSE 21005
 

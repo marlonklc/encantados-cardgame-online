@@ -1,6 +1,39 @@
 ## picture of game
 ![image](https://user-images.githubusercontent.com/9343013/232092698-b139bb16-b811-4350-bf91-d7abd0e02545.png)
 
+## Docker (frontend e backend separados)
+
+Este projeto agora possui dois Dockerfiles:
+
+- `Dockerfile.frontend`: build do React + servidor estático
+- `Dockerfile.backend`: servidor boardgame.io
+
+### Variáveis de ambiente
+
+#### Frontend
+- `REACT_APP_SERVER_URL` (build-time): URL pública do backend (ex.: `https://api.seudominio.com`)
+- Porta interna fixa: `80` (Nginx)
+
+#### Backend
+- `SERVER_PORT` (runtime): porta interna do backend (padrão: `8000`)
+- `CORS_ORIGINS` (runtime): origens permitidas separadas por vírgula (ex.: `https://app.seudominio.com,http://localhost:3000`)
+
+### Build e execução local com Docker
+
+Frontend:
+
+```bash
+docker build -f Dockerfile.frontend -t encantados-frontend --build-arg REACT_APP_SERVER_URL=http://localhost:8000 .
+docker run --rm -p 3000:80 encantados-frontend
+```
+
+Backend:
+
+```bash
+docker build -f Dockerfile.backend -t encantados-backend .
+docker run --rm -p 8000:8000 -e SERVER_PORT=8000 -e CORS_ORIGINS=http://localhost:3000 encantados-backend
+```
+
 ## Available Scripts
 To run this project in local, you must be on project directory and run the commands:
 

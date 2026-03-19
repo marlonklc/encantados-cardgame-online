@@ -5,9 +5,9 @@ import { Client } from 'boardgame.io/react';
 import { Board } from './Board';
 import { EncantadosGame } from './Game';
 import { SocketIO } from 'boardgame.io/multiplayer';
-import { APP_PRODUCTION, PORT_PRODUCTION, DEFAULT_PORT } from './config';
+import { DEFAULT_SERVER_URL } from './config';
 
-const SERVER_URL = APP_PRODUCTION ? `${process.env.ALLOW_ORIGIN}:${PORT_PRODUCTION}` : `http://localhost:${DEFAULT_PORT}`;
+const SERVER_URL = process.env.REACT_APP_SERVER_URL || DEFAULT_SERVER_URL;
 
 const EncantadosGameClient = Client({
     game: EncantadosGame,
